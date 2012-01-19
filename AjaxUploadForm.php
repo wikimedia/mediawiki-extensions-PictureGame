@@ -92,7 +92,7 @@ class SpecialPictureGameAjaxUpload extends SpecialUpload {
 	 * and some bits of code were entirely removed.
 	 */
 	public function execute( $par ) {
-		global $wgUser, $wgOut, $wgRequest;
+		global $wgUser, $wgOut;
 
 		// Disable the skin etc.
 		$wgOut->setArticleBodyOnly( true );
@@ -359,7 +359,7 @@ class PictureGameAjaxUploadForm extends UploadForm {
 
 		# Build a list of IDs for JavaScript insertion
 		$this->mSourceIds = array();
-		foreach ( $sourceDescriptor as $key => $field ) {
+		foreach ( $sourceDescriptor as $field ) {
 			if ( !empty( $field['id'] ) ) {
 				$this->mSourceIds[] = $field['id'];
 			}
@@ -578,6 +578,9 @@ class PictureGameUpload extends UploadFromFile {
 		return $handler;
 	}
 
+	/**
+	 * @param $request WebRequest
+	 */
 	function initializeFromRequest( &$request ) {
 		$desiredDestName = $request->getText( 'wpDestFile' );
 		if( !$desiredDestName ) {
@@ -585,7 +588,7 @@ class PictureGameUpload extends UploadFromFile {
 		}
 		$prefix = $request->getText( 'callbackPrefix' ); // added for PictureGame
 		$desiredDestName = time() . '-' . $prefix . $desiredDestName;
-		return $this->initializePathInfo(
+		$this->initializePathInfo(
 			$desiredDestName,
 			$request->getFileTempName( 'wpUploadFile' ),
 			$request->getFileSize( 'wpUploadFile' )
