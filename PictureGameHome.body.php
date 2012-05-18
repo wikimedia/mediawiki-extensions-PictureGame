@@ -476,13 +476,13 @@ class PictureGameHome extends UnlistedSpecialPage {
 			$img_one_tag = $img_two_tag = '';
 			$img_one = wfFindFile( $row->img1 );
 			if ( is_object( $img_one ) ) {
-				$thumb_one = $img_one->getThumbnail( 128 );
+				$thumb_one = $img_one->transform( array( 'width' => 128 ) );
 				$img_one_tag = $thumb_one->toHtml();
 			}
 
 			$img_two = wfFindFile( $row->img2 );
 			if ( is_object( $img_two ) ) {
-				$thumb_two = $img_two->getThumbnail( 128 );
+				$thumb_two = $img_two->transform( array( 'width' => 128 ) );
 				$img_two_tag = $thumb_two->toHtml();
 			}
 
@@ -536,13 +536,13 @@ class PictureGameHome extends UnlistedSpecialPage {
 			$img_one_tag = $img_two_tag = '';
 			$img_one = wfFindFile( $row->img1 );
 			if ( is_object( $img_one ) ) {
-				$thumb_one = $img_one->getThumbnail( 128 );
+				$thumb_one = $img_one->transform( array( 'width' => 128 ) );
 				$img_one_tag = $thumb_one->toHtml();
 			}
 
 			$img_two = wfFindFile( $row->img2 );
 			if ( is_object( $img_two ) ) {
-				$thumb_two = $img_two->getThumbnail( 128 );
+				$thumb_two = $img_two->transform( array( 'width' => 128 ) );
 				$img_two_tag = $thumb_two->toHtml();
 			}
 
@@ -865,13 +865,13 @@ class PictureGameHome extends UnlistedSpecialPage {
 			$gallery_thumbnail_one = $gallery_thumbnail_two = '';
 			$img_one = wfFindFile( $row->img1 );
 			if ( is_object( $img_one ) ) {
-				$gallery_thumb_image_one = $img_one->getThumbnail( 80 );
+				$gallery_thumb_image_one = $img_one->transform( array( 'width' => 80 ) );
 				$gallery_thumbnail_one = $gallery_thumb_image_one->toHtml();
 			}
 
 			$img_two = wfFindFile( $row->img2 );
 			if ( is_object( $img_two ) ) {
-				$gallery_thumb_image_two = $img_two->getThumbnail( 80 );
+				$gallery_thumb_image_two = $img_two->transform( array( 'width' => 80 ) );
 				$gallery_thumbnail_two = $gallery_thumb_image_two->toHtml();
 			}
 
@@ -1151,7 +1151,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 			if( $next_id ) {
 				$img_one = wfFindFile( $nextrow->img1 );
 				if( is_object( $img_one ) ) {
-					$preload_thumb = $img_one->getThumbnail( 256 );
+					$preload_thumb = $img_one->transform( array( 'width' => 256 ) );
 				}
 				if( is_object( $preload_thumb ) ) {
 					$preload_one_tag = $preload_thumb->toHtml();
@@ -1159,7 +1159,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 
 				$img_two = wfFindFile( $nextrow->img2 );
 				if( is_object( $img_two ) ) {
-					$preload_thumb = $img_two->getThumbnail( 256 );
+					$preload_thumb = $img_two->transform( array( 'width' => 256 ) );
 				}
 				if( is_object( $preload_thumb ) ) {
 					$preload_two_tag = $preload_thumb->toHtml();
@@ -1295,14 +1295,14 @@ class PictureGameHome extends UnlistedSpecialPage {
 
 		if( $isPermalink || $isShowVotes ) {
 			if( is_object( $img_one ) ) {
-				$vote_one_thumb = $img_one->getThumbnail( 40 );
+				$vote_one_thumb = $img_one->transform( array( 'width' => 40 ) );
 			}
 			if( is_object( $vote_one_thumb ) ) {
 				$vote_one_tag = $vote_one_thumb->toHtml();
 			}
 
 			if( is_object( $img_two ) ) {
-				$vote_two_thumb = $img_two->getThumbnail( 40 );
+				$vote_two_thumb = $img_two->transform( array( 'width' => 40 ) );
 			}
 			if( is_object( $vote_two_thumb ) ) {
 				$vote_two_tag = $vote_two_thumb->toHtml();
