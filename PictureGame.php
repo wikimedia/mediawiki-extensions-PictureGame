@@ -4,13 +4,13 @@
  *
  * @file
  * @ingroup Extensions
- * @version 2.0
+ * @version 3.0
  * @author Aaron Wright <aaron.wright@gmail.com>
  * @author Ashish Datta <ashish@setfive.com>
  * @author David Pean <david.pean@gmail.com>
  * @author Jack Phoenix <jack@countervandalism.net>
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License 2.0 or later
- * @link http://www.mediawiki.org/wiki/Extension:PictureGame Documentation
+ * @link https://www.mediawiki.org/wiki/Extension:PictureGame Documentation
  */
 
 /**
@@ -24,32 +24,52 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 // Extension credits that will show up on Special:Version
 $wgExtensionCredits['other'][] = array(
 	'name' => 'PictureGame',
-	'version' => '2.0',
+	'version' => '3.0',
 	'author' => array( 'Aaron Wright', 'Ashish Datta', 'David Pean', 'Jack Phoenix' ),
-	'description' => 'Allows making picture games',
+	'description' => 'Allows making [[Special:PictureGameHome|picture games]]',
 	'url' => 'https://www.mediawiki.org/wiki/Extension:PictureGame'
 );
 
 // ResourceLoader support for MediaWiki 1.17+
 $pictureGameResourceTemplate = array(
-	'localBasePath' => dirname( __FILE__ ),
+	'localBasePath' => dirname( __FILE__ ) . '/picturegame',
 	'remoteExtPath' => 'PictureGame/picturegame',
 	'position' => 'top' // available since r85616
 );
 
 $wgResourceModules['ext.pictureGame'] = $pictureGameResourceTemplate + array(
-	//'styles' => '', // @todo
 	'scripts' => 'PictureGame.js',
 	'messages' => array(
 		'picturegame-js-edit', 'picturegame-js-error-title',
 		'picturegame-js-error-upload-imgone',
 		'picturegame-js-error-upload-imgtwo', 'picturegame-js-editing-imgone',
-		'picturegame-js-editing-imgtwo'
+		'picturegame-js-editing-imgtwo', 'picturegame-protectimgconfirm',
+		'picturegame-flagimgconfirm'
 	)
 );
 
 $wgResourceModules['ext.pictureGame.lightBox'] = $pictureGameResourceTemplate + array(
 	'scripts' => 'LightBox.js'
+);
+
+$wgResourceModules['ext.pictureGame.adminPanel'] = $pictureGameResourceTemplate + array(
+	'styles' => 'adminpanel.css'
+);
+
+$wgResourceModules['ext.pictureGame.editPanel'] = $pictureGameResourceTemplate + array(
+	'styles' => 'editpanel.css'
+);
+
+$wgResourceModules['ext.pictureGame.gallery'] = $pictureGameResourceTemplate + array(
+	'styles' => 'gallery.css'
+);
+
+$wgResourceModules['ext.pictureGame.mainGame'] = $pictureGameResourceTemplate + array(
+	'styles' => 'maingame.css'
+);
+
+$wgResourceModules['ext.pictureGame.startGame'] = $pictureGameResourceTemplate + array(
+	'styles' => 'startgame.css'
 );
 
 // picturegame_images.flag used to be an enum() and that sucked, big time
@@ -79,47 +99,9 @@ $wgAvailableRights[] = 'picturegameadmin';
 $wgGroupPermissions['sysop']['picturegameadmin'] = true;
 $wgGroupPermissions['staff']['picturegameadmin'] = true;
 
-// Hooked function
-$wgHooks['SkinTemplateBuildContentActionUrlsAfterSpecialPage'][] = 'wfAddPictureGameContentActions';
+// Hooked functions
+$wgAutoloadClasses['PictureGameHooks'] = $dir . 'PictureGameHooks.class.php';
 
-// Custom content actions for quiz game
-function wfAddPictureGameContentActions( $skin, $content_actions ) {
-	global $wgUser, $wgRequest, $wgPictureGameID, $wgTitle;
-
-	// Add edit page to content actions but only for Special:PictureGameHome
-	// and only when $wgPictureGameID is set so that we don't show the "edit"
-	// tab when there is no data in the database
-	if(
-		$wgRequest->getVal( 'picGameAction' ) != 'startCreate' &&
-		$wgUser->isAllowed( 'picturegameadmin' ) &&
-		$wgTitle->isSpecial( 'PictureGameHome' ) && !empty( $wgPictureGameID )
-	) {
-		$pic = SpecialPage::getTitleFor( 'PictureGameHome' );
-		$content_actions['edit'] = array(
-			'class' => ( $wgRequest->getVal( 'picGameAction' ) == 'editItem' ) ? 'selected' : false,
-			'text' => wfMsg( 'edit' ),
-			'href' => $pic->getFullURL( 'picGameAction=editPanel&id=' . $wgPictureGameID ), // @bug 2457, 2510
-		);
-	}
-
-	// If editing, make special page go back to quiz question
-	if( $wgRequest->getVal( 'picGameAction' ) == 'editItem' ) {
-		$pic = SpecialPage::getTitleFor( 'QuizGameHome' );
-		$content_actions[$wgTitle->getNamespaceKey()] = array(
-			'class' => 'selected',
-			'text' => wfMsg( 'nstab-special' ),
-			'href' => $pic->getFullURL( 'picGameAction=renderPermalink&id=' . $wgPictureGameID ),
-		);
-	}
-
-	return true;
-}
-
-// For the Renameuser extension
-$wgHooks['RenameUserSQL'][] = 'wfPictureGameOnUserRename';
-
-function wfPictureGameOnUserRename( $renameUserSQL ) {
-	$renameUserSQL->tables['picturegame_images'] = array( 'username', 'userid' );
-	$renameUserSQL->tables['picturegame_votes'] = array( 'username', 'userid' );
-	return true;
-}
+$wgHooks['SkinTemplateNavigation::SpecialPage'][] = 'PictureGameHooks::addContentActions';
+$wgHooks['RenameUserSQL'][] = 'PictureGameHooks::onUserRename';
+$wgHooks['LoadExtensionSchemaUpdates'][] = 'PictureGameHooks::onLoadExtensionSchemaUpdates';

@@ -1,6 +1,9 @@
 <?php
 
 class PictureGameHome extends UnlistedSpecialPage {
+	/**
+	 * @var String: MD5 hash of the current user's username; used to salt admin panel requests
+	 */
 	private $SALT;
 
 	/**
@@ -16,30 +19,34 @@ class PictureGameHome extends UnlistedSpecialPage {
 	 * @param $par Mixed: parameter passed to the page or null
 	 */
 	public function execute( $par ) {
-		global $wgRequest, $wgUser, $wgOut, $wgScriptPath, $wgSupressPageTitle;
+		global $wgSupressPageTitle;
+
+		$out = $this->getOutput();
+		$request = $this->getRequest();
+		$user = $this->getUser();
 
 		// Is the database locked?
 		if( wfReadOnly() ) {
-			$wgOut->readOnlyPage();
+			$out->readOnlyPage();
 			return false;
 		}
 
 		// Blocked through Special:Block? No access for you either!
-		if( $wgUser->isBlocked() ) {
-			$wgOut->blockedPage( false );
+		if( $user->isBlocked() ) {
+			$out->blockedPage( false );
 			return false;
 		}
 
 		$wgSupressPageTitle = true;
 
 		// Salt as you like
-		$this->SALT = md5( $wgUser->getName() );
+		$this->SALT = md5( $user->getName() );
 
 		// Add the main JS file
-		$wgOut->addScriptFile( $wgScriptPath . '/extensions/PictureGame/picturegame/PictureGame.js' );
+		$out->addModules( 'ext.pictureGame' );
 
 		// What should we do?
-		$action = $wgRequest->getVal( 'picGameAction' );
+		$action = $request->getVal( 'picGameAction' );
 
 		switch( $action ) {
 			case 'startGame':
@@ -61,57 +68,57 @@ class PictureGameHome extends UnlistedSpecialPage {
 				$this->displayGallery();
 				break;
 			case 'editPanel':
-				if( $wgUser->isLoggedIn() && $wgUser->isAllowed( 'picturegameadmin' ) ) {
+				if( $user->isLoggedIn() && $user->isAllowed( 'picturegameadmin' ) ) {
 					$this->editPanel();
 				} else {
 					$this->showHomePage();
 				}
 				break;
 			case 'completeEdit':
-				if( $wgUser->isLoggedIn() && $wgUser->isAllowed( 'picturegameadmin' ) ) {
+				if( $user->isLoggedIn() && $user->isAllowed( 'picturegameadmin' ) ) {
 					$this->completeEdit();
 				} else {
 					$this->showHomePage();
 				}
 				break;
 			case 'adminPanel':
-				if( $wgUser->isLoggedIn() && $wgUser->isAllowed( 'picturegameadmin' ) ) {
+				if( $user->isLoggedIn() && $user->isAllowed( 'picturegameadmin' ) ) {
 					$this->adminPanel();
 				} else {
 					$this->showHomePage();
 				}
 				break;
 			case 'adminPanelUnflag':
-				if( $wgUser->isLoggedIn() && $wgUser->isAllowed( 'picturegameadmin' ) ) {
+				if( $user->isLoggedIn() && $user->isAllowed( 'picturegameadmin' ) ) {
 					$this->adminPanelUnflag();
 				} else {
 					$this->showHomePage();
 				}
 				break;
 			case 'adminPanelDelete':
-				if( $wgUser->isLoggedIn() && $wgUser->isAllowed( 'picturegameadmin' ) ) {
+				if( $user->isLoggedIn() && $user->isAllowed( 'picturegameadmin' ) ) {
 					$this->adminPanelDelete();
 				} else {
 					$this->showHomePage();
 				}
 				break;
 			case 'protectImages':
-				if( $wgUser->isLoggedIn() && $wgUser->isAllowed( 'picturegameadmin' ) ) {
+				if( $user->isLoggedIn() && $user->isAllowed( 'picturegameadmin' ) ) {
 					$this->protectImages();
 				} else {
-					echo wfMsg( 'picturegame-sysmsg-unauthorized' );
+					echo $this->msg( 'picturegame-sysmsg-unauthorized' )->text();
 				}
 				break;
 			case 'unprotectImages':
-				if( $wgUser->isLoggedIn() && $wgUser->isAllowed( 'picturegameadmin' ) ) {
+				if( $user->isLoggedIn() && $user->isAllowed( 'picturegameadmin' ) ) {
 					$this->unprotectImages();
 				} else {
 					$this->showHomePage();
 				}
 				break;
 			case 'startCreate':
-				if( $wgUser->isBlocked() ) {
-					$wgOut->blockedPage( false );
+				if( $user->isBlocked() ) {
+					$out->blockedPage( false );
 					return '';
 				} else {
 					$this->showHomePage();
@@ -127,23 +134,25 @@ class PictureGameHome extends UnlistedSpecialPage {
 	 * Called via AJAX to delete an image out of the game.
 	 */
 	function adminPanelDelete() {
-		global $wgRequest, $wgUser, $wgOut;
+		$out = $this->getOutput();
+		$request = $this->getRequest();
+		$user = $this->getUser();
 
-		$wgOut->setArticleBodyOnly( true );
+		$out->setArticleBodyOnly( true );
 
-		$id = $wgRequest->getInt( 'id' );
-		$image1 = addslashes( $wgRequest->getVal( 'img1' ) );
-		$image2 = addslashes( $wgRequest->getVal( 'img2' ) );
+		$id = $request->getInt( 'id' );
+		$image1 = addslashes( $request->getVal( 'img1' ) );
+		$image2 = addslashes( $request->getVal( 'img2' ) );
 
-		$key = $wgRequest->getVal( 'key' );
-		$now = $wgRequest->getVal( 'chain' );
+		$key = $request->getVal( 'key' );
+		$now = $request->getVal( 'chain' );
 
 		if(
 			$key != md5( $now . $this->SALT ) ||
-			( !$wgUser->isLoggedIn() || !$wgUser->isAllowed( 'picturegameadmin' ) )
+			( !$user->isLoggedIn() || !$user->isAllowed( 'picturegameadmin' ) )
 		)
 		{
-			//echo wfMsg( 'picturegame-sysmsg-badkey' );
+			//echo $this->msg( 'picturegame-sysmsg-badkey' )->text();
 			//return;
 		}
 
@@ -152,7 +161,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 		$dbw->commit();
 
 		global $wgMemc;
-		$key = wfMemcKey( 'user', 'profile', 'picgame', $wgUser->getID() );
+		$key = wfMemcKey( 'user', 'profile', 'picgame', $user->getID() );
 		$wgMemc->delete( $key );
 
 		/* Pop the images out of MediaWiki also */
@@ -171,15 +180,15 @@ class PictureGameHome extends UnlistedSpecialPage {
 		}
 
 		if( $oneResult && $twoResult ) {
-			echo wfMsg( 'picturegame-sysmsg-successfuldelete' );
+			echo $this->msg( 'picturegame-sysmsg-successfuldelete' )->text();
 			return;
 		}
 
 		if( $oneResult ) {
-			echo wfMsg( 'picturegame-sysmsg-unsuccessfuldelete', $image1 );
+			echo $this->msg( 'picturegame-sysmsg-unsuccessfuldelete', $image1 )->text();
 		}
 		if( $twoResult ) {
-			echo wfMsg( 'picturegame-sysmsg-unsuccessfuldelete', $image2 );
+			echo $this->msg( 'picturegame-sysmsg-unsuccessfuldelete', $image2 )->text();
 		}
 	}
 
@@ -187,20 +196,22 @@ class PictureGameHome extends UnlistedSpecialPage {
 	 * Called over AJAX to unflag an image
 	 */
 	function adminPanelUnflag() {
-		global $wgRequest, $wgUser, $wgOut;
+		$out = $this->getOutput();
+		$request = $this->getRequest();
+		$user = $this->getUser();
 
-		$wgOut->setArticleBodyOnly( true );
+		$out->setArticleBodyOnly( true );
 
-		$id = $wgRequest->getInt( 'id' );
+		$id = $request->getInt( 'id' );
 
-		$key = $wgRequest->getVal( 'key' );
-		$now = $wgRequest->getVal( 'chain' );
+		$key = $request->getVal( 'key' );
+		$now = $request->getVal( 'chain' );
 
 		if(
 			$key != md5( $now . $this->SALT ) ||
-			( !$wgUser->isLoggedIn() || !$wgUser->isAllowed( 'picturegameadmin' ) )
+			( !$user->isLoggedIn() || !$user->isAllowed( 'picturegameadmin' ) )
 		) {
-			echo wfMsg( 'picturegame-sysmsg-badkey' );
+			echo $this->msg( 'picturegame-sysmsg-badkey' )->text();
 			return;
 		}
 
@@ -212,25 +223,26 @@ class PictureGameHome extends UnlistedSpecialPage {
 			__METHOD__
 		);
 
-		$wgOut->clearHTML();
-		echo wfMsg( 'picturegame-sysmsg-unflag' );
+		$out->clearHTML();
+		echo $this->msg( 'picturegame-sysmsg-unflag' )->text();
 	}
 
 	/**
 	 * Updates a record in the picture game table.
 	 */
 	function completeEdit() {
-		global $wgRequest, $wgOut;
+		$out = $this->getOutput();
+		$request = $this->getRequest();
 
-		$id = $wgRequest->getInt( 'id' );
-		$key = addslashes( $wgRequest->getVal( 'key' ) );
+		$id = $request->getInt( 'id' );
+		$key = addslashes( $request->getVal( 'key' ) );
 
-		$title = $wgRequest->getVal( 'newTitle' );
-		$imgOneCaption = $wgRequest->getVal( 'imgOneCaption' );
-		$imgTwoCaption = $wgRequest->getVal( 'imgTwoCaption' );
+		$title = $request->getVal( 'newTitle' );
+		$imgOneCaption = $request->getVal( 'imgOneCaption' );
+		$imgTwoCaption = $request->getVal( 'imgTwoCaption' );
 
 		if( $key != md5( $id . $this->SALT ) ) {
-			$wgOut->addHTML( '<h3>' . wfMsg( 'picturegame-sysmsg-badkey' ) . '</h3>' );
+			$out->addHTML( '<h3>' . $this->msg( 'picturegame-sysmsg-badkey' )->plain() . '</h3>' );
 			return;
 		}
 
@@ -247,7 +259,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 		);
 
 		/* When it's done, redirect to a permalink of these images */
-		$wgOut->setArticleBodyOnly( true );
+		$out->setArticleBodyOnly( true );
 		header( 'Location: ?title=Special:PictureGameHome&picGameAction=renderPermalink&id=' . $id );
 	}
 
@@ -255,9 +267,13 @@ class PictureGameHome extends UnlistedSpecialPage {
 	 * Displays the edit panel.
 	 */
 	function editPanel() {
-		global $wgRequest, $wgOut, $wgUploadPath, $wgScriptPath, $wgRightsText, $wgHooks, $wgLang;
+		global $wgUploadPath, $wgExtensionAssetsPath, $wgRightsText;
 
-		$id = $wgRequest->getInt( 'id' );
+		$lang = $this->getLanguage();
+		$out = $this->getOutput();
+		$request = $this->getRequest();
+
+		$id = $request->getInt( 'id' );
 
 		$dbw = wfGetDB( DB_MASTER );
 		$res = $dbw->select(
@@ -269,12 +285,12 @@ class PictureGameHome extends UnlistedSpecialPage {
 
 		$row = $dbw->fetchObject( $res );
 		if ( empty( $row ) ) {
-			$wgOut->addHTML( wfMsg( 'picturegame-nothing-to-edit' ) );
+			$out->addHTML( $this->msg( 'picturegame-nothing-to-edit' )->text() );
 			return;
 		}
 
 		$imgID = $row->id;
-		$user_name = $wgLang->truncate( $row->username, 20 );
+		$user_name = $lang->truncate( $row->username, 20 );
 
 		$title_text = $row->title;
 		$img1_caption_text = $row->img1_caption;
@@ -310,12 +326,11 @@ class PictureGameHome extends UnlistedSpecialPage {
 			$thumb_two_url . '?' . time() . '"/>';
 		$imgTwoName = $row->img2;
 
-		$wgHooks['MakeGlobalVariablesScript'][] = 'PictureGameHome::addJSGlobals';
 		$output = '';
 
-		$wgOut->addExtensionStyle( $wgScriptPath . '/extensions/PictureGame/picturegame/editpanel.css' );
+		$out->addModules( 'ext.pictureGame.editPanel' );
 
-		$wgOut->setPageTitle( wfMsg( 'picturegame-editgame-editing-title', $title_text ) );
+		$out->setPageTitle( $this->msg( 'picturegame-editgame-editing-title', $title_text )->text() );
 
 		$id = User::idFromName( $row->username );
 		$avatar = new wAvatar( $id, 'l' );
@@ -326,18 +341,18 @@ class PictureGameHome extends UnlistedSpecialPage {
 		if ( $wgRightsText ) {
 			$copywarnMsg = 'copyrightwarning';
 			$copywarnMsgParams = array(
-				'[[' . wfMsgForContent( 'copyrightpage' ) . ']]',
+				'[[' . $this->msg( 'copyrightpage' )->inContentLanguage()->plain() . ']]',
 				$wgRightsText
 			);
 		} else {
 			$copywarnMsg = 'copyrightwarning2';
 			$copywarnMsgParams = array(
-				'[[' . wfMsgForContent( 'copyrightpage' ) . ']]'
+				'[[' . $this->msg( 'copyrightpage' )->inContentLanguage()->plain() . ']]'
 			);
 		}
 
 		$usrTitleObj = Title::makeTitle( NS_USER, $row->username );
-		$imgPath = $wgScriptPath . '/extensions/PictureGame/images';
+		$imgPath = $wgExtensionAssetsPath . '/PictureGame/images';
 
 		$output .= '<div id="edit-container" class="edit-container">
 			<form id="picGameVote" name="picGameVote" method="post" action="' .
@@ -345,7 +360,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 			<div id="edit-textboxes" class="edit-textboxes">
 
 				<div class="credit-box-edit" id="creditBox">
-					<h1>' . wfMsg( 'picturegame-submittedby' ) . '</h1>
+					<h1>' . $this->msg( 'picturegame-submittedby' )->plain() . '</h1>
 					<div class="submitted-by-image">
 						<a href="' . $usrTitleObj->escapeFullURL() . "\">
 							<img src=\"{$wgUploadPath}/avatars/{$avatarID}\" style=\"border:1px solid #d7dee8; width:50px; height:50px;\" alt=\"\" border=\"0\"/>
@@ -372,7 +387,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 				</div>
 
 
-				<h1>" . wfMsg( 'picturegame-editgamegametitle' ) . "</h1>
+				<h1>" . $this->msg( 'picturegame-editgamegametitle' )->plain() . "</h1>
 				<p><input name=\"newTitle\" id=\"newTitle\" type=\"text\" value=\"{$title_text}\" size=\"40\"/></p>
 					<input id=\"key\" name=\"key\" type=\"hidden\" value=\"" . md5( $imgID . $this->SALT ) . "\" />
 					<input id=\"id\" name=\"id\" type=\"hidden\" value=\"{$imgID}\" />
@@ -381,19 +396,19 @@ class PictureGameHome extends UnlistedSpecialPage {
 			<div class=\"edit-images-container\">
 				<div id=\"edit-images\" class=\"edit-images\">
 					<div id=\"edit-image-one\" class=\"edit-image-one\">
-						<h1>" . wfMsg( 'picturegame-createeditfirstimage' ) . "</h1>
+						<h1>" . $this->msg( 'picturegame-createeditfirstimage' )->plain() . "</h1>
 						<p><input name=\"imgOneCaption\" id=\"imgOneCaption\" type=\"text\" value=\"{$img1_caption_text}\" /></p>
 						<p id=\"image-one-tag\">{$imgOne}</p>
-						<p><a href=\"javascript:PictureGame.loadUploadFrame('{$imgOneName}', 1)\">" .
-							wfMsg( 'picturegame-editgameuploadtext' ) . '</a></p>
+						<p><a class=\"picgame-upload-link-1\" href=\"javascript:void(0);\" data-img-one-name=\"{$imgOneName}\">" .
+							$this->msg( 'picturegame-editgameuploadtext' )->plain() . '</a></p>
 					</div>
 
 					<div id="edit-image-two" class="edit-image-one">
-						<h1>' . wfMsg( 'picturegame-createeditsecondimage' ) . "</h1>
+						<h1>' . $this->msg( 'picturegame-createeditsecondimage' )->plain() . "</h1>
 						<p><input name=\"imgTwoCaption\" id=\"imgTwoCaption\" type=\"text\" value=\"{$img2_caption_text}\" /></p>
 						<p id=\"image-two-tag\">{$imgTwo}</p>
-						<p><a href=\"javascript:PictureGame.loadUploadFrame('{$imgTwoName}', 2)\">" .
-							wfMsg( 'picturegame-editgameuploadtext' ) . "</a></p>
+						<p><a class=\"picgame-upload-link-2\" href=\"javascript:void(0);\" data-img-two-name=\"{$imgTwoName}\">" .
+							$this->msg( 'picturegame-editgameuploadtext' )->plain() . "</a></p>
 					</div>
 
 					<div id=\"loadingImg\" class=\"loadingImg\" style=\"display:none\">
@@ -413,26 +428,29 @@ class PictureGameHome extends UnlistedSpecialPage {
 			</div>
 
 			<div class=\"copyright-warning\">" .
-				wfMsgExt( $copywarnMsg, 'parse', $copywarnMsgParams ) .
+				$this->msg( $copywarnMsg, $copywarnMsgParams )->parse() .
 			'</div>
 
 			<div id="complete-buttons" class="complete-buttons">
-				<input type="button" onclick="document.picGameVote.submit()" value="' . wfMsg( 'picturegame-buttonsubmit' ) . "\"/>
+				<input type="button" onclick="document.picGameVote.submit()" value="' . $this->msg( 'picturegame-buttonsubmit' )->plain() . "\"/>
 				<input type=\"button\" onclick=\"window.location='" .
 					$this->getTitle()->escapeFullURL( "picGameAction=renderPermalink&id={$imgID}" ) . "'\" value=\"" .
-					wfMsg( 'picturegame-buttoncancel' ) . "\"/>
+					$this->msg( 'picturegame-buttoncancel' )->plain() . "\"/>
 			</div>
 		</form>
 		</div>";
 
-		$wgOut->addHTML( $output );
+		$out->addHTML( $output );
 	}
 
 	/**
 	 * Displays the admin panel.
 	 */
 	function adminPanel() {
-		global $wgRequest, $wgUser, $wgOut, $wgScriptPath, $wgLang;
+		$lang = $this->getLanguage();
+		$out = $this->getOutput();
+		$request = $this->getRequest();
+		$user = $this->getUser();
 
 		$now = time();
 		$key = md5( $now . $this->SALT );
@@ -442,17 +460,17 @@ class PictureGameHome extends UnlistedSpecialPage {
 			var __admin_panel_key__ = "' . $key . '";
 		</script>';
 
-		$wgOut->addExtensionStyle( $wgScriptPath . '/extensions/PictureGame/picturegame/adminpanel.css' );
+		$out->addModules( 'ext.pictureGame.adminPanel' );
 
-		$wgOut->setPageTitle( wfMsg( 'picturegame-adminpaneltitle' ) );
+		$out->setPageTitle( $this->msg( 'picturegame-adminpaneltitle' )->text() );
 		$output .= '
 		<div class="back-link">
 			<a href="' . $this->getTitle()->escapeFullURL( 'picGameAction=startGame' ) . '"> ' .
-				wfMsg( 'picturegame-adminpanelbacktogame' ) . '</a>
+				$this->msg( 'picturegame-adminpanelbacktogame' )->text() . '</a>
 		</div>
 
 		<div id="admin-container" class="admin-container">
-			<p><strong>' . wfMsg( 'picturegame-adminpanelflagged' ) . '</strong></p>';
+			<p><strong>' . $this->msg( 'picturegame-adminpanelflagged' )->text() . '</strong></p>';
 
 		$dbw = wfGetDB( DB_MASTER );
 		$res = $dbw->select(
@@ -469,7 +487,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 		// If we have nothing, indicate that in the UI instead of showing...
 		// well, nothing
 		if ( $dbw->numRows( $res ) <= 0 ) {
-			$output .= wfMsg( 'picturegame-none' );
+			$output .= $this->msg( 'picturegame-none' )->text();
 		}
 
 		foreach ( $res as $row ) {
@@ -486,8 +504,8 @@ class PictureGameHome extends UnlistedSpecialPage {
 				$img_two_tag = $thumb_two->toHtml();
 			}
 
-			$img_one_description = $wgLang->truncate( $row->img1, 12 );
-			$img_two_description = $wgLang->truncate( $row->img2, 12 );
+			$img_one_description = $lang->truncate( $row->img1, 12 );
+			$img_two_description = $lang->truncate( $row->img2, 12 );
 
 			$output .= '<div id="' . $row->id . "\" class=\"admin-row\">
 
@@ -500,11 +518,11 @@ class PictureGameHome extends UnlistedSpecialPage {
 					<p><b>{$img_two_description}</b></p>
 				</div>
 				<div class=\"admin-controls\">
-					<a href=\"javascript:PictureGame.unflag({$row->id})\">" .
-						wfMsg( 'picturegame-adminpanelreinstate' ) .
+					<a class=\"picgame-unflag-link\" href=\"javascript:void(0)\">" .
+						$this->msg( 'picturegame-adminpanelreinstate' )->text() .
 					"</a> |
-					<a href=\"javascript:PictureGame.deleteimg(" . $row->id . ", '" . $row->img1 . "', '" . $row->img2 . "')\">"
-						. wfMsg( 'picturegame-adminpaneldelete' ) .
+					<a class=\"picgame-delete-link\" href=\"javascript:void(0);\" data-row-img1=\"{$row->img1}\" data-row-img2=\"{$row->img2}\">"
+						. $this->msg( 'picturegame-adminpaneldelete' )->text() .
 					'</a>
 				</div>
 				<div class="cleared"></div>
@@ -514,7 +532,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 
 		$output .= '</div>
 		<div id="admin-container" class="admin-container">
-			<p><strong>' . wfMsg( 'picturegame-adminpanelprotected' ) . '</strong></p>';
+			<p><strong>' . $this->msg( 'picturegame-adminpanelprotected' )->text() . '</strong></p>';
 		$dbw = wfGetDB( DB_MASTER );
 		$res = $dbw->select(
 			'picturegame_images',
@@ -529,7 +547,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 		// If we have nothing, indicate that in the UI instead of showing...
 		// well, nothing
 		if ( $dbw->numRows( $res ) <= 0 ) {
-			$output .= wfMsg( 'picturegame-none' );
+			$output .= $this->msg( 'picturegame-none' )->text();
 		}
 
 		foreach ( $res as $row ) {
@@ -546,8 +564,8 @@ class PictureGameHome extends UnlistedSpecialPage {
 				$img_two_tag = $thumb_two->toHtml();
 			}
 
-			$img_one_description = $wgLang->truncate( $row->img1, 12 );
-			$img_two_description = $wgLang->truncate( $row->img2, 12 );
+			$img_one_description = $lang->truncate( $row->img1, 12 );
+			$img_two_description = $lang->truncate( $row->img2, 12 );
 
 			$output .= '<div id="' . $row->id . "\" class=\"admin-row\">
 
@@ -560,11 +578,11 @@ class PictureGameHome extends UnlistedSpecialPage {
 					<p><b>{$img_two_description}</b></p>
 				</div>
 				<div class=\"admin-controls\">
-					<a href=\"javascript:PictureGame.unprotect({$row->id})\">" .
-						wfMsg( 'picturegame-adminpanelunprotect' ) .
+					<a class=\"picgame-unprotect-link\" href=\"javascript:void(0)\">" .
+						$this->msg( 'picturegame-adminpanelunprotect' )->text() .
 					"</a> |
-					<a href=\"javascript:PictureGame.deleteimg(" . $row->id . ", '" . $row->img1 . "', '" . $row->img2 . "')\">"
-						. wfMsg( 'picturegame-adminpaneldelete' ) .
+					<a class=\"picgame-delete-link\" href=\"javascript:void(0);\" data-row-img1=\"{$row->img1}\" data-row-img2=\"{$row->img2}\">"
+						. $this->msg( 'picturegame-adminpaneldelete' )->text() .
 					'</a>
 				</div>
 				<div class="cleared"></div>
@@ -574,22 +592,23 @@ class PictureGameHome extends UnlistedSpecialPage {
 
 		$output .= '</div>';
 
-		$wgOut->addHTML( $output );
+		$out->addHTML( $output );
 	}
 
 	/**
 	 * Called with AJAX to flag an image.
 	 */
 	function flagImage() {
-		global $wgRequest, $wgOut;
+		$out = $this->getOutput();
+		$request = $this->getRequest();
 
-		$wgOut->setArticleBodyOnly( true );
+		$out->setArticleBodyOnly( true );
 
-		$id = $wgRequest->getInt( 'id' );
-		$key = $wgRequest->getVal( 'key' );
+		$id = $request->getInt( 'id' );
+		$key = $request->getVal( 'key' );
 
 		if( $key != md5( $id . $this->SALT ) ) {
-			echo wfMsg( 'picturegame-sysmsg-badkey' );
+			echo $this->msg( 'picturegame-sysmsg-badkey' )->plain();
 			return;
 		}
 
@@ -601,9 +620,9 @@ class PictureGameHome extends UnlistedSpecialPage {
 			__METHOD__
 		);
 
-		$wgOut->clearHTML();
+		$out->clearHTML();
 		echo '<div style="color:red; font-weight:bold; font-size:16px; margin:-5px 0px 20px 0px;">' .
-			wfMsg( 'picturegame-sysmsg-flag' ) .
+			$this->msg( 'picturegame-sysmsg-flag' )->plain() .
 		'</div>';
 	}
 
@@ -611,16 +630,17 @@ class PictureGameHome extends UnlistedSpecialPage {
 	 * Called with AJAX to unprotect an image set.
 	 */
 	function unprotectImages() {
-		global $wgRequest, $wgOut;
+		$out = $this->getOutput();
+		$request = $this->getRequest();
 
-		$wgOut->setArticleBodyOnly( true );
+		$out->setArticleBodyOnly( true );
 
-		$id = $wgRequest->getInt( 'id' );
-		$key = $wgRequest->getVal( 'key' );
-		$chain = $wgRequest->getVal( 'chain' );
+		$id = $request->getInt( 'id' );
+		$key = $request->getVal( 'key' );
+		$chain = $request->getVal( 'chain' );
 
 		if( $key != md5( $chain . $this->SALT ) ) {
-			echo wfMsg( 'picturegame-sysmsg-badkey' );
+			echo $this->msg( 'picturegame-sysmsg-badkey' )->plain();
 			return;
 		}
 
@@ -632,23 +652,24 @@ class PictureGameHome extends UnlistedSpecialPage {
 			__METHOD__
 		);
 
-		$wgOut->clearHTML();
-		echo wfMsg( 'picturegame-sysmsg-unprotect' );
+		$out->clearHTML();
+		echo $this->msg( 'picturegame-sysmsg-unprotect' )->plain();
 	}
 
 	/**
 	 * Protects an image set.
 	 */
 	function protectImages() {
-		global $wgRequest, $wgOut;
+		$out = $this->getOutput();
+		$request = $this->getRequest();
 
-		$wgOut->setArticleBodyOnly( true );
+		$out->setArticleBodyOnly( true );
 
-		$id = $wgRequest->getInt( 'id' );
-		$key = $wgRequest->getVal( 'key' );
+		$id = $request->getInt( 'id' );
+		$key = $request->getVal( 'key' );
 
 		if( $key != md5( $id . $this->SALT ) ) {
-			echo wfMsg( 'picturegame-sysmsg-badkey' );
+			echo $this->msg( 'picturegame-sysmsg-badkey' )->plain();
 			return;
 		}
 
@@ -660,135 +681,141 @@ class PictureGameHome extends UnlistedSpecialPage {
 			__METHOD__
 		);
 
-		$wgOut->clearHTML();
-		echo wfMsg( 'picturegame-sysmsg-protect' );
+		$out->clearHTML();
+		echo $this->msg( 'picturegame-sysmsg-protect' )->plain();
 	}
 
 	function displayGallery() {
-		global $wgRequest, $wgUser, $wgOut, $wgScriptPath, $wgLang;
+		$lang = $this->getLanguage();
+		$out = $this->getOutput();
+		$request = $this->getRequest();
+		$user = $this->getUser();
+		$thisTitle = $this->getTitle();
 
-		$wgOut->setHTMLTitle( wfMsg( 'pagetitle', wfMsg( 'picturegame-gallery' ) ) );
+		$out->setHTMLTitle( $this->msg( 'pagetitle', $this->msg( 'picturegame-gallery' )->text() )->text() );
 
-		$type = $wgRequest->getVal( 'type' );
-		$direction = $wgRequest->getVal( 'direction' );
+		$type = $request->getVal( 'type' );
+		$direction = $request->getVal( 'direction' );
 
 		if( ( $type == 'heat' ) && ( $direction == 'most' ) ) {
 			$crit = 'Heat';
 			$order = 'ASC';
-			$sortheader = wfMsg( 'picturegame-sorted-most-heat' );
+			$sortheader = $this->msg( 'picturegame-sorted-most-heat' )->text();
 		} elseif( ( $type == 'heat' ) && ( $direction == 'least' ) ) {
 			$crit = 'Heat';
 			$order = 'DESC';
-			$sortheader = wfMsg( 'picturegame-sorted-least-heat' );
+			$sortheader = $this->msg( 'picturegame-sorted-least-heat' )->text();
 		} elseif( ( $type == 'votes' ) && ( $direction == 'most' ) ) {
 			$crit = '(img0_votes + img1_votes)';
 			$order = 'DESC';
-			$sortheader = wfMsg( 'picturegame-sorted-most-votes' );
+			$sortheader = $this->msg( 'picturegame-sorted-most-votes' )->text();
 		} elseif( ( $type == 'votes' ) && ( $direction == 'least' ) ) {
 			$crit = '(img0_votes + img1_votes)';
 			$order = 'ASC';
-			$sortheader = wfMsg( 'picturegame-sorted-least-votes' );
+			$sortheader = $this->msg( 'picturegame-sorted-least-votes' )->text();
 		} else {
 			$type = 'heat';
 			$direction = 'most';
 			$crit = 'Heat';
 			$order = 'ASC';
-			$sortheader = wfMsg( 'picturegame-sorted-most-heat' );
+			$sortheader = $this->msg( 'picturegame-sorted-most-heat' )->text();
 		}
 
 		if ( isset( $sortheader ) ) {
-			$wgOut->setPageTitle( $sortheader );
+			$out->setPageTitle( $sortheader );
 		}
 
-		$wgOut->addExtensionStyle( $wgScriptPath . '/extensions/PictureGame/picturegame/gallery.css' );
+		// Add CSS
+		$out->addModules( 'ext.pictureGame.gallery' );
+
 		$output = '<div class="picgame-gallery-navigation">';
 
 		if( $type == 'votes' && $direction == 'most' ) {
-			$output .= '<h1>' . wfMsg( 'picturegame-most' ) . '</h1>
-					<p><b>' . wfMsg( 'picturegame-mostvotes' ) . '</b></p>
-					<p><a href="' . $this->getTitle()->escapeFullURL( array(
+			$output .= '<h1>' . $this->msg( 'picturegame-most' )->text() . '</h1>
+					<p><b>' . $this->msg( 'picturegame-mostvotes' )->text() . '</b></p>
+					<p><a href="' . $thisTitle->escapeFullURL( array(
 						'picGameAction' => 'gallery',
 						'type' => 'heat',
 						'direction' => 'most'
-					) ) . '">' . wfMsg( 'picturegame-mostheat' ) . '</a></p>
+					) ) . '">' . $this->msg( 'picturegame-mostheat' )->text() . '</a></p>
 
-					<h1 style="margin:10px 0px !important;">' . wfMsg( 'picturegame-least' ) . '</h1>
-					<p><a href="' . $this->getTitle()->escapeFullURL( array(
+					<h1 style="margin:10px 0px !important;">' . $this->msg( 'picturegame-least' )->text() . '</h1>
+					<p><a href="' . $thisTitle->escapeFullURL( array(
 						'picGameAction' => 'gallery',
 						'type' => 'votes',
 						'direction' => 'least'
-					) ) . '">' . wfMsg( 'picturegame-leastvotes' ) . '</a></p>
-					<p><a href="' . $this->getTitle()->escapeFullURL( array(
+					) ) . '">' . $this->msg( 'picturegame-leastvotes' )->text() . '</a></p>
+					<p><a href="' . $thisTitle->escapeFullURL( array(
 						'picGameAction' => 'gallery',
 						'type' => 'heat',
 						'direction' => 'least'
-					) ) . '">' . wfMsg( 'picturegame-leastheat' ) . '</a></p>';
+					) ) . '">' . $this->msg( 'picturegame-leastheat' )->text() . '</a></p>';
 		}
 
 		if( $type == 'votes' && $direction == 'least' ) {
-			$output .= '<h1>' . wfMsg( 'picturegame-most' ) . '</h1>
-					<p><a href="' . $this->getTitle()->escapeFullURL( array(
+			$output .= '<h1>' . $this->msg( 'picturegame-most' )->text() . '</h1>
+					<p><a href="' . $thisTitle->escapeFullURL( array(
 						'picGameAction' => 'gallery',
 						'type' => 'votes',
 						'direction' => 'most'
-					) ) . '">' . wfMsg( 'picturegame-mostvotes' ) . '</a></p>
-					<p><a href="' . $this->getTitle()->escapeFullURL( array(
+					) ) . '">' . $this->msg( 'picturegame-mostvotes' )->text() . '</a></p>
+					<p><a href="' . $thisTitle->escapeFullURL( array(
 						'picGameAction' => 'gallery',
 						'type' => 'heat',
 						'direction' => 'most'
-					) ) . '">' . wfMsg( 'picturegame-mostheat' ) . '</a></p>
+					) ) . '">' . $this->msg( 'picturegame-mostheat' )->text() . '</a></p>
 
-					<h1 style="margin:10px 0px !important;">' . wfMsg( 'picturegame-least' ) . '</h1>
-					<p><b>' . wfMsg( 'picturegame-leastvotes' ) . '</b></p>
-					<p><a href="' . $this->getTitle()->escapeFullURL( array(
+					<h1 style="margin:10px 0px !important;">' . $this->msg( 'picturegame-least' )->text() . '</h1>
+					<p><b>' . $this->msg( 'picturegame-leastvotes' )->text() . '</b></p>
+					<p><a href="' . $thisTitle->escapeFullURL( array(
 						'picGameAction' => 'gallery',
 						'type' => 'heat',
 						'direction' => 'least'
-					) ) . '">' . wfMsg( 'picturegame-leastheat' ) . '</a></p>';
+					) ) . '">' . $this->msg( 'picturegame-leastheat' )->text() . '</a></p>';
 		}
 
 		if( $type == 'heat' && $direction == 'most' ) {
-			$output .= '<h1>' . wfMsg( 'picturegame-most' ) . '</h1>
-					<p><a href="' . $this->getTitle()->escapeFullURL( array(
+			$output .= '<h1>' . $this->msg( 'picturegame-most' )->text() . '</h1>
+					<p><a href="' . $thisTitle->escapeFullURL( array(
 						'picGameAction' => 'gallery',
 						'type' => 'votes',
 						'direction' => 'most'
-					) ) . '">' . wfMsg( 'picturegame-mostvotes' ) . '</a></p>
-					<p><b>' . wfMsg( 'picturegame-mostheat' ) . '</b></p>
+					) ) . '">' . $this->msg( 'picturegame-mostvotes' )->text() . '</a></p>
+					<p><b>' . $this->msg( 'picturegame-mostheat' )->text() . '</b></p>
 
-					<h1 style="margin:10px 0px !important;">' . wfMsg( 'picturegame-least' ) . '</h1>
-					<p><a href="' . $this->getTitle()->escapeFullURL( array(
+					<h1 style="margin:10px 0px !important;">' . $this->msg( 'picturegame-least' )->text() . '</h1>
+					<p><a href="' . $thisTitle->escapeFullURL( array(
 						'picGameAction' => 'gallery',
 						'type' => 'votes',
 						'direction' => 'least'
-					) ) . '">' . wfMsg( 'picturegame-leastvotes' ) . '</a></p>
-					<p><a href="' . $this->getTitle()->escapeFullURL( array(
+					) ) . '">' . $this->msg( 'picturegame-leastvotes' )->text() . '</a></p>
+					<p><a href="' . $thisTitle->escapeFullURL( array(
 						'picGameAction' => 'gallery',
 						'type' => 'heat',
 						'direction' => 'least'
-					) ) . '">' . wfMsg( 'picturegame-leastheat' ) . '</a></p>';
+					) ) . '">' . $this->msg( 'picturegame-leastheat' )->text() . '</a></p>';
 		}
 
 		if( $type == 'heat' && $direction == 'least' ) {
-			$output .= '<h1>' . wfMsg( 'picturegame-most' ) . '</h1>
-					<p><a href="' . $this->getTitle()->escapeFullURL( array(
+			$output .= '<h1>' . $this->msg( 'picturegame-most' )->text() . '</h1>
+					<p><a href="' . $thisTitle->escapeFullURL( array(
 						'picGameAction' => 'gallery',
 						'type' => 'votes',
 						'direction' => 'most'
-					) ) . '">' . wfMsg( 'picturegame-mostvotes' ) . '</a></p>
-					<p><a href="' . $this->getTitle()->escapeFullURL( array(
+					) ) . '">' . $this->msg( 'picturegame-mostvotes' )->text() . '</a></p>
+					<p><a href="' . $thisTitle->escapeFullURL( array(
 						'picGameAction' => 'gallery',
 						'type' => 'heat',
 						'direction' => 'most'
-					) ) . '">' . wfMsg( 'picturegame-mostheat' ) . '</a></p>
+					) ) . '">' . $this->msg( 'picturegame-mostheat' )->text() . '</a></p>
 
-					<h1 style="margin:10px 0px !important;">' . wfMsg( 'picturegame-least' ) . '</h1>
-					<p><a href="' . $this->getTitle()->escapeFullURL( array(
+					<h1 style="margin:10px 0px !important;">' . $this->msg( 'picturegame-least' )->text() . '</h1>
+					<p><a href="' . $thisTitle->escapeFullURL( array(
 						'picGameAction' => 'gallery',
 						'type' => 'votes',
 						'direction' => 'least'
-					) ) . '">' . wfMsg( 'picturegame-leastvotes' ) . '</a></p>
-					<p><b>' . wfMsg( 'picturegame-leastheat' ) . '</b></p>';
+					) ) . '">' . $this->msg( 'picturegame-leastvotes' )->text() . '</a></p>
+					<p><b>' . $this->msg( 'picturegame-leastheat' )->text() . '</b></p>';
 		}
 
 		$output .= '</div>';
@@ -808,10 +835,10 @@ class PictureGameHome extends UnlistedSpecialPage {
 
 		// We have nothing? If so, inform the user about it...
 		if ( $total == 0 ) {
-			$output .= wfMsg( 'picturegame-gallery-empty' );
+			$output .= $this->msg( 'picturegame-gallery-empty' )->parse();
 		}
 
-		$page = $wgRequest->getInt( 'page', 1 );
+		$page = $request->getInt( 'page', 1 );
 
 		// Add limit to SQL
 		$per_page = 9;
@@ -844,7 +871,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 		foreach( $res as $row ) {
 			$gameid = $row->id;
 
-			$title_text = $wgLang->truncate( $row->title, 23 );
+			$title_text = $lang->truncate( $row->title, 23 );
 
 			$imgOneCount = $row->img0_votes;
 			$imgTwoCount = $row->img1_votes;
@@ -876,7 +903,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 			}
 
 			$output .= "
-			<div class=\"picgame-gallery-thumbnail\" id=\"picgame-gallery-thumbnail-{$x}\" onclick=\"javascript:document.location=wgScriptPath+'/index.php?title=Special:PictureGameHome&picGameAction=renderPermalink&id={$gameid}'\" onmouseover=\"PictureGame.doHover('picgame-gallery-thumbnail-{$x}')\" onmouseout=\"PictureGame.endHover('picgame-gallery-thumbnail-{$x}')\">
+			<div class=\"picgame-gallery-thumbnail\" id=\"picgame-gallery-thumbnail-{$x}\" onclick=\"javascript:document.location=wgScriptPath+'/index.php?title=Special:PictureGameHome&picGameAction=renderPermalink&id={$gameid}'\">
 			<h1>{$title_text} ({$totalVotes})</h1>
 
 				<div class=\"picgame-gallery-thumbnailimg\">
@@ -907,40 +934,55 @@ class PictureGameHome extends UnlistedSpecialPage {
 			$output .= '<div class="page-nav">';
 
 			if( $page > 1 ) {
-				$output .= '<a href="' . $this->getTitle()->escapeFullURL( array(
+				$output .= Linker::link(
+					$thisTitle,
+					$this->msg( 'picturegame-prev' )->text(),
+					array(),
+					array(
 						'picGameAction' => 'gallery',
 						'page' => ( $page - 1 ),
 						'type' => $type,
 						'direction' => $direction
-					) ) . '">' . wfMsg( 'picturegame-prev' ) . '</a> ';
+					)
+				) . $this->msg( 'word-separator' )->plain();
 			}
 
 			for( $i = 1; $i <= $numofpages; $i++ ) {
 				if( $i == $page ) {
 					$output .= ( $i . ' ' );
 				} else {
-					$output .= '<a href="' . $this->getTitle()->escapeFullURL( array(
-						'picGameAction' => 'gallery',
-						'page' => $i,
-						'type' => $type,
-						'direction' => $direction
-					) ) . "\">{$i}</a> ";
+					$output .= Linker::link(
+						$thisTitle,
+						$i,
+						array(),
+						array(
+							'picGameAction' => 'gallery',
+							'page' => $i,
+							'type' => $type,
+							'direction' => $direction
+						)
+					) . $this->msg( 'word-separator' )->plain();
 				}
 			}
 
 			if( $page < $numofpages ) {
-				$output .= ' <a href="' . $this->getTitle()->escapeFullURL( array(
+				$output .= $this->msg( 'word-separator' )->plain() . Linker::link(
+					$thisTitle,
+					$this->msg( 'picturegame-next' )->text(),
+					array(),
+					array(
 						'picGameAction' => 'gallery',
 						'page' => ( $page + 1 ),
 						'type' => $type,
 						'direction' => $direction
-					) ) . '">' . wfMsg( 'picturegame-next' ) . '</a>';
+					)
+				);
 			}
 
 			$output .= '</div>';
 		}
 
-		$wgOut->addHTML( $output );
+		$out->addHTML( $output );
 	}
 
 	/**
@@ -948,19 +990,21 @@ class PictureGameHome extends UnlistedSpecialPage {
 	 * The JS takes care of redirecting the page.
 	 */
 	function voteAndForward() {
-		global $wgRequest, $wgUser, $wgOut;
+		$out = $this->getOutput();
+		$request = $this->getRequest();
+		$user = $this->getUser();
 
-		$wgOut->setArticleBodyOnly( true );
+		$out->setArticleBodyOnly( true );
 
-		$key = $wgRequest->getVal( 'key' );
-		$next_id = $wgRequest->getVal( 'nextid' );
-		$id = $wgRequest->getInt( 'id' );
-		$img = addslashes( $wgRequest->getVal( 'img' ) );
+		$key = $request->getVal( 'key' );
+		$next_id = $request->getVal( 'nextid' );
+		$id = $request->getInt( 'id' );
+		$img = addslashes( $request->getVal( 'img' ) );
 
 		$imgnum = ( $img == 0 ) ? 0 : 1;
 
 		if( $key != md5( $id . $this->SALT ) ) {
-			$wgOut->addHTML( wfMsg( 'picturegame-sysmsg-badkey' ) );
+			$out->addHTML( $this->msg( 'picturegame-sysmsg-badkey' )->plain() );
 			return;
 		}
 
@@ -973,7 +1017,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 				'picturegame_votes',
 				array( 'COUNT(*) AS mycount' ),
 				array(
-					'username' => $wgUser->getName(),
+					'username' => $user->getName(),
 					'picid' => $id
 				),
 				__METHOD__
@@ -996,8 +1040,8 @@ class PictureGameHome extends UnlistedSpecialPage {
 						'picturegame_votes',
 						array(
 							'picid' => $id,
-							'userid' => $wgUser->getID(),
-							'username' => $wgUser->getName(),
+							'userid' => $user->getID(),
+							'username' => $user->getName(),
 							'imgpicked' => $imgnum,
 							'vote_date' => date( 'Y-m-d H:i:s' )
 						),
@@ -1019,13 +1063,13 @@ class PictureGameHome extends UnlistedSpecialPage {
 					);*/
 
 					// Increase social statistics
-					$stats = new UserStatsTrack( $wgUser->getID(), $wgUser->getName() );
+					$stats = new UserStatsTrack( $user->getID(), $user->getName() );
 					$stats->incStatField( 'picturegame_vote' );
 				}
 			}
 		}
 
-		$wgOut->addHTML( 'OK' );
+		$out->addHTML( 'OK' );
 	}
 
 	/**
@@ -1036,7 +1080,12 @@ class PictureGameHome extends UnlistedSpecialPage {
 	 * @param $lastID Integer: optional; the last image ID the user saw
 	 */
 	function getImageDivs( $isPermalink = false, $imgID = -1, $lastID = -1 ) {
-		global $wgRequest, $wgUser, $wgOut, $wgScriptPath, $wgUseEditButtonFloat, $wgUploadPath, $wgLang;
+		global $wgExtensionAssetsPath, $wgUseEditButtonFloat, $wgUploadPath;
+
+		$lang = $this->getLanguage();
+		$out = $this->getOutput();
+		$request = $this->getRequest();
+		$user = $this->getUser();
 
 		$totalVotes = 0;
 
@@ -1047,7 +1096,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 			$query = $dbr->select(
 				'picturegame_votes',
 				'picid',
-				array( 'username' => $wgUser->getName() ),
+				array( 'username' => $user->getName() ),
 				__METHOD__
 			);
 			$picIds = array();
@@ -1073,7 +1122,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 					array( 'LIMIT' => 1 )
 				);
 				/*$sql = "SELECT * FROM picturegame_images WHERE picturegame_images.id NOT IN
-					(SELECT picid FROM picturegame_votes WHERE picturegame_votes.username='" . $dbr->strencode( $wgUser->getName() ) . "')
+					(SELECT picid FROM picturegame_votes WHERE picturegame_votes.username='" . $dbr->strencode( $user->getName() ) . "')
 					AND flag <> " . PICTUREGAME_FLAG_FLAGGED . " AND img1 <> '' AND img2 <> '' LIMIT 1;";
 				$res = $dbr->query( $sql, __METHOD__ );*/
 				$row = $dbr->fetchObject( $res );
@@ -1098,12 +1147,10 @@ class PictureGameHome extends UnlistedSpecialPage {
 		// Early return here in case if we have *nothing* in the database to
 		// prevent fatals etc.
 		if( empty( $row ) ) {
-			$wgOut->setPageTitle( wfMsg( 'picturegame-nomoretitle' ) );
-			// can't use addWikiMsg() because we can't make an internal link
-			// to Special:PictureGameHome?picGameAction=startCreate :P
-			$wgOut->addHTML( wfMsg( 'picturegame-empty',
-				$this->getTitle()->escapeFullURL( 'picGameAction=startCreate' )
-			) );
+			$out->setPageTitle( $this->msg( 'picturegame-nomoretitle' )->text() );
+			// Wrap it in plainlinks to hide the external link icon since a
+			// link to this wiki is not really an external link
+			$out->wrapWikiMsg( "<div class=\"plainlinks\">$1</div>", 'picturegame-empty' );
 			return;
 		}
 
@@ -1115,7 +1162,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 			$toExclude = $dbr->select(
 				'picturegame_votes',
 				'picid',
-				array( 'username' => $wgUser->getName() ),
+				array( 'username' => $user->getName() ),
 				__METHOD__
 			);
 
@@ -1141,7 +1188,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 					array( 'LIMIT' => 1 )
 				);
 				/*$sql = "SELECT * FROM picturegame_images WHERE picturegame_images.id <> {$imgID} AND picturegame_images.id NOT IN
-						(SELECT picid FROM picturegame_votes WHERE picturegame_votes.username='" . $dbr->strencode( $wgUser->getName() ) . "')
+						(SELECT picid FROM picturegame_votes WHERE picturegame_votes.username='" . $dbr->strencode( $user->getName() ) . "')
 					AND flag != " . PICTUREGAME_FLAG_FLAGGED . " AND img1 <> '' AND img2 <> '' LIMIT 1;";
 				$nextres = $dbr->query( $sql, __METHOD__ );*/
 				$nextrow = $dbr->fetchObject( $nextres );
@@ -1170,21 +1217,15 @@ class PictureGameHome extends UnlistedSpecialPage {
 		}
 
 		if( ( $imgID < 0 ) || !is_numeric( $imgID ) || is_null( $row ) ) {
-			$wgOut->setPageTitle( wfMsg( 'picturegame-nomoretitle' ) );
+			$out->setPageTitle( $this->msg( 'picturegame-nomoretitle' )->plain() );
 
-			// @todo FIXME: fugly i18n
-			$out = '<div>' .
-				wfMsg( 'picturegame-nomore' ) . '<br />' .
-				wfMsg( 'picturegame-nomore-2' ) .
-				'<a href="' . $this->getTitle()->escapeFullURL( 'picGameAction=startCreate' ) . '">'
-					. wfMsg( 'picturegame-nomorecreatelink' ) .
-				'</a> ' . wfMsg( 'picturegame-nomoreor' ) .
-				' <a href="' . $wgScriptPath . '/index.php?title=Special:RandomPoll">'
-					. wfMsg( 'picturegame-nomoretakepolls' ) .
-				'</a>
-			</div>';
+			// Wrap it in plainlinks to hide the external link icon since a
+			// link to this wiki is not really an external link
+			$output = '<div class="plainlinks">' .
+				$this->msg( 'picturegame-no-more' )->parse() .
+			'</div>';
 
-			return $out;
+			return $output;
 		}
 
 		// snag the images to vote on and grab some thumbnails
@@ -1193,7 +1234,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 		$imgOneCount = $row->img0_votes;
 		$imgTwoCount = $row->img1_votes;
 
-		$user_name = $wgLang->truncate( $row->username, 20 );
+		$user_name = $lang->truncate( $row->username, 20 );
 
 		$title_text_length = strlen( $row->title );
 		$title_text_space = stripos( $row->title, ' ' );
@@ -1332,38 +1373,37 @@ class PictureGameHome extends UnlistedSpecialPage {
 
 		$output = '';
 		// set the page title
-		//$wgOut->setPageTitle( $title_text );
+		//$out->setPageTitle( $title_text );
 
 		// figure out if the user is an admin / the creator
 		$editlinks = '';
-		if( $wgUser->isAllowed( 'picturegameadmin' ) ) {
+		if( $user->isAllowed( 'picturegameadmin' ) ) {
 			// If the user can edit, throw in some links
 			$editlinks = ' - <a href="' . $this->getTitle()->escapeFullURL(
 				'picGameAction=adminPanel' ) . '"> ' .
-				wfMsg( 'picturegame-adminpanel' ) .
-			"</a> - <a href=\"javascript:PictureGame.protectImages('" .
-				str_replace( "'", "\'", wfMsg( 'picturegame-protectimgconfirm' ) ) . "')\"> "
-				. wfMsg( 'picturegame-protectimages' ) . '</a>';
+				$this->msg( 'picturegame-adminpanel' )->text() .
+			'</a> - <a class="picgame-protect-link" href="javascript:void(0);"> '
+				. $this->msg( 'picturegame-protectimages' )->text() . '</a>';
 		}
 
 		$createLink = '';
 		// Only registered users can create new picture games
-		if( $wgUser->isLoggedIn() ) {
+		if( $user->isLoggedIn() ) {
 			$createLink = '
 			<div class="create-link">
 				<a href="' . $this->getTitle()->escapeFullURL( 'picGameAction=startCreate' ) . '">
-					<img src="' . $wgScriptPath . '/extensions/PictureGame/images/addIcon.gif" border="0" alt="" />'
-					. wfMsg( 'picturegame-createlink' ) .
+					<img src="' . $wgExtensionAssetsPath . '/PictureGame/images/addIcon.gif" border="0" alt="" />'
+					. $this->msg( 'picturegame-createlink' )->text() .
 				'</a>
 			</div>';
 		}
 
 		$editLink = '';
-		if( $wgUser->isLoggedIn() && $wgUser->isAllowed( 'picturegameadmin' ) && $wgUseEditButtonFloat == true ) {
+		if( $user->isLoggedIn() && $user->isAllowed( 'picturegameadmin' ) && $wgUseEditButtonFloat == true ) {
 			$editLink .= '<div class="edit-menu-pic-game">
 				<div class="edit-button-pic-game">
-					<img src="' . $wgScriptPath . '/extensions/PictureGame/images/editIcon.gif" alt="" />
-					<a href="javascript:PictureGame.editPanel()">' . wfMsg( 'edit' ) . '</a>
+					<img src="' . $wgExtensionAssetsPath . '/PictureGame/images/editIcon.gif" alt="" />
+					<a class="picgame-edit-link" href="javascript:void(0)">' . $this->msg( 'edit' )->text() . '</a>
 				</div>
 			</div>';
 		}
@@ -1375,10 +1415,12 @@ class PictureGameHome extends UnlistedSpecialPage {
 		$stats_data = $stats->getUserStats();
 		$preload = '';
 
-		$wgOut->setHTMLTitle( wfMsg( 'pagetitle', $title ) );
+		$out->setHTMLTitle( $this->msg( 'pagetitle', $title )->text() );
 
-		$wgOut->addScriptFile( $wgScriptPath . '/extensions/PictureGame/picturegame/LightBox.js' );
+		$out->addModules( 'ext.pictureGame.lightBox' );
+
 		$next_id = ( isset( $next_id ) ? $next_id : 0 );
+
 		$output .= "
 		<script type=\"text/javascript\">var next_id = \"{$next_id}\";</script>
 		{$editLink}
@@ -1391,13 +1433,13 @@ class PictureGameHome extends UnlistedSpecialPage {
 					<div class=\"imgTitle\" id=\"imgTitle\">" . $title . "</div>
 					<div class=\"imgContainer\" id=\"imgContainer\" style=\"width:45%;\">
 						<div class=\"imgCaption\" id=\"imgOneCaption\">" . $img1_caption . "</div>
-						<div class=\"imageOne\" id=\"imageOne\" style=\"padding:5px;\" onclick=\"PictureGame.castVote(0)\" onmouseover=\"PictureGame.doHover('imageOne')\" onmouseout=\"PictureGame.endHover('imageOne')\">
+						<div class=\"imageOne\" id=\"imageOne\" style=\"padding:5px;\">
 							" . $imgOne . "	</div>
 					</div>
 
 					<div class=\"imgContainer\" id=\"imgContainer\" style=\"width:45%;\">
 						<div class=\"imgCaption\" id=\"imgTwoCaption\">" . $img2_caption . "</div>
-						<div class=\"imageTwo\" id=\"imageTwo\" style=\"padding:5px;\" onclick=\"PictureGame.castVote(1)\" onmouseover=\"PictureGame.doHover('imageTwo')\" onmouseout=\"PictureGame.endHover('imageTwo')\">
+						<div class=\"imageTwo\" id=\"imageTwo\" style=\"padding:5px;\">
 						" . $imgTwo . "	</div>
 					</div>
 					<div class=\"cleared\"></div>
@@ -1408,12 +1450,12 @@ class PictureGameHome extends UnlistedSpecialPage {
 								<a href=\"javascript:window.parent.document.location='" .
 									$this->getTitle()->escapeFullURL( 'picGameAction=renderPermalink' ) .
 									"&id=' + document.getElementById('lastid').value\">"
-									. wfMsg( 'picturegame-backbutton' ) .
+									. $this->msg( 'picturegame-backbutton' )->text() .
 								"</a>
 							</li>
 							<li id=\"skipButton\" style=\"display:" . ( $next_id > 0 ? 'block' : 'none' ) . "\">
 								<a href=\"" . $this->getTitle()->escapeFullURL( 'picGameAction=startGame' ) . '">'
-									. wfMsg( 'picturegame-skipbutton' ) .
+									. $this->msg( 'picturegame-skipbutton' )->text() .
 								'</a>
 							</li>
 						</ul>
@@ -1432,7 +1474,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 			<div class=\"other-info\">
 				{$createLink}
 				<div class=\"credit-box\" id=\"creditBox\">
-					<h1>" . wfMsg( 'picturegame-submittedby' ) . "</h1>
+					<h1>" . $this->msg( 'picturegame-submittedby' )->text() . "</h1>
 					<div class=\"submitted-by-image\">
 						<a href=\"{$user_title->getFullURL()}\">
 							<img src=\"{$wgUploadPath}/avatars/{$avatarID}\" style=\"border:1px solid #d7dee8; width:50px; height:50px;\" alt=\"\" />
@@ -1442,15 +1484,15 @@ class PictureGameHome extends UnlistedSpecialPage {
 						<a href=\"{$user_title->getFullURL()}\">{$user_name}</a>
 						<ul>
 							<li>
-								<img src=\"{$wgScriptPath}/extensions/PictureGame/images/voteIcon.gif\" border=\"0\" alt=\"\" />
+								<img src=\"{$wgExtensionAssetsPath}/PictureGame/images/voteIcon.gif\" border=\"0\" alt=\"\" />
 								{$stats_data['votes']}
 							</li>
 							<li>
-								<img src=\"{$wgScriptPath}/extensions/PictureGame/images/pencilIcon.gif\" border=\"0\" alt=\"\" />
+								<img src=\"{$wgExtensionAssetsPath}/PictureGame/images/pencilIcon.gif\" border=\"0\" alt=\"\" />
 								{$stats_data['edits']}
 							</li>
 							<li>
-								<img src=\"{$wgScriptPath}/extensions/PictureGame/images/commentsIcon.gif\" border=\"0\" alt=\"\" />
+								<img src=\"{$wgExtensionAssetsPath}/PictureGame/images/commentsIcon.gif\" border=\"0\" alt=\"\" />
 								{$stats_data['comments']}
 							</li>
 						</ul>
@@ -1460,29 +1502,29 @@ class PictureGameHome extends UnlistedSpecialPage {
 
 				<div class=\"voteStats\" id=\"voteStats\" style=\"display:none\">
 					<div id=\"vote-stats-text\">
-						<h1>" . wfMsg( 'picturegame-previousgame' ) . " ({$totalVotes})</h1></div>
+						<h1>" . $this->msg( 'picturegame-previousgame' )->text() . " ({$totalVotes})</h1></div>
 					<div class=\"vote-bar\">
 						<span class=\"vote-thumbnail\" id=\"one-vote-thumbnail\">{$vote_one_tag}</span>
 						<span class=\"vote-percent\" id=\"one-vote-percent\">{$imgOnePercent}%</span>
 						<span class=\"vote-blue\">
-							<img src=\"{$wgScriptPath}/extensions/PictureGame/images/vote-bar-blue.gif\" id=\"one-vote-width\" border=\"0\" style=\"width:{$barOneWidth}px;height:11px;\" alt=\"\" />
+							<img src=\"{$wgExtensionAssetsPath}/PictureGame/images/vote-bar-blue.gif\" id=\"one-vote-width\" border=\"0\" style=\"width:{$barOneWidth}px;height:11px;\" alt=\"\" />
 						</span>
 					</div>
 					<div class=\"vote-bar\">
 						<span class=\"vote-thumbnail\" id=\"two-vote-thumbnail\">{$vote_two_tag}</span>
 						<span class=\"vote-percent\" id=\"two-vote-percent\">{$imgTwoPercent}%</span>
 						<span class=\"vote-red\">
-							<img src=\"{$wgScriptPath}/extensions/PictureGame/images/vote-bar-red.gif\" id=\"two-vote-width\" border=\"0\" style=\"width:{$barTwoWidth}px;height:11px;\" alt=\"\" />
+							<img src=\"{$wgExtensionAssetsPath}/PictureGame/images/vote-bar-red.gif\" id=\"two-vote-width\" border=\"0\" style=\"width:{$barTwoWidth}px;height:11px;\" alt=\"\" />
 						</span>
 					</div>
 				</div>
 
 				<div class=\"utilityButtons\" id=\"utilityButtons\">
-					<a href=\"javascript:PictureGame.flagImg('" . str_replace( "'", "\'", wfMsg( 'picturegame-flagimgconfirm' ) ) . "')\">"
-						. wfMsg( 'picturegame-reportimages' ) .
+					<a class=\"picgame-flag-link\" href=\"javascript:void(0);\">"
+						. $this->msg( 'picturegame-reportimages' )->text() .
 					" </a> -
 					<a href=\"javascript:window.parent.document.location='" . $this->getTitle()->escapeFullURL( 'picGameAction=renderPermalink' ) . "&id=' + document.getElementById('id').value\">"
-						. wfMsg( 'picturegame-permalink' ) .
+						. $this->msg( 'picturegame-permalink' )->text() .
 					'</a>'
 				. $editlinks . "
 				</div>
@@ -1496,13 +1538,11 @@ class PictureGameHome extends UnlistedSpecialPage {
 		<div id=\"preload\" style=\"display:none\">
 			{$preload}
 			<object classid=\"clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\" codebase=\"http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,28,0\" width=\"75\" height=\"75\" title=\"hourglass\">
-				<param name=\"movie\" value=\"" . $wgScriptPath . "/extensions/PictureGame/picturegame/ajax-loading.swf\" />
+				<param name=\"movie\" value=\"" . $wgExtensionAssetsPath . "/PictureGame/picturegame/ajax-loading.swf\" />
 				<param name=\"quality\" value=\"high\" />
 				<param name=\"wmode\" value=\"transparent\" />
 				<param name=\"bgcolor\" value=\"#ffffff\" />
-				<embed src=\"" . $wgScriptPath . "/extensions/PictureGame/picturegame/ajax-loading.swf\" quality=\"high\" wmode=\"transparent\" bgcolor=\"#ffffff\" pluginspage=\"http://www.adobe.com/shockwave/download/download.cgi?P1_Prod_Version=ShockwaveFlash\"
-				 type=\"application/x-shockwave-flash\" width=\"100\" height=\"100\">
-				</embed>
+				<embed src=\"" . $wgExtensionAssetsPath . "/PictureGame/picturegame/ajax-loading.swf\" quality=\"high\" wmode=\"transparent\" bgcolor=\"#ffffff\" pluginspage=\"http://www.adobe.com/shockwave/download/download.cgi?P1_Prod_Version=ShockwaveFlash\" type=\"application/x-shockwave-flash\" width=\"100\" height=\"100\"></embed>
 			 </object>
 		</div>";
 
@@ -1516,18 +1556,19 @@ class PictureGameHome extends UnlistedSpecialPage {
 	 * user to the newly-created picture game.
 	 */
 	function createGame() {
-		global $wgRequest, $wgUser;
+		$request = $this->getRequest();
+		$user = $this->getUser();
 
 		// @todo FIXME: as per Tim: http://www.mediawiki.org/wiki/Special:Code/MediaWiki/59183#c4709
-		$title = addslashes( $wgRequest->getVal( 'picGameTitle' ) );
+		$title = addslashes( $request->getVal( 'picGameTitle' ) );
 
-		$img1 = addslashes( $wgRequest->getVal( 'picOneURL' ) );
-		$img2 = addslashes( $wgRequest->getVal( 'picTwoURL' ) );
-		$img1_caption = addslashes( $wgRequest->getVal( 'picOneDesc' ) );
-		$img2_caption = addslashes( $wgRequest->getVal( 'picTwoDesc' ) );
+		$img1 = addslashes( $request->getVal( 'picOneURL' ) );
+		$img2 = addslashes( $request->getVal( 'picTwoURL' ) );
+		$img1_caption = addslashes( $request->getVal( 'picOneDesc' ) );
+		$img2_caption = addslashes( $request->getVal( 'picTwoDesc' ) );
 
-		$key = $wgRequest->getVal( 'key' );
-		$chain = $wgRequest->getVal( 'chain' );
+		$key = $request->getVal( 'key' );
+		$chain = $request->getVal( 'chain' );
 		$id = -1;
 
 		$dbr = wfGetDB( DB_MASTER );
@@ -1546,8 +1587,8 @@ class PictureGameHome extends UnlistedSpecialPage {
 				$dbr->insert(
 					'picturegame_images',
 					array(
-						'userid' => $wgUser->getID(),
-						'username' => $wgUser->getName(),
+						'userid' => $user->getID(),
+						'username' => $user->getName(),
 						'img1' => $img1,
 						'img2' => $img2,
 						'title' => $title,
@@ -1566,12 +1607,12 @@ class PictureGameHome extends UnlistedSpecialPage {
 				);
 
 				// Increase social statistics
-				$stats = new UserStatsTrack( $wgUser->getID(), $wgUser->getName() );
+				$stats = new UserStatsTrack( $user->getID(), $user->getName() );
 				$stats->incStatField( 'picturegame_created' );
 
 				// Purge memcached
 				global $wgMemc;
-				$key = wfMemcKey( 'user', 'profile', 'picgame', $wgUser->getID() );
+				$key = wfMemcKey( 'user', 'profile', 'picgame', $user->getID() );
 				$wgMemc->delete( $key );
 			}
 		}
@@ -1581,10 +1622,11 @@ class PictureGameHome extends UnlistedSpecialPage {
 
 	// Renders the initial page of the game
 	function renderPictureGame() {
-		global $wgRequest, $wgOut, $wgScriptPath;
+		$out = $this->getOutput();
+		$request = $this->getRequest();
 
-		$permalinkID = $wgRequest->getInt( 'id', -1 );
-		$lastId = $wgRequest->getInt( 'lastid', -1 );
+		$permalinkID = $request->getInt( 'id', -1 );
+		$lastId = $request->getInt( 'lastid', -1 );
 
 		$isPermalink = false;
 		$permalinkError = false;
@@ -1605,48 +1647,54 @@ class PictureGameHome extends UnlistedSpecialPage {
 			);
 
 			if( $mycount == 0 ) {
-				$wgOut->addExtensionStyle( $wgScriptPath . '/extensions/PictureGame/picturegame/maingame.css' );
+				$out->addModules( 'ext.pictureGame.mainGame' );
 				$output = '
 					<div class="picgame-container" id="picgame-container">
-						<p>' . wfMsg( 'picturegame-permalinkflagged' ) . '</p>
+						<p>' . $this->msg( 'picturegame-permalinkflagged' )->text() . '</p>
 						<p><input type="button" class="site-button" value="' .
-							wfMsg( 'picturegame-buttonplaygame' ) .
+							$this->msg( 'picturegame-buttonplaygame' )->text() .
 							'" onclick="window.location=\'' .
 							$this->getTitle()->escapeFullURL( 'picGameAction=startGame' ) . '\'" />
 						</p>
 					</div>';
-				$wgOut->addHTML( $output );
+				$out->addHTML( $output );
 				return;
 			}
 		}
 
-		$wgOut->addExtensionStyle( $wgScriptPath . '/extensions/PictureGame/picturegame/maingame.css' );
+		$out->addModules( 'ext.pictureGame.mainGame' );
+
 		$output = '<div class="picgame-container" id="picgame-container">' .
 			$this->getImageDivs( $isPermalink, $permalinkID, $lastId ) .
 		'</div>';
-		$wgOut->addHTML( $output );
+
+		$out->addHTML( $output );
 	}
 
 	/**
 	 * Shows the initial page that prompts the image upload.
 	 */
 	function showHomePage() {
-		global $wgRequest, $wgUser, $wgOut, $wgScriptPath;
+		global $wgExtensionAssetsPath;
+
+		$out = $this->getOutput();
+		$request = $this->getRequest();
+		$user = $this->getUser();
 
 		// You need to be logged in to create a new picture game (because
 		// usually only registered users can upload files)
-		if( !$wgUser->isLoggedIn() ) {
-			$wgOut->setPageTitle( wfMsg( 'picturegame-creategametitle' ) );
-			$output = wfMsg( 'picturegame-creategamenotloggedin' );
+		if( !$user->isLoggedIn() ) {
+			$out->setPageTitle( $this->msg( 'picturegame-creategametitle' ) );
+			$output = $this->msg( 'picturegame-creategamenotloggedin' )->text();
 			$output .= "<p>
 				<input type=\"button\" class=\"site-button\" onclick=\"window.location='" .
 					SpecialPage::getTitleFor( 'Userlogin', 'signup' )->escapeFullURL() .
-					"'\" value=\"" . wfMsg( 'picturegame-signup' ) . "\" />
+					"'\" value=\"" . $this->msg( 'picturegame-signup' )->text() . "\" />
 				<input type=\"button\" class=\"site-button\" onclick=\"window.location='" .
 					SpecialPage::getTitleFor( 'Userlogin' )->escapeFullURL() .
-					"'\" value=\"" . wfMsg( 'picturegame-login' ) . "\" />
+					"'\" value=\"" . $this->msg( 'picturegame-login' )->text() . "\" />
 			</p>";
-			$wgOut->addHTML( $output );
+			$out->addHTML( $output );
 			return;
 		}
 
@@ -1657,7 +1705,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 		if( is_array( $wgCreatePictureGameThresholds ) && count( $wgCreatePictureGameThresholds ) > 0 ) {
 			$can_create = true;
 
-			$stats = new UserStats( $wgUser->getID(), $wgUser->getName() );
+			$stats = new UserStats( $user->getID(), $user->getName() );
 			$stats_data = $stats->getUserStats();
 
 			$threshold_reason = '';
@@ -1671,16 +1719,16 @@ class PictureGameHome extends UnlistedSpecialPage {
 			if( $can_create == false ) {
 				global $wgSupressPageTitle;
 				$wgSupressPageTitle = false;
-				$wgOut->setPageTitle( wfMsg( 'picturegame-create-threshold-title' ) );
-				$wgOut->addHTML( wfMsg( 'picturegame-create-threshold-reason', $threshold_reason ) );
+				$out->setPageTitle( $this->msg( 'picturegame-create-threshold-title' )->plain() );
+				$out->addHTML( $this->msg( 'picturegame-create-threshold-reason', $threshold_reason )->text() );
 				return '';
 			}
 		}
 
 		// Show a link to the admin panel for picture game admins
-		if( $wgUser->isAllowed( 'picturegameadmin' ) ) {
+		if( $user->isAllowed( 'picturegameadmin' ) ) {
 			$adminlink = '<a href="' . $this->getTitle()->escapeFullURL( 'picGameAction=adminPanel' ) . '"> ' .
-				wfMsg( 'picturegame-adminpanel' ) . ' </a>';
+				$this->msg( 'picturegame-adminpanel' )->text() . ' </a>';
 		}
 
 		$dbr = wfGetDB( DB_MASTER );
@@ -1688,7 +1736,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 		$excludedIds = $dbr->select(
 			'picturegame_votes',
 			'picid',
-			array( 'username' => $wgUser->getName() ),
+			array( 'username' => $user->getName() ),
 			__METHOD__
 		);
 
@@ -1725,29 +1773,20 @@ class PictureGameHome extends UnlistedSpecialPage {
 		// used for the key
 		$now = time();
 
-		$wgOut->setHTMLTitle( wfMsg( 'pagetitle', wfMsg( 'picturegame-creategametitle' ) ) );
+		$out->setHTMLTitle( $this->msg( 'pagetitle', $this->msg( 'picturegame-creategametitle' )->text() )->text() );
 
-		$wgOut->addExtensionStyle( $wgScriptPath . '/extensions/PictureGame/picturegame/startgame.css' );
-		// Anonymous functions are fun :) Too bad for you, PHP <= 5.2.x users!
-		// @see http://php.net/manual/en/functions.anonymous.php
-		global $wgHooks;
-		$wgHooks['MakeGlobalVariablesScript'][] = function( $vars ) {
-			// for the upload form (see PictureGame.js, the uploadComplete
-			// functions)
-			$vars['__picturegame_edit__'] = wfMsg( 'picturegame-js-edit' );
-			return true;
-		};
+		$out->addModules( 'ext.pictureGame.startGame' );
 
 		$output = "\t\t" . '<div class="pick-game-welcome-message">
-			<h1>' . wfMsg( 'picturegame-creategametitle' ) . '</h1>';
-		$output .= wfMsg( 'picturegame-creategamewelcome' );
+			<h1>' . $this->msg( 'picturegame-creategametitle' )->plain() . '</h1>';
+		$output .= $this->msg( 'picturegame-creategamewelcome' )->text();
 		$output .= '<br />
 
 			<div id="skipButton" class="startButton">';
-		$play_button_text = wfMsg( 'picturegame-creategameplayinstead' );
+		$play_button_text = $this->msg( 'picturegame-creategameplayinstead' )->text();
 		$skipButton = '';
 		if ( $canSkip ) {
-			$skipButton = "<input class=\"site-button\" type=\"button\" onclick=\"javascript:PictureGame.skipToGame()\" value=\"{$play_button_text}\"/>";
+			$skipButton = "<input class=\"site-button\" type=\"button\" id=\"skip-button\" value=\"{$play_button_text}\"/>";
 		}
 		$output .= $skipButton .
 				'</div>
@@ -1757,7 +1796,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 				<div id="uploadTitle" class="uploadTitle">
 					<form id="picGamePlay" name="picGamePlay" method="post" action="' .
 						$this->getTitle()->escapeFullURL( 'picGameAction=createGame' ) . '">
-						<h1>' . wfMsg( 'picturegame-creategamegametitle' ) . '</h1>
+						<h1>' . $this->msg( 'picturegame-creategamegametitle' )->text() . '</h1>
 						<div class="picgame-errors" id="picgame-errors"></div>
 						<p>
 							<input name="picGameTitle" id="picGameTitle" type="text" value="" size="40" />
@@ -1776,11 +1815,11 @@ class PictureGameHome extends UnlistedSpecialPage {
 					<div id="uploadImageForms" class="uploadImage">
 
 						<div id="imageOneUpload" class="imageOneUpload">
-							<h1>' . wfMsg( 'picturegame-createeditfirstimage' ) . '</h1>
+							<h1>' . $this->msg( 'picturegame-createeditfirstimage' )->text() . '</h1>
 							<!--Caption:<br /><input name="picOneDesc" id="picOneDesc" type="text" value="" /><br />-->
 							<div id="imageOneUploadError"></div>
 							<div id="imageOneLoadingImg" class="loadingImg" style="display:none">
-								<img src="' . $wgScriptPath . '/extensions/PictureGame/images/ajax-loader-white.gif" alt="" />
+								<img src="' . $wgExtensionAssetsPath . '/PictureGame/images/ajax-loader-white.gif" alt="" />
 							</div>
 							<div id="imageOne" class="imageOne" style="display:none;"></div>
 							<iframe class="imageOneUpload-frame" scrolling="no" frameborder="0" width="400" id="imageOneUpload-frame" src="' .
@@ -1788,14 +1827,14 @@ class PictureGameHome extends UnlistedSpecialPage {
 						</div>
 
 						<div id="imageTwoUpload" class="imageTwoUpload">
-							<h1>' . wfMsg( 'picturegame-createeditsecondimage' ) . '</h1>
+							<h1>' . $this->msg( 'picturegame-createeditsecondimage' )->text() . '</h1>
 							<!--Caption:<br /><input name="picTwoDesc" id="picTwoDesc" type="text" value="" /><br />-->
 							<div id="imageTwoUploadError"></div>
 							<div id="imageTwoLoadingImg" class="loadingImg" style="display:none">
-								<img src="' . $wgScriptPath . '/extensions/PictureGame/images/ajax-loader-white.gif" alt="" />
+								<img src="' . $wgExtensionAssetsPath . '/PictureGame/images/ajax-loader-white.gif" alt="" />
 							</div>
 							<div id="imageTwo" class="imageTwo" style="display:none;"></div>
-							<iframe id="imageTwoUpload-frame" scrolling="no" frameborder="0" width="610" src="' .
+							<iframe id="imageTwoUpload-frame" scrolling="no" frameborder="0" width="510" src="' .
 								$uploadObj->escapeFullURL( 'callbackPrefix=imageTwo_' ) . '"></iframe>
 						</div>
 
@@ -1805,26 +1844,9 @@ class PictureGameHome extends UnlistedSpecialPage {
 			</div>
 
 			<div id="startButton" class="startButton" style="display: none;">
-				<input type="button" onclick="PictureGame.startGame()" value="' . wfMsg( 'picturegame-creategamecreateplay' ) . '" />
+				<input type="button" class="site-button" value="' . $this->msg( 'picturegame-creategamecreateplay' )->text() . '" />
 			</div>';
 
-		$wgOut->addHTML( $output );
-	}
-
-	/**
-	 * You've seen this code a dozen times before. It's your standard,
-	 * home-made i18n-compatible, pre-ResourceLoader JavaScript.
-	 *
-	 * @param $vars Array: array of pre-existing JavaScript globals
-	 * @return Boolean: true
-	 */
-	public static function addJSGlobals( $vars ) {
-		$vars['__picturegame_edit__'] = wfMsg( 'picturegame-js-edit' );
-		$vars['__picturegame_error_title__'] = wfMsg( 'picturegame-js-error-title' );
-		$vars['__picturegame_upload_imgone__'] = wfMsg( 'picturegame-js-error-upload-imgone' );
-		$vars['__picturegame_upload_imgtwo__'] = wfMsg( 'picturegame-js-error-upload-imgtwo' );
-		$vars['__picturegame_editing_imgone__'] = wfMsg( 'picturegame-js-editing-imgone' );
-		$vars['__picturegame_editing_imgtwo__'] = wfMsg( 'picturegame-js-editing-imgtwo' );
-		return true;
+		$out->addHTML( $output );
 	}
 }

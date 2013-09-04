@@ -1,6 +1,8 @@
 <?php
 /**
- * New version of that fucking AJAX upload form, 1.16-compatible.
+ * New version of that fucking AJAX upload form.
+ * Originally written as 1.16-compatible; this one's built against and tested
+ * with MW 1.21.1.
  *
  * wpThumbWidth is the width of the thumbnail that will be returned
  * Also, to prevent overwriting uploads of files with popular names i.e.
@@ -13,7 +15,7 @@
  * @ingroup SpecialPage
  * @ingroup Upload
  * @author Jack Phoenix <jack@countervandalism.net>
- * @date 26 June 2011
+ * @date 22 July 2013
  * @note Based on 1.16 core SpecialUpload.php (GPL-licensed) by Bryan et al.
  * @see http://bugzilla.shoutwiki.com/show_bug.cgi?id=22
  */
@@ -24,12 +26,8 @@ class SpecialPictureGameAjaxUpload extends SpecialUpload {
 	 *
 	 * @param $request WebRequest: Data posted.
 	 */
-	public function __construct( $request = null ) {
-		global $wgRequest;
-
+	public function __construct() {
 		SpecialPage::__construct( 'PictureGameAjaxUpload', 'upload', false );
-
-		$this->loadRequest( is_null( $request ) ? $wgRequest : $request );
 	}
 
 	/**
@@ -42,13 +40,9 @@ class SpecialPictureGameAjaxUpload extends SpecialUpload {
 	 *
 	 * What was changed here: $this->mIgnoreWarning is now unconditionally true
 	 * and mUpload uses PictureGameUpload instead of UploadBase
-	 *
-	 * @param $request WebRequest: The request to extract variables from
 	 */
-	protected function loadRequest( $request ) {
-		global $wgUser;
-
-		$this->mRequest = $request;
+	protected function loadRequest() {
+		$this->mRequest = $request = $this->getRequest();
 		$this->mSourceType        = $request->getVal( 'wpSourceType', 'file' );
 		$this->mUpload            = PictureGameUpload::createFromRequest( $request );
 		$this->mUploadClicked     = $request->wasPosted()
@@ -65,7 +59,7 @@ class SpecialPictureGameAjaxUpload extends SpecialUpload {
 
 		$this->mDestWarningAck    = $request->getText( 'wpDestFileWarningAck' );
 		$this->mIgnoreWarning     = true;//$request->getCheck( 'wpIgnoreWarning' ) || $request->getCheck( 'wpUploadIgnoreWarning' );
-		$this->mWatchthis         = $request->getBool( 'wpWatchthis' ) && $wgUser->isLoggedIn();
+		$this->mWatchthis         = $request->getBool( 'wpWatchthis' ) && $this->getUser()->isLoggedIn();
 		$this->mCopyrightStatus   = $request->getText( 'wpUploadCopyStatus' );
 		$this->mCopyrightSource   = $request->getText( 'wpUploadSource' );
 
@@ -81,7 +75,7 @@ class SpecialPictureGameAjaxUpload extends SpecialUpload {
 			// with their submissions, as that's new in 1.16.
 			$this->mTokenOk = true;
 		} else {
-			$this->mTokenOk = $wgUser->matchEditToken( $token );
+			$this->mTokenOk = $this->getUser()->matchEditToken( $token );
 		}
 	}
 
@@ -92,41 +86,34 @@ class SpecialPictureGameAjaxUpload extends SpecialUpload {
 	 * and some bits of code were entirely removed.
 	 */
 	public function execute( $par ) {
-		global $wgUser, $wgOut;
-
 		// Disable the skin etc.
-		$wgOut->setArticleBodyOnly( true );
+		$this->getOutput()->setArticleBodyOnly( true );
+
+		// Allow framing so that after uploading an image, we can actually show
+		// it to the user :)
+		$this->getOutput()->allowClickjacking();
 
 		# Check that uploading is enabled
 		if( !UploadBase::isEnabled() ) {
-			$wgOut->showErrorPage( 'uploaddisabled', 'uploaddisabledtext' );
-			return;
+			throw new ErrorPageError( 'uploaddisabled', 'uploaddisabledtext' );
 		}
 
 		# Check permissions
-		global $wgGroupPermissions;
-		if( !$wgUser->isAllowed( 'upload' ) ) {
-			if( !$wgUser->isLoggedIn() && ( $wgGroupPermissions['user']['upload']
-				|| $wgGroupPermissions['autoconfirmed']['upload'] ) ) {
-				// Custom message if logged-in users without any special rights can upload
-				$wgOut->showErrorPage( 'uploadnologin', 'uploadnologintext' );
-			} else {
-				$wgOut->permissionRequired( 'upload' );
-			}
-			return;
+		$user = $this->getUser();
+		$permissionRequired = UploadBase::isAllowed( $user );
+		if( $permissionRequired !== true ) {
+			throw new PermissionsError( $permissionRequired );
 		}
 
 		# Check blocks
-		if( $wgUser->isBlocked() ) {
-			$wgOut->blockedPage();
-			return;
+		if( $user->isBlocked() ) {
+			throw new UserBlockedError( $user->getBlock() );
 		}
 
 		# Check whether we actually want to allow changing stuff
-		if( wfReadOnly() ) {
-			$wgOut->readOnlyPage();
-			return;
-		}
+		$this->checkReadOnly();
+
+		$this->loadRequest();
 
 		# Unsave the temporary file in case this was a cancelled upload
 		if ( $this->mCancelUpload ) {
@@ -171,7 +158,7 @@ class SpecialPictureGameAjaxUpload extends SpecialUpload {
 		# Check the token, but only if necessary
 		if( !$this->mTokenOk && !$this->mCancelUpload
 				&& ( $this->mUpload && $this->mUploadClicked ) ) {
-			$form->addPreText( wfMsgExt( 'session_fail_preview', 'parseinline' ) );
+			$form->addPreText( $this->msg( 'session_fail_preview' )->parse() );
 		}
 
 		# Add upload error message
@@ -193,11 +180,11 @@ class SpecialPictureGameAjaxUpload extends SpecialUpload {
 	 */
 	protected function showRecoverableUploadError( $message ) {
 		$sessionKey = $this->mUpload->stashSession();
-		$message = '<h2>' . wfMsgHtml( 'uploadwarning' ) . "</h2>\n" .
+		$message = '<h2>' . $this->msg( 'uploaderror' )->escaped() . "</h2>\n" .
 			'<div class="error">' . $message . "</div>\n";
 
 		$form = $this->getUploadForm( $message, $sessionKey );
-		$form->setSubmitText( wfMsg( 'upload-tryagain' ) );
+		$form->setSubmitText( $this->msg( 'upload-tryagain' )->escaped() );
 		$this->showUploadForm( $form );
 	}
 
@@ -207,15 +194,25 @@ class SpecialPictureGameAjaxUpload extends SpecialUpload {
 	 * @param $message String: error message to show
 	 */
 	protected function showUploadError( $message ) {
-		global $wgRequest;
-		$prefix = $wgRequest->getVal( 'callbackPrefix' );
-		if( strlen( $prefix ) == 0 ) {
+		$prefix = $this->getRequest()->getVal( 'wpCallbackPrefix' );
+		if ( strlen( $prefix ) == 0 ) {
 			$prefix = '';
 		}
 		$message = addslashes( $message );
+		$message = str_replace( array( "\r\n", "\r", "\n" ), ' ', $message );
 		$output = "<script language=\"javascript\">
 			/*<![CDATA[*/
-				window.parent.PictureGame.{$prefix}uploadError( '{$message}' );
+				// If PictureGame class isn't loaded, then load it via ResourceLoader
+				// Yes, this is somewhat of a cheap hack since it seems that at
+				// this point, PictureGame class is never loaded, but hey, it
+				// works...
+				if ( typeof PictureGame !== 'object' ) {
+					window.parent.mw.loader.using( 'ext.pictureGame', function() {
+						window.parent.PictureGame.{$prefix}uploadError( '{$message}' );
+					} );
+				} else {
+					window.parent.PictureGame.{$prefix}uploadError( '{$message}' );
+				}
 			/*]]>*/</script>";
 		$this->showUploadForm( $this->getUploadForm( $output ) );
 	}
@@ -229,21 +226,12 @@ class SpecialPictureGameAjaxUpload extends SpecialUpload {
 	 * below the $this->mUploadSuccessful = true; line
 	 */
 	protected function processUpload() {
-		global $wgUser, $wgOut, $wgRequest, $wgContLang;
-
-		// Verify permissions
-		$permErrors = $this->mUpload->verifyPermissions( $wgUser );
-		if( $permErrors !== true ) {
-			$wgOut->showPermissionsErrorPage( $permErrors );
-			return;
-		}
+		global $wgContLang;
 
 		// Fetch the file if required
 		$status = $this->mUpload->fetchFile();
 		if( !$status->isOK() ) {
-			$this->showUploadForm(
-				$this->getUploadForm( $wgOut->parse( $status->getWikiText() ) )
-			);
+			$this->showUploadError( $this->getOutput()->parse( $status->getWikiText() ) );
 			return;
 		}
 
@@ -254,10 +242,26 @@ class SpecialPictureGameAjaxUpload extends SpecialUpload {
 			return;
 		}
 
+		// Verify permissions for this title
+		$permErrors = $this->mUpload->verifyTitlePermissions( $this->getUser() );
+		if( $permErrors !== true ) {
+			$code = array_shift( $permErrors[0] );
+			$this->showRecoverableUploadError( $this->msg( $code, $permErrors[0] )->parse() );
+			return;
+		}
+
 		$this->mLocalFile = $this->mUpload->getLocalFile();
 
+		// Check warnings if necessary
+		if( !$this->mIgnoreWarning ) {
+			$warnings = $this->mUpload->checkWarnings();
+			if( $this->showUploadWarning( $warnings ) ) {
+				return;
+			}
+		}
+
 		$categoryText = '[[' . $wgContLang->getNsText( NS_CATEGORY ) . ':' .
-			wfMsgForContent( 'picturegame-images-category' ) . ']]';
+			$this->msg( 'picturegame-images-category' )->inContentLanguage()->plain() . ']]';
 		// Get the page text if this is not a reupload
 		//if( !$this->mForReUpload ) {
 			$pageText = self::getInitialPageText(
@@ -271,7 +275,7 @@ class SpecialPictureGameAjaxUpload extends SpecialUpload {
 		//}
 
 		$status = $this->mUpload->performUpload(
-			$categoryText/*$this->mComment*/, $pageText, $this->mWatchthis, $wgUser
+			$categoryText/*$this->mComment*/, $pageText, $this->mWatchthis, $this->getUser()
 		);
 
 		if ( !$status->isGood() ) {
@@ -282,10 +286,10 @@ class SpecialPictureGameAjaxUpload extends SpecialUpload {
 		// Success, redirect to description page
 		$this->mUploadSuccessful = true;
 
-		$wgOut->setArticleBodyOnly( true );
-		$wgOut->clearHTML();
+		$this->getOutput()->setArticleBodyOnly( true );
+		$this->getOutput()->clearHTML();
 
-		$thumbWidth = $wgRequest->getInt( 'wpThumbWidth', 75 );
+		$thumbWidth = $this->getRequest()->getInt( 'wpThumbWidth', 75 );
 
 		// The old version below, which initially used $this->mDesiredDestName
 		// instead of that getTitle() caused plenty o' fatals...the new version
@@ -306,8 +310,8 @@ class SpecialPictureGameAjaxUpload extends SpecialUpload {
 		$img_tag = $thumb->toHtml();
 		$slashedImgTag = addslashes( $img_tag );
 
-		$prefix = $wgRequest->getVal( 'callbackPrefix' );
-		if( strlen( $prefix ) == 0 ) {
+		$prefix = $this->getRequest()->getVal( 'wpCallbackPrefix' );
+		if ( strlen( $prefix ) == 0 ) {
 			$prefix = '';
 		}
 
@@ -319,7 +323,13 @@ class SpecialPictureGameAjaxUpload extends SpecialUpload {
 		$imgName = $img->getTitle()->getDBkey();
 		echo "<script language=\"javascript\">
 			/*<![CDATA[*/
-			window.parent.PictureGame.{$prefix}uploadComplete(\"{$slashedImgTag}\", \"{$imgName}\", '');
+			if ( typeof PictureGame !== 'object' ) {
+				window.parent.mw.loader.using( 'ext.pictureGame', function() {
+					window.parent.PictureGame.{$prefix}uploadComplete(\"{$slashedImgTag}\", \"{$imgName}\", '');
+				} );
+			} else {
+				window.parent.PictureGame.{$prefix}uploadComplete(\"{$slashedImgTag}\", \"{$imgName}\", '');
+			}
 			/*]]>*/</script>";
 	}
 }
@@ -352,14 +362,14 @@ class PictureGameAjaxUploadForm extends UploadForm {
 		HTMLForm::__construct( $descriptor, 'upload' );
 
 		# Set some form properties
-		$this->setSubmitText( wfMsg( 'uploadbtn' ) );
+		$this->setSubmitText( $this->msg( 'uploadbtn' )->text() );
 		$this->setSubmitName( 'wpUpload' );
 		$this->setSubmitTooltip( 'upload' );
 		$this->setId( 'mw-upload-form' );
 
 		# Build a list of IDs for JavaScript insertion
 		$this->mSourceIds = array();
-		foreach ( $sourceDescriptor as $field ) {
+		foreach ( $sourceDescriptor as $key => $field ) {
 			if ( !empty( $field['id'] ) ) {
 				$this->mSourceIds[] = $field['id'];
 			}
@@ -367,10 +377,9 @@ class PictureGameAjaxUploadForm extends UploadForm {
 	}
 
 	function displayForm( $submitResult ) {
-		global $wgOut;
 		parent::displayForm( $submitResult );
-		if ( method_exists( $wgOut, 'allowClickjacking' ) ) {
-			$wgOut->allowClickjacking();
+		if ( method_exists( $this->getOutput(), 'allowClickjacking' ) ) {
+			$this->getOutput()->allowClickjacking();
 		}
 	}
 
@@ -409,11 +418,17 @@ class PictureGameAjaxUploadForm extends UploadForm {
 	function submitForm() {
 		var valueToCheck = document.getElementById( 'wpUploadFile' ).value;
 		if( valueToCheck != '' ) {
-			window.parent.PictureGame.completeImageUpload(); 
+			if ( typeof PictureGame !== 'object' ) {
+				window.parent.mw.loader.using( 'ext.pictureGame', function() {
+					window.parent.PictureGame.completeImageUpload();
+				} );
+			} else {
+				window.parent.PictureGame.completeImageUpload();
+			}
 			return true;
 		} else {
 			// textError method is gone and I can't find it anywhere...
-			alert( '" . str_replace( "\n", ' ', wfMsg( 'emptyfile' ) ) . "' );
+			alert( '" . str_replace( "\n", ' ', $this->msg( 'emptyfile' )->plain() ) . "' );
 			return false;
 		}
 	}
@@ -427,8 +442,6 @@ class PictureGameAjaxUploadForm extends UploadForm {
 	 * @return array Descriptor array
 	 */
 	protected function getSourceSection() {
-		global $wgUser, $wgRequest;
-
 		if ( $this->mSessionKey ) {
 			return array(
 				'wpSessionKey' => array(
@@ -442,9 +455,9 @@ class PictureGameAjaxUploadForm extends UploadForm {
 			);
 		}
 
-		$canUploadByUrl = UploadFromUrl::isEnabled() && $wgUser->isAllowed( 'upload_by_url' );
+		$canUploadByUrl = UploadFromUrl::isEnabled() && $this->getUser()->isAllowed( 'upload_by_url' );
 		$radio = $canUploadByUrl;
-		$selectedSourceType = strtolower( $wgRequest->getText( 'wpSourceType', 'File' ) );
+		$selectedSourceType = strtolower( $this->getRequest()->getText( 'wpSourceType', 'File' ) );
 
 		$descriptor = array();
 		$descriptor['UploadFile'] = array(
@@ -535,13 +548,12 @@ class PictureGameAjaxUploadForm extends UploadForm {
 			);
 		}
 
-		global $wgRequest;
 		// Wow, this is all we need to pass the callbackPrefix to the appropriate functions :D
 		// That makes me super happy!
-		$descriptor['callbackPrefix'] = array(
+		$descriptor['CallbackPrefix'] = array(
 			'type' => 'hidden',
-			'id' => 'callbackPrefix',
-			'default' => $wgRequest->getVal( 'callbackPrefix' ),
+			'id' => 'CallbackPrefix',
+			'default' => $this->getRequest()->getVal( 'callbackPrefix' ),
 		);
 
 		return $descriptor;
@@ -582,16 +594,15 @@ class PictureGameUpload extends UploadFromFile {
 	 * @param $request WebRequest
 	 */
 	function initializeFromRequest( &$request ) {
+		$upload = $request->getUpload( 'wpUploadFile' );
+
 		$desiredDestName = $request->getText( 'wpDestFile' );
-		if( !$desiredDestName ) {
+		if ( !$desiredDestName ) {
 			$desiredDestName = $request->getFileName( 'wpUploadFile' );
 		}
-		$prefix = $request->getText( 'callbackPrefix' ); // added for PictureGame
+		$prefix = $request->getText( 'wpCallbackPrefix' ); // added for PictureGame
 		$desiredDestName = time() . '-' . $prefix . $desiredDestName;
-		$this->initializePathInfo(
-			$desiredDestName,
-			$request->getFileTempName( 'wpUploadFile' ),
-			$request->getFileSize( 'wpUploadFile' )
-		);
+
+		$this->initialize( $desiredDestName, $upload );
 	}
 }

@@ -4,7 +4,7 @@
  * @file
  * @ingroup Extensions
  * @author Jack Phoenix <jack@countervandalism.net>
- * @date 25 June 2011
+ * @date 22 July 2013
  */
 var PictureGame = {
 	currImg: 0, // from editpanel.js
@@ -17,7 +17,7 @@ var PictureGame = {
 	unflag: function( id ) {
 		jQuery( '.admin-container #' + id ).fadeOut();
 		jQuery.get(
-			wgScript,//mw.config.get( 'wgScript' ),
+			mw.config.get( 'wgScript' ),
 			{
 				title: 'Special:PictureGameHome',
 				picGameAction: 'adminPanelUnflag',
@@ -41,7 +41,7 @@ var PictureGame = {
 	deleteimg: function( id, imageName1, imageName2 ) {
 		jQuery( '.admin-container #' + id ).fadeOut();
 		jQuery.get(
-			wgScript,//mw.config.get( 'wgScript' ),
+			mw.config.get( 'wgScript' ),
 			{
 				title: 'Special:PictureGameHome',
 				picGameAction: 'adminPanelDelete',
@@ -65,7 +65,7 @@ var PictureGame = {
 	unprotect: function( id ) {
 		jQuery( '.admin-container #' + id ).fadeOut();
 		jQuery.get(
-			wgScript,//mw.config.get( 'wgScript' ),
+			mw.config.get( 'wgScript' ),
 			{
 				title: 'Special:PictureGameHome',
 				picGameAction: 'unprotectImages',
@@ -85,13 +85,13 @@ var PictureGame = {
 
 		if( img == 1 ) {
 			document.getElementById( 'edit-image-text' ).innerHTML =
-				'<h2> ' + __picturegame_editing_imgone__ + ' </h2>';
+				'<h2> ' + mw.msg( 'picturegame-js-editing-imgone' ) + ' </h2>';
 		} else {
 			document.getElementById( 'edit-image-text' ).innerHTML =
-				'<h2> ' + __picturegame_editing_imgtwo__ + ' </h2>';
+				'<h2> ' + mw.msg( 'picturegame-js-editing-imgtwo' ) + ' </h2>';
 		}
 
-		document.getElementById( 'upload-frame' ).src = wgScript +
+		document.getElementById( 'upload-frame' ).src = mw.config.get( 'wgScript' ) +
 			'?title=Special:PictureGameAjaxUpload&wpOverwriteFile=true&wpDestFile=' +
 			filename;
 		document.getElementById( 'edit-image-frame' ).style.display = 'block';
@@ -148,7 +148,7 @@ var PictureGame = {
 		var ask = confirm( msg );
 		if( ask ) {
 			jQuery.get(
-				wgScript,//mw.config.get( 'wgScript' ),
+				mw.config.get( 'wgScript' ),
 				{
 					title: 'Special:PictureGameHome',
 					picGameAction: 'flagImage',
@@ -184,7 +184,7 @@ var PictureGame = {
 		var ask = confirm( msg );
 		if( ask ) {
 			jQuery.get(
-				wgScript,//mw.config.get( 'wgScript' ),
+				mw.config.get( 'wgScript' ),
 				{
 					title: 'Special:PictureGameHome',
 					picGameAction: 'protectImages',
@@ -210,7 +210,7 @@ var PictureGame = {
 			LightBox.show( objLink );
 
 			LightBox.setText(
-				'<embed src="' + wgScriptPath + '/extensions/PictureGame/picturegame/ajax-loading.swf" quality="high" wmode="transparent" bgcolor="#ffffff"' +
+				'<embed src="' + mw.config.get( 'wgExtensionAssetsPath' ) + '/PictureGame/picturegame/ajax-loading.swf" quality="high" wmode="transparent" bgcolor="#ffffff"' +
 				'pluginspage="http://www.adobe.com/shockwave/download/download.cgi?P1_Prod_Version=ShockwaveFlash"' +
 				'type="application/x-shockwave-flash" width="100" height="100">' +
 				'</embed>'
@@ -219,7 +219,7 @@ var PictureGame = {
 			document.picGameVote.lastid.value = document.getElementById( 'id' ).value;
 			document.picGameVote.img.value = picID;
 			jQuery.post(
-				wgScript,//mw.config.get( 'wgScript' ),
+				mw.config.get( 'wgScript' ),
 				{
 					title: 'Special:PictureGameHome',
 					picGameAction: 'castVote',
@@ -239,8 +239,6 @@ var PictureGame = {
 	},
 
 	reupload: function( id ) {
-		var isReload = true;
-
 		if( id == 1 ) {
 			document.getElementById( 'imageOne' ).style.display = 'none';
 			document.getElementById( 'imageOne' ).style.visibility = 'hidden';
@@ -256,9 +254,14 @@ var PictureGame = {
 			};
 
 			// passes in the description of the image
+			/* @note It seems that this is either a half-baked feature or something
+			that was never fully implemented. Either way, all the elements (etc.)
+			related are commented out in the HTML source, so obviously we can't
+			refer to 'em either! --ashley, 23 July 2013
 			document.getElementById( 'imageOneUpload-frame' ).src =
 				document.getElementById( 'imageOneUpload-frame' ).src +
 				'&wpUploadDescription=' + document.getElementById( 'picOneDesc' ).value;
+			*/
 		} else {
 			document.getElementById( 'imageTwo' ).style.display = 'none';
 			document.getElementById( 'imageTwo' ).style.visibility = 'hidden';
@@ -273,10 +276,12 @@ var PictureGame = {
 				this.onload = function( st, doc ) { return; };
 			};
 			// passes in the description of the image
+			/*
 			document.getElementById( 'imageTwoUpload-frame' ).src =
 				document.getElementById( 'imageTwoUpload-frame' ).src +
 				'&wpUploadDescription=' +
 				document.getElementById( 'picTwoDesc' ).value;
+			*/
 		}
 	},
 
@@ -327,10 +332,18 @@ var PictureGame = {
 		document.getElementById( 'imageOneUpload-frame' ).style.display = 'none';
 		document.getElementById( 'imageOneUpload-frame' ).style.visibility = 'hidden';
 
-		document.getElementById( 'imageOne' ).innerHTML =
-			'<p><b>' + imgDesc + '</b></p>' + imgSrc +
-			'<p><a href="javascript:PictureGame.reupload(1)">' +
-			window.parent.__picturegame_edit__ + '</a></p>';
+		jQuery( '#imageOne' ).html( '<p><b>' + imgDesc + '</b></p>' + imgSrc );
+		jQuery( '#imageOne' ).append(
+			jQuery( '<a>' )
+				.attr( 'href', '#' )
+				.on( 'click', function() { PictureGame.reupload( 1 ); } )
+				.text( window.parent.mw.msg( 'picturegame-js-edit' ) )
+				// Words of wisdom (from /extensions/PollNY/Poll.js):
+				// <Vulpix> oh, yeah, I know what's happening. Since you're appending the element created with $('<a>'), it appends only it, not the wrapped one... You may need to add a .parent() at the end to get the <p> also...
+				// (the <p> tag is a minor cosmetic improvement, nothing else)
+				.wrap( '<p/>' )
+				.parent()
+		);
 
 		document.picGamePlay.picOneURL.value = imgName;
 		//document.picGamePlay.picOneDesc.value = imgDesc;
@@ -339,6 +352,7 @@ var PictureGame = {
 		var imgOne = jQuery( '#imageOne' );
 		imgOne.fadeIn( 2000 );
 
+		// Show the start button only when both images have been uploaded
 		if(
 			document.picGamePlay.picTwoURL.value !== '' &&
 			document.picGamePlay.picOneURL.value !== ''
@@ -356,10 +370,18 @@ var PictureGame = {
 		document.getElementById( 'imageTwoUpload-frame' ).style.display = 'none';
 		document.getElementById( 'imageTwoUpload-frame' ).style.visibility = 'hidden';
 
-		document.getElementById( 'imageTwo' ).innerHTML =
-			'<p><b>' + imgDesc + '</b></p>' + imgSrc +
-			'<p><a href="javascript:PictureGame.reupload(2)">' +
-			window.parent.__picturegame_edit__ + '</a></p>';
+		jQuery( '#imageTwo' ).html( '<p><b>' + imgDesc + '</b></p>' + imgSrc );
+		jQuery( '#imageTwo' ).append(
+			jQuery( '<a>' )
+				.attr( 'href', '#' )
+				.on( 'click', function() { PictureGame.reupload( 2 ); } )
+				.text( window.parent.mw.msg( 'picturegame-js-edit' ) )
+				// Words of wisdom (from /extensions/PollNY/Poll.js):
+				// <Vulpix> oh, yeah, I know what's happening. Since you're appending the element created with $('<a>'), it appends only it, not the wrapped one... You may need to add a .parent() at the end to get the <p> also...
+				// (the <p> tag is a minor cosmetic improvement, nothing else)
+				.wrap( '<p/>' )
+				.parent()
+		);
 
 		document.picGamePlay.picTwoURL.value = imgName;
 		//document.picGamePlay.picTwoDesc.value = imgDesc;
@@ -387,7 +409,7 @@ var PictureGame = {
 			document.getElementById( 'picGameTitle' ).style.borderStyle = 'solid';
 			document.getElementById( 'picGameTitle' ).style.borderColor = 'red';
 			document.getElementById( 'picGameTitle' ).style.borderWidth = '2px';
-			errorText = errorText + __picturegame_error_title__ + '<br />';
+			errorText = errorText + mw.msg( 'picturegame-js-error-title' ) + '<br />';
 		}
 
 		if( imgOneURL.length === 0 ) {
@@ -395,7 +417,7 @@ var PictureGame = {
 			document.getElementById( 'imageOneUpload' ).style.borderStyle = 'solid';
 			document.getElementById( 'imageOneUpload' ).style.borderColor = 'red';
 			document.getElementById( 'imageOneUpload' ).style.borderWidth = '2px';
-			errorText = errorText + __picturegame_upload_imgone__ + '<br />';
+			errorText = errorText + mw.msg( 'picturegame-js-error-upload-imgone' ) + '<br />';
 		}
 
 		if( imgTwoURL.length === 0 ) {
@@ -403,7 +425,7 @@ var PictureGame = {
 			document.getElementById( 'imageTwoUpload' ).style.borderStyle = 'solid';
 			document.getElementById( 'imageTwoUpload' ).style.borderColor = 'red';
 			document.getElementById( 'imageTwoUpload' ).style.borderWidth = '2px';
-			errorText = errorText + __picturegame_upload_imgtwo__ + '<br />';
+			errorText = errorText + mw.msg( 'picturegame-js-error-upload-imgtwo' ) + '<br />';
 		}
 
 		if( !isError ) {
@@ -417,3 +439,90 @@ var PictureGame = {
 		document.location = 'index.php?title=Special:PictureGameHome&picGameAction=startGame';
 	}
 };
+
+jQuery( document ).ready( function() {
+	// Handle clicks on "Reinstate" links on the admin panel
+	jQuery( 'div.admin-controls a.picgame-unflag-link' ).on( 'click', function() {
+		PictureGame.unflag( jQuery( this ).parent().parent().attr( 'id' ) );
+	} );
+
+	// Handle clicks on "Delete" links on the admin panel
+	jQuery( 'div.admin-controls a.picgame-delete-link' ).on( 'click', function() {
+		PictureGame.deleteimg(
+			jQuery( this ).parent().parent().attr( 'id' ),
+			jQuery( this ).data( 'row-img1' ),
+			jQuery( this ).data( 'row-img2' )
+		);
+	} );
+
+	// Handle clicks on "Unprotect" links on the admin panel
+	jQuery( 'div.admin-controls a.picgame-unprotect-link' ).on( 'click', function() {
+		PictureGame.unprotect( jQuery( this ).parent().parent().attr( 'id' ) );
+	} );
+
+	// Handle clicks on "Protect" links on the admin panel
+	jQuery( 'a.picgame-protect-link' ).on( 'click', function() {
+		PictureGame.protectImages( mw.msg( 'picturegame-protectimgconfirm' ) );
+	} );
+
+	jQuery( 'div.edit-button-pic-game a.picgame-edit-link' ).on( 'click', function() {
+		PictureGame.editPanel();
+	} );
+
+	// "Flag" link
+	jQuery( 'div#utilityButtons a.picgame-flag-link' ).on( 'click', function() {
+		PictureGame.flagImg( mw.msg( 'picturegame-flagimgconfirm' ) );
+	} );
+
+	// "Skip to game" button
+	jQuery( 'input#skip-button' ).on( 'click', function() {
+		PictureGame.skipToGame();
+	} );
+
+	jQuery( 'div#edit-image-one p a.picgame-upload-link-1' ).on( 'click', function() {
+		PictureGame.loadUploadFrame( jQuery( this ).data( 'img-one-name' ), 1 );
+	} );
+
+	jQuery( 'div#edit-image-two p a.picgame-upload-link-2' ).on( 'click', function() {
+		PictureGame.loadUploadFrame( jQuery( this ).data( 'img-two-name' ), 2 );
+	} );
+
+	// "Create and Play!" button on picture game creation form
+	jQuery( 'div#startButton input' ).on( 'click', function() {
+		PictureGame.startGame();
+	} );
+
+	// Hovers on the gallery
+	jQuery( 'div.picgame-gallery-thumbnail' ).on({
+		'mouseout': function() {
+			PictureGame.endHover( jQuery( this ).attr( 'id' ) );
+		},
+		'mouseover': function() {
+			PictureGame.doHover( jQuery( this ).attr( 'id' ) );
+		},
+	} );
+
+	jQuery( 'div.imgContainer div#imageOne' ).on({
+		'click': function() {
+			PictureGame.castVote( 0 );
+		},
+		'mouseout': function() {
+			PictureGame.endHover( 'imageOne' );
+		},
+		'mouseover': function() {
+			PictureGame.doHover( 'imageOne' );
+		}
+	} );
+
+	jQuery( 'div.imgContainer div#imageTwo' ).on({
+		'click': function() {
+			PictureGame.castVote( 1 );
+		},
+		'mouseout': function() {
+			PictureGame.endHover( 'imageTwo' );
+		},
+		'mouseover': function() {
+			PictureGame.doHover( 'imageTwo' );
+		}
+	} );
+} );
