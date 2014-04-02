@@ -4,7 +4,6 @@
  *
  * @file
  * @ingroup Extensions
- * @version 3.0
  * @author Aaron Wright <aaron.wright@gmail.com>
  * @author Ashish Datta <ashish@setfive.com>
  * @author David Pean <david.pean@gmail.com>
@@ -24,7 +23,7 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 // Extension credits that will show up on Special:Version
 $wgExtensionCredits['other'][] = array(
 	'name' => 'PictureGame',
-	'version' => '3.0',
+	'version' => '3.1.0',
 	'author' => array( 'Aaron Wright', 'Ashish Datta', 'David Pean', 'Jack Phoenix' ),
 	'description' => 'Allows making [[Special:PictureGameHome|picture games]]',
 	'url' => 'https://www.mediawiki.org/wiki/Extension:PictureGame'
@@ -79,6 +78,7 @@ define( 'PICTUREGAME_FLAG_PROTECT', 2 );
 
 // Set up the new special page and autoload classes
 $dir = dirname( __FILE__ ) . '/';
+$wgMessagesDirs['PictureGame'] = __DIR__ . '/i18n';
 $wgExtensionMessagesFiles['PictureGame'] = $dir . 'PictureGame.i18n.php';
 $wgExtensionMessagesFiles['PictureGameAlias'] = $dir . 'PictureGame.alias.php';
 $wgAutoloadClasses['PictureGameHome'] = $dir . 'PictureGameHome.body.php';
