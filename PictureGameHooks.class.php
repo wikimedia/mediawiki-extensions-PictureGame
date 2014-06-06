@@ -11,15 +11,16 @@ class PictureGameHooks {
 	 * Custom content actions for picture game
 	 */
 	public static function addContentActions( &$skinTemplate, &$links ) {
-		global $wgUser, $wgRequest, $wgPictureGameID, $wgTitle;
+		global $wgUser, $wgRequest, $wgPictureGameID;
 
+		$title = $skinTemplate->getTitle();
 		// Add edit page to content actions but only for Special:PictureGameHome
 		// and only when $wgPictureGameID is set so that we don't show the "edit"
 		// tab when there is no data in the database
 		if (
 			$wgRequest->getVal( 'picGameAction' ) != 'startCreate' &&
 			$wgUser->isAllowed( 'picturegameadmin' ) &&
-			$wgTitle->isSpecial( 'PictureGameHome' ) && !empty( $wgPictureGameID )
+			$title->isSpecial( 'PictureGameHome' ) && !empty( $wgPictureGameID )
 		)
 		{
 			$pic = SpecialPage::getTitleFor( 'PictureGameHome' );
@@ -33,7 +34,7 @@ class PictureGameHooks {
 		// If editing, make special page go back to quiz question
 		if ( $wgRequest->getVal( 'picGameAction' ) == 'editItem' ) {
 			$pic = SpecialPage::getTitleFor( 'QuizGameHome' );
-			$links['views'][$wgTitle->getNamespaceKey()] = array(
+			$links['views'][$title->getNamespaceKey()] = array(
 				'class' => 'selected',
 				'text' => wfMessage( 'nstab-special' )->plain(),
 				'href' => $pic->getFullURL( 'picGameAction=renderPermalink&id=' . $wgPictureGameID ),
