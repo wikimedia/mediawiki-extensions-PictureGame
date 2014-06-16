@@ -356,7 +356,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 
 		$output .= '<div id="edit-container" class="edit-container">
 			<form id="picGameVote" name="picGameVote" method="post" action="' .
-			$this->getTitle()->escapeFullURL( 'picGameAction=completeEdit' ) . '">
+			$this->getPageTitle()->escapeFullURL( 'picGameAction=completeEdit' ) . '">
 			<div id="edit-textboxes" class="edit-textboxes">
 
 				<div class="credit-box-edit" id="creditBox">
@@ -434,7 +434,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 			<div id="complete-buttons" class="complete-buttons">
 				<input type="button" onclick="document.picGameVote.submit()" value="' . $this->msg( 'picturegame-buttonsubmit' )->plain() . "\"/>
 				<input type=\"button\" onclick=\"window.location='" .
-					$this->getTitle()->escapeFullURL( "picGameAction=renderPermalink&id={$imgID}" ) . "'\" value=\"" .
+					$this->getPageTitle()->escapeFullURL( "picGameAction=renderPermalink&id={$imgID}" ) . "'\" value=\"" .
 					$this->msg( 'picturegame-buttoncancel' )->plain() . "\"/>
 			</div>
 		</form>
@@ -465,7 +465,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 		$out->setPageTitle( $this->msg( 'picturegame-adminpaneltitle' )->text() );
 		$output .= '
 		<div class="back-link">
-			<a href="' . $this->getTitle()->escapeFullURL( 'picGameAction=startGame' ) . '"> ' .
+			<a href="' . $this->getPageTitle()->escapeFullURL( 'picGameAction=startGame' ) . '"> ' .
 				$this->msg( 'picturegame-adminpanelbacktogame' )->text() . '</a>
 		</div>
 
@@ -690,7 +690,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 		$out = $this->getOutput();
 		$request = $this->getRequest();
 		$user = $this->getUser();
-		$thisTitle = $this->getTitle();
+		$thisTitle = $this->getPageTitle();
 
 		$out->setHTMLTitle( $this->msg( 'pagetitle', $this->msg( 'picturegame-gallery' )->text() )->text() );
 
@@ -1379,7 +1379,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 		$editlinks = '';
 		if( $user->isAllowed( 'picturegameadmin' ) ) {
 			// If the user can edit, throw in some links
-			$editlinks = ' - <a href="' . $this->getTitle()->escapeFullURL(
+			$editlinks = ' - <a href="' . $this->getPageTitle()->escapeFullURL(
 				'picGameAction=adminPanel' ) . '"> ' .
 				$this->msg( 'picturegame-adminpanel' )->text() .
 			'</a> - <a class="picgame-protect-link" href="javascript:void(0);"> '
@@ -1391,7 +1391,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 		if( $user->isLoggedIn() ) {
 			$createLink = '
 			<div class="create-link">
-				<a href="' . $this->getTitle()->escapeFullURL( 'picGameAction=startCreate' ) . '">
+				<a href="' . $this->getPageTitle()->escapeFullURL( 'picGameAction=startCreate' ) . '">
 					<img src="' . $wgExtensionAssetsPath . '/PictureGame/images/addIcon.gif" border="0" alt="" />'
 					. $this->msg( 'picturegame-createlink' )->text() .
 				'</a>
@@ -1448,13 +1448,13 @@ class PictureGameHome extends UnlistedSpecialPage {
 						<ul>
 							<li id=\"backButton\" style=\"display:" . ( $lastID > 0 ? 'block' : 'none' ) . "\">
 								<a href=\"javascript:window.parent.document.location='" .
-									$this->getTitle()->escapeFullURL( 'picGameAction=renderPermalink' ) .
+									$this->getPageTitle()->escapeFullURL( 'picGameAction=renderPermalink' ) .
 									"&id=' + document.getElementById('lastid').value\">"
 									. $this->msg( 'picturegame-backbutton' )->text() .
 								"</a>
 							</li>
 							<li id=\"skipButton\" style=\"display:" . ( $next_id > 0 ? 'block' : 'none' ) . "\">
-								<a href=\"" . $this->getTitle()->escapeFullURL( 'picGameAction=startGame' ) . '">'
+								<a href=\"" . $this->getPageTitle()->escapeFullURL( 'picGameAction=startGame' ) . '">'
 									. $this->msg( 'picturegame-skipbutton' )->text() .
 								'</a>
 							</li>
@@ -1462,7 +1462,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 					</div>
 
 					<form id="picGameVote" name="picGameVote" method="post" action="' .
-						$this->getTitle()->escapeFullURL( 'picGameAction=castVote' ) . "\">
+						$this->getPageTitle()->escapeFullURL( 'picGameAction=castVote' ) . "\">
 						<input id=\"key\" name=\"key\" type=\"hidden\" value=\"" . md5( $imgID . $this->SALT ) . "\" />
 						<input id=\"id\" name=\"id\" type=\"hidden\" value=\"" . $imgID . "\" />
 						<input id=\"lastid\" name=\"lastid\" type=\"hidden\" value=\"" . $lastID . "\" />
@@ -1523,7 +1523,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 					<a class=\"picgame-flag-link\" href=\"javascript:void(0);\">"
 						. $this->msg( 'picturegame-reportimages' )->text() .
 					" </a> -
-					<a href=\"javascript:window.parent.document.location='" . $this->getTitle()->escapeFullURL( 'picGameAction=renderPermalink' ) . "&id=' + document.getElementById('id').value\">"
+					<a href=\"javascript:window.parent.document.location='" . $this->getPageTitle()->escapeFullURL( 'picGameAction=renderPermalink' ) . "&id=' + document.getElementById('id').value\">"
 						. $this->msg( 'picturegame-permalink' )->text() .
 					'</a>'
 				. $editlinks . "
@@ -1654,7 +1654,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 						<p><input type="button" class="site-button" value="' .
 							$this->msg( 'picturegame-buttonplaygame' )->text() .
 							'" onclick="window.location=\'' .
-							$this->getTitle()->escapeFullURL( 'picGameAction=startGame' ) . '\'" />
+							$this->getPageTitle()->escapeFullURL( 'picGameAction=startGame' ) . '\'" />
 						</p>
 					</div>';
 				$out->addHTML( $output );
@@ -1727,7 +1727,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 
 		// Show a link to the admin panel for picture game admins
 		if( $user->isAllowed( 'picturegameadmin' ) ) {
-			$adminlink = '<a href="' . $this->getTitle()->escapeFullURL( 'picGameAction=adminPanel' ) . '"> ' .
+			$adminlink = '<a href="' . $this->getPageTitle()->escapeFullURL( 'picGameAction=adminPanel' ) . '"> ' .
 				$this->msg( 'picturegame-adminpanel' )->text() . ' </a>';
 		}
 
@@ -1795,7 +1795,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 			<div class="uploadLeft">
 				<div id="uploadTitle" class="uploadTitle">
 					<form id="picGamePlay" name="picGamePlay" method="post" action="' .
-						$this->getTitle()->escapeFullURL( 'picGameAction=createGame' ) . '">
+						$this->getPageTitle()->escapeFullURL( 'picGameAction=createGame' ) . '">
 						<h1>' . $this->msg( 'picturegame-creategamegametitle' )->text() . '</h1>
 						<div class="picgame-errors" id="picgame-errors"></div>
 						<p>
