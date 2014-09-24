@@ -23,7 +23,7 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 // Extension credits that will show up on Special:Version
 $wgExtensionCredits['other'][] = array(
 	'name' => 'PictureGame',
-	'version' => '3.1.0',
+	'version' => '3.1.1',
 	'author' => array( 'Aaron Wright', 'Ashish Datta', 'David Pean', 'Jack Phoenix' ),
 	'description' => 'Allows making [[Special:PictureGameHome|picture games]]',
 	'url' => 'https://www.mediawiki.org/wiki/Extension:PictureGame'
@@ -31,7 +31,7 @@ $wgExtensionCredits['other'][] = array(
 
 // ResourceLoader support for MediaWiki 1.17+
 $pictureGameResourceTemplate = array(
-	'localBasePath' => dirname( __FILE__ ) . '/picturegame',
+	'localBasePath' => __DIR__ . '/picturegame',
 	'remoteExtPath' => 'PictureGame/picturegame',
 	'position' => 'top' // available since r85616
 );
@@ -77,17 +77,15 @@ define( 'PICTUREGAME_FLAG_FLAGGED', 1 );
 define( 'PICTUREGAME_FLAG_PROTECT', 2 );
 
 // Set up the new special page and autoload classes
-$dir = dirname( __FILE__ ) . '/';
 $wgMessagesDirs['PictureGame'] = __DIR__ . '/i18n';
-$wgExtensionMessagesFiles['PictureGame'] = $dir . 'PictureGame.i18n.php';
-$wgExtensionMessagesFiles['PictureGameAlias'] = $dir . 'PictureGame.alias.php';
-$wgAutoloadClasses['PictureGameHome'] = $dir . 'PictureGameHome.body.php';
+$wgExtensionMessagesFiles['PictureGameAlias'] = __DIR__ . '/PictureGame.alias.php';
+$wgAutoloadClasses['PictureGameHome'] = __DIR__ . '/PictureGameHome.body.php';
 $wgSpecialPages['PictureGameHome'] = 'PictureGameHome';
 
 // Upload form
-$wgAutoloadClasses['SpecialPictureGameAjaxUpload'] = $dir . 'AjaxUploadForm.php';
-$wgAutoloadClasses['PictureGameAjaxUploadForm'] = $dir . 'AjaxUploadForm.php';
-$wgAutoloadClasses['PictureGameUpload'] = $dir . 'AjaxUploadForm.php';
+$wgAutoloadClasses['SpecialPictureGameAjaxUpload'] = __DIR__ . '/AjaxUploadForm.php';
+$wgAutoloadClasses['PictureGameAjaxUploadForm'] = __DIR__ . '/AjaxUploadForm.php';
+$wgAutoloadClasses['PictureGameUpload'] = __DIR__ . '/AjaxUploadForm.php';
 $wgSpecialPages['PictureGameAjaxUpload'] = 'SpecialPictureGameAjaxUpload';
 
 // For example: 'edits' => 5 if you want to require users to have at least 5
@@ -100,7 +98,7 @@ $wgGroupPermissions['sysop']['picturegameadmin'] = true;
 $wgGroupPermissions['staff']['picturegameadmin'] = true;
 
 // Hooked functions
-$wgAutoloadClasses['PictureGameHooks'] = $dir . 'PictureGameHooks.class.php';
+$wgAutoloadClasses['PictureGameHooks'] = __DIR__ . '/PictureGameHooks.class.php';
 
 $wgHooks['SkinTemplateNavigation::SpecialPage'][] = 'PictureGameHooks::addContentActions';
 $wgHooks['RenameUserSQL'][] = 'PictureGameHooks::onUserRename';

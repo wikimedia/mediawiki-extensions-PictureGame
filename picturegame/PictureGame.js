@@ -207,14 +207,16 @@ var PictureGame = {
 			objLink.href = '#';
 			objLink.title = '';
 
-			LightBox.show( objLink );
+			mw.loader.using( 'ext.pollNY.lightBox', function() {
+				LightBox.show( objLink );
 
-			LightBox.setText(
-				'<embed src="' + mw.config.get( 'wgExtensionAssetsPath' ) + '/PictureGame/picturegame/ajax-loading.swf" quality="high" wmode="transparent" bgcolor="#ffffff"' +
-				'pluginspage="http://www.adobe.com/shockwave/download/download.cgi?P1_Prod_Version=ShockwaveFlash"' +
-				'type="application/x-shockwave-flash" width="100" height="100">' +
-				'</embed>'
-			);
+				LightBox.setText(
+					'<embed src="' + mw.config.get( 'wgExtensionAssetsPath' ) + '/PictureGame/picturegame/ajax-loading.swf" quality="high" wmode="transparent" bgcolor="#ffffff"' +
+					'pluginspage="http://www.adobe.com/shockwave/download/download.cgi?P1_Prod_Version=ShockwaveFlash"' +
+					'type="application/x-shockwave-flash" width="100" height="100">' +
+					'</embed>'
+				);
+			} );
 
 			document.picGameVote.lastid.value = document.getElementById( 'id' ).value;
 			document.picGameVote.img.value = picID;
