@@ -1121,10 +1121,6 @@ class PictureGameHome extends UnlistedSpecialPage {
 					__METHOD__,
 					array( 'LIMIT' => 1 )
 				);
-				/*$sql = "SELECT * FROM picturegame_images WHERE picturegame_images.id NOT IN
-					(SELECT picid FROM picturegame_votes WHERE picturegame_votes.username='" . $dbr->strencode( $user->getName() ) . "')
-					AND flag <> " . PICTUREGAME_FLAG_FLAGGED . " AND img1 <> '' AND img2 <> '' LIMIT 1;";
-				$res = $dbr->query( $sql, __METHOD__ );*/
 				$row = $dbr->fetchObject( $res );
 				$imgID = isset( $row->id ) ? $row->id : 0;
 			}
@@ -1187,10 +1183,6 @@ class PictureGameHome extends UnlistedSpecialPage {
 					__METHOD__,
 					array( 'LIMIT' => 1 )
 				);
-				/*$sql = "SELECT * FROM picturegame_images WHERE picturegame_images.id <> {$imgID} AND picturegame_images.id NOT IN
-						(SELECT picid FROM picturegame_votes WHERE picturegame_votes.username='" . $dbr->strencode( $user->getName() ) . "')
-					AND flag != " . PICTUREGAME_FLAG_FLAGGED . " AND img1 <> '' AND img2 <> '' LIMIT 1;";
-				$nextres = $dbr->query( $sql, __METHOD__ );*/
 				$nextrow = $dbr->fetchObject( $nextres );
 				$next_id = ( isset( $nextrow->id ) ? $nextrow->id : 0 );
 			}
@@ -1762,13 +1754,6 @@ class PictureGameHome extends UnlistedSpecialPage {
 				$canSkip = true;
 			}
 		}
-		/*$sql = "SELECT COUNT(*) AS mycount FROM picturegame_images WHERE picturegame_images.id NOT IN
-				(SELECT picid FROM picturegame_votes WHERE picturegame_votes.username='" . $dbr->strencode( $wgUser->getName() ) . "')
-			AND flag != " . PICTUREGAME_FLAG_FLAGGED . " AND img1 <> '' AND img2 <> '' LIMIT 1;";
-		$res = $dbr->query( $sql, __METHOD__ );
-		$row = $dbr->fetchObject( $res );
-
-		$canSkip = ( $row->mycount != 0 ? true : false );*/
 
 		// used for the key
 		$now = time();
