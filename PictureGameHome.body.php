@@ -354,6 +354,9 @@ class PictureGameHome extends UnlistedSpecialPage {
 		$usrTitleObj = Title::makeTitle( NS_USER, $row->username );
 		$imgPath = $wgExtensionAssetsPath . '/PictureGame/images';
 
+		$formattedVoteCount = $lang->formatNum( $stats_data['votes'] );
+		$formattedEditCount = $lang->formatNum( $stats_data['edits'] );
+		$formattedCommentCount = $lang->formatNum( $stats_data['comments'] );
 		$output .= '<div id="edit-container" class="edit-container">
 			<form id="picGameVote" name="picGameVote" method="post" action="' .
 			htmlspecialchars( $this->getPageTitle()->getFullURL( 'picGameAction=completeEdit' ) ) . '">
@@ -371,15 +374,15 @@ class PictureGameHome extends UnlistedSpecialPage {
 						<ul>
 							<li>
 								<img src=\"{$imgPath}/voteIcon.gif\" border=\"0\" alt=\"\" />
-								{$stats_data['votes']}
+								{$formattedVoteCount}
 							</li>
 							<li>
 								<img src=\"{$imgPath}/pencilIcon.gif\" border=\"0\" alt=\"\" />
-								{$stats_data['edits']}
+								{$formattedEditCount}
 							</li>
 							<li>
 								<img src=\"{$imgPath}/commentsIcon.gif\" border=\"0\" alt=\"\" />
-								{$stats_data['comments']}
+								{$formattedCommentCount}
 							</li>
 						</ul>
 					</div>
@@ -1413,6 +1416,10 @@ class PictureGameHome extends UnlistedSpecialPage {
 
 		$next_id = ( isset( $next_id ) ? $next_id : 0 );
 
+		$formattedVoteCount = $lang->formatNum( $stats_data['votes'] );
+		$formattedEditCount = $lang->formatNum( $stats_data['edits'] );
+		$formattedCommentCount = $lang->formatNum( $stats_data['comments'] );
+
 		$output .= "
 		<script type=\"text/javascript\">var next_id = \"{$next_id}\";</script>
 		{$editLink}
@@ -1477,15 +1484,15 @@ class PictureGameHome extends UnlistedSpecialPage {
 						<ul>
 							<li>
 								<img src=\"{$wgExtensionAssetsPath}/PictureGame/images/voteIcon.gif\" border=\"0\" alt=\"\" />
-								{$stats_data['votes']}
+								{$formattedVoteCount}
 							</li>
 							<li>
 								<img src=\"{$wgExtensionAssetsPath}/PictureGame/images/pencilIcon.gif\" border=\"0\" alt=\"\" />
-								{$stats_data['edits']}
+								{$formattedEditCount}
 							</li>
 							<li>
 								<img src=\"{$wgExtensionAssetsPath}/PictureGame/images/commentsIcon.gif\" border=\"0\" alt=\"\" />
-								{$stats_data['comments']}
+								{$formattedCommentCount}
 							</li>
 						</ul>
 					</div>
@@ -1702,7 +1709,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 
 			$threshold_reason = '';
 			foreach( $wgCreatePictureGameThresholds as $field => $threshold ) {
-				if ( str_replace( ',', '', $stats_data[$field] ) < $threshold ) {
+				if ( $stats_data[$field] < $threshold ) {
 					$can_create = false;
 					$threshold_reason .= ( ( $threshold_reason ) ? ', ' : '' ) . "$threshold $field";
 				}
