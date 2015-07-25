@@ -69,6 +69,7 @@
 	"picturegame-gallery": "Galleria",
 	"picturegame-gallery-empty": "Kuvapelin kuvia ei ole vielä yhtään.",
 	"picturegame-empty": "Tietokannassa ei ole kuvapelejä. Voit [{{fullurl:Special:PictureGameHome|picGameAction=startCreate}} luoda uuden kuvapelin!]",
+	"picturegame-empty-no-more": "Pelattavia kuvapelejä ei ole enempää. Voit [{{fullurl:Special:PictureGameHome|picGameAction=startCreate}} luoda uuden kuvapelin!]",
 	"picturegame-nothing-to-edit": "Täällä ei ole mitään muokattavaa.",
 	"picturegame-images-category": "Kuvapelit",
 	"picturegame-none": "ei ole",

@@ -74,6 +74,7 @@
 	"picturegame-gallery": "Gallery",
 	"picturegame-gallery-empty": "There are no picture game images yet.",
 	"picturegame-empty": "There are no picture games in the database. You can [{{fullurl:Special:PictureGameHome|picGameAction=startCreate}} create a new picture game!]",
+	"picturegame-empty-no-more": "There are no more picture games to play. You can [{{fullurl:Special:PictureGameHome|picGameAction=startCreate}} create a new picture game!]",
 	"picturegame-nothing-to-edit": "Nothing to edit over here.",
 	"picturegame-images-category": "Picturegames",
 	"picturegame-none": "none",

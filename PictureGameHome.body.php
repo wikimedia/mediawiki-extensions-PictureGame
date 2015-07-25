@@ -1107,27 +1107,27 @@ class PictureGameHome extends UnlistedSpecialPage {
 				$picIds[] = $resultRow->picid;
 			}
 
-			// If there are no picture games in the database, the above query
-			// won't add anything to the picIds array, and trying to implode
-			// an empty array...well, you'll get id NOT IN () which in turn is
-			// invalid SQL.
+			// If there are no picture games or only one game in the database,
+			// the above query won't add anything to the picIds array.
+			// Trying to implode an empty array...well, you'll get "id NOT IN ()"
+			// which in turn is invalid SQL.
+			$whereConds = array(
+				'flag <> ' . PICTUREGAME_FLAG_FLAGGED,
+				"img1 <> ''",
+				"img2 <> ''"
+			);
 			if ( !empty( $picIds ) ) {
-				$res = $dbr->select(
-					'picturegame_images',
-					'*',
-					array(
-						'id NOT IN (' . implode( ',', $picIds ) . ')',
-						'flag <> ' . PICTUREGAME_FLAG_FLAGGED,
-						"img1 <> ''",
-						"img2 <> ''"
-					),
-					__METHOD__,
-					array( 'LIMIT' => 1 )
-				);
-				$row = $dbr->fetchObject( $res );
-				$imgID = isset( $row->id ) ? $row->id : 0;
+				$whereConds[] = 'id NOT IN (' . implode( ',', $picIds ) . ')';
 			}
-			$imgID = 0;
+			$res = $dbr->select(
+				'picturegame_images',
+				'*',
+				$whereConds,
+				__METHOD__,
+				array( 'LIMIT' => 1 )
+			);
+			$row = $dbr->fetchObject( $res );
+			$imgID = isset( $row->id ) ? $row->id : 0;
 		} else {
 			$res = $dbr->select(
 				'picturegame_images',
@@ -1149,7 +1149,13 @@ class PictureGameHome extends UnlistedSpecialPage {
 			$out->setPageTitle( $this->msg( 'picturegame-nomoretitle' )->text() );
 			// Wrap it in plainlinks to hide the external link icon since a
 			// link to this wiki is not really an external link
-			$out->wrapWikiMsg( "<div class=\"plainlinks\">$1</div>", 'picturegame-empty' );
+			$out->wrapWikiMsg(
+				"<div class=\"plainlinks\">$1</div>",
+				// There is a slight difference between "no more games *for you* to play"
+				// (=you've played 'em all) and "nothing at all in the database" (=there
+				// is nothing to play)...
+				( $lastID > -1 ? 'picturegame-empty-no-more' : 'picturegame-empty' )
+			);
 			return;
 		}
 
