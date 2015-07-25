@@ -4,9 +4,8 @@
  * @file
  * @ingroup Extensions
  * @author Jack Phoenix <jack@countervandalism.net>
- * @date 22 July 2013
  */
-var PictureGame = {
+var PictureGame = window.PictureGame = {
 	currImg: 0, // from editpanel.js
 
 	/**
