@@ -199,6 +199,7 @@ var PictureGame = window.PictureGame = {
 	},
 
 	castVote: function( picID ) {
+		LightBox.init(); // creates #lightboxText & friends
 		if( document.getElementById( 'lightboxText' ) !== null ) {
 			// pop up the lightbox
 			var objLink = {};
@@ -206,16 +207,20 @@ var PictureGame = window.PictureGame = {
 			objLink.href = '#';
 			objLink.title = '';
 
-			mw.loader.using( 'ext.pollNY.lightBox', function() {
-				LightBox.show( objLink );
+			LightBox.show( objLink );
 
+			if ( window.isFlashSupported() ) {
 				LightBox.setText(
-					'<embed src="' + mw.config.get( 'wgExtensionAssetsPath' ) + '/PictureGame/picturegame/ajax-loading.swf" quality="high" wmode="transparent" bgcolor="#ffffff"' +
+					'<embed src="' + mw.config.get( 'wgExtensionAssetsPath' ) + '/SocialProfile/images/ajax-loading.swf" quality="high" wmode="transparent" bgcolor="#ffffff"' +
 					'pluginspage="http://www.adobe.com/shockwave/download/download.cgi?P1_Prod_Version=ShockwaveFlash"' +
 					'type="application/x-shockwave-flash" width="100" height="100">' +
 					'</embed>'
 				);
-			} );
+			} else {
+				LightBox.setText(
+					'<img src="' + mw.config.get( 'wgExtensionAssetsPath' ) + '/SocialProfile/images/ajax-loader-white.gif" alt="" />'
+				);
+			}
 
 			document.picGameVote.lastid.value = document.getElementById( 'id' ).value;
 			document.picGameVote.img.value = picID;

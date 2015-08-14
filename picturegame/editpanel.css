@@ -129,24 +129,3 @@
 	color: #333333;
 	margin: 0px 0px 10px 0px !important;
 }
-
-/* Sprites */
-.picgame-sprite {
-	background: url('sprite.png');
-}
-
-.picgame-add-icon {
-	background-position: 0px 0px;
-}
-
-.picgame-comment-icon {
-	background-position: 0px -21px;
-}
-
-.picgame-edit-icon {
-	background-position: 0px -42px;
-}
-
-.picgame-vote-icon {
-	background-position: 0px -63px;
-}

@@ -6,7 +6,6 @@
 #lightbox img {
 	background-color: transparent;
 	border: none;
-	display: none;
 	clear: both;
 }
 
@@ -15,7 +14,7 @@
 	width: auto;
 }
 
-#overlay img{
+#overlay img {
 	border: none;
 }
 
@@ -38,10 +37,6 @@
 	background-color: transparent;
 	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src="images/overlay.png", sizingMethod="scale");
 }*/
-
-.cleared {
-	clear: both;
-}
 
 body {
 	margin: 0px;
@@ -86,10 +81,6 @@ body {
 	padding: 4px 0px 4px 0px;
 }
 
-/*.imageOne img, .imageTwo img {
-
-}*/
-
 .utilityButtons {
 	clear: both;
 	font-size: 12px;
@@ -122,9 +113,6 @@ body {
 	border-bottom: none;
 	margin: 10px 0px 10px 0px !important;
 }
-
-/*.vote-thumbnail {
-}*/
 
 .vote-thumbnail img {
 	padding: 3px;

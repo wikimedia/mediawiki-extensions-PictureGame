@@ -12,31 +12,17 @@
  * @link https://www.mediawiki.org/wiki/Extension:PictureGame Documentation
  */
 
-/**
- * Protect against register_globals vulnerabilities.
- * This line must be present before any global variable is referenced.
- */
-if ( !defined( 'MEDIAWIKI' ) ) {
-	die( "This is not a valid entry point.\n" );
-}
-
 // Extension credits that will show up on Special:Version
 $wgExtensionCredits['other'][] = array(
 	'name' => 'PictureGame',
-	'version' => '3.1.1',
+	'version' => '3.2',
 	'author' => array( 'Aaron Wright', 'Ashish Datta', 'David Pean', 'Jack Phoenix' ),
 	'description' => 'Allows making [[Special:PictureGameHome|picture games]]',
 	'url' => 'https://www.mediawiki.org/wiki/Extension:PictureGame'
 );
 
 // ResourceLoader support for MediaWiki 1.17+
-$pictureGameResourceTemplate = array(
-	'localBasePath' => __DIR__ . '/picturegame',
-	'remoteExtPath' => 'PictureGame/picturegame',
-	'position' => 'top' // available since r85616
-);
-
-$wgResourceModules['ext.pictureGame'] = $pictureGameResourceTemplate + array(
+$wgResourceModules['ext.pictureGame'] = array(
 	'scripts' => 'PictureGame.js',
 	'messages' => array(
 		'picturegame-js-edit', 'picturegame-js-error-title',
@@ -44,31 +30,48 @@ $wgResourceModules['ext.pictureGame'] = $pictureGameResourceTemplate + array(
 		'picturegame-js-error-upload-imgtwo', 'picturegame-js-editing-imgone',
 		'picturegame-js-editing-imgtwo', 'picturegame-protectimgconfirm',
 		'picturegame-flagimgconfirm'
-	)
+	),
+	'dependencies' => array(
+		'ext.socialprofile.flash',
+		'ext.socialprofile.LightBox'
+	),
+	'localBasePath' => __DIR__ . '/picturegame',
+	'remoteExtPath' => 'PictureGame/picturegame',
 );
 
-$wgResourceModules['ext.pictureGame.lightBox'] = $pictureGameResourceTemplate + array(
-	'scripts' => 'LightBox.js'
+$wgResourceModules['ext.pictureGame.adminPanel'] = array(
+	'styles' => 'adminpanel.css',
+	'localBasePath' => __DIR__ . '/picturegame',
+	'remoteExtPath' => 'PictureGame/picturegame',
+	'position' => 'top'
 );
 
-$wgResourceModules['ext.pictureGame.adminPanel'] = $pictureGameResourceTemplate + array(
-	'styles' => 'adminpanel.css'
+$wgResourceModules['ext.pictureGame.editPanel'] = array(
+	'styles' => 'editpanel.css',
+	'localBasePath' => __DIR__ . '/picturegame',
+	'remoteExtPath' => 'PictureGame/picturegame',
+	'position' => 'top'
 );
 
-$wgResourceModules['ext.pictureGame.editPanel'] = $pictureGameResourceTemplate + array(
-	'styles' => 'editpanel.css'
+$wgResourceModules['ext.pictureGame.gallery'] = array(
+	'styles' => 'gallery.css',
+	'localBasePath' => __DIR__ . '/picturegame',
+	'remoteExtPath' => 'PictureGame/picturegame',
+	'position' => 'top'
 );
 
-$wgResourceModules['ext.pictureGame.gallery'] = $pictureGameResourceTemplate + array(
-	'styles' => 'gallery.css'
+$wgResourceModules['ext.pictureGame.mainGame'] = array(
+	'styles' => 'maingame.css',
+	'localBasePath' => __DIR__ . '/picturegame',
+	'remoteExtPath' => 'PictureGame/picturegame',
+	'position' => 'top'
 );
 
-$wgResourceModules['ext.pictureGame.mainGame'] = $pictureGameResourceTemplate + array(
-	'styles' => 'maingame.css'
-);
-
-$wgResourceModules['ext.pictureGame.startGame'] = $pictureGameResourceTemplate + array(
-	'styles' => 'startgame.css'
+$wgResourceModules['ext.pictureGame.startGame'] = array(
+	'styles' => 'startgame.css',
+	'localBasePath' => __DIR__ . '/picturegame',
+	'remoteExtPath' => 'PictureGame/picturegame',
+	'position' => 'top'
 );
 
 // picturegame_images.flag used to be an enum() and that sucked, big time

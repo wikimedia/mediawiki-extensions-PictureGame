@@ -352,7 +352,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 		}
 
 		$usrTitleObj = Title::makeTitle( NS_USER, $row->username );
-		$imgPath = $wgExtensionAssetsPath . '/PictureGame/images';
+		$imgPath = $wgExtensionAssetsPath . '/SocialProfile/images';
 
 		$formattedVoteCount = $lang->formatNum( $stats_data['votes'] );
 		$formattedEditCount = $lang->formatNum( $stats_data['edits'] );
@@ -377,7 +377,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 								{$formattedVoteCount}
 							</li>
 							<li>
-								<img src=\"{$imgPath}/pencilIcon.gif\" border=\"0\" alt=\"\" />
+								<img src=\"{$imgPath}/editIcon.gif\" border=\"0\" alt=\"\" />
 								{$formattedEditCount}
 							</li>
 							<li>
@@ -386,7 +386,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 							</li>
 						</ul>
 					</div>
-					<div class=\"cleared\"></div>
+					<div class=\"visualClear\"></div>
 				</div>
 
 
@@ -418,7 +418,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 						<img src=\"{$imgPath}/ajax-loader-white.gif\" alt=\"\" />
 					</div>
 
-					<div class=\"cleared\"></div>
+					<div class=\"visualClear\"></div>
 
 				</div>
 
@@ -427,7 +427,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 					<iframe frameborder=\"0\" scrollbar=\"no\" class=\"upload-frame\" id=\"upload-frame\" src=\"\"></iframe>
 				</div>
 
-				<div class=\"cleared\"></div>
+				<div class=\"visualClear\"></div>
 			</div>
 
 			<div class=\"copyright-warning\">" .
@@ -528,7 +528,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 						. $this->msg( 'picturegame-adminpaneldelete' )->text() .
 					'</a>
 				</div>
-				<div class="cleared"></div>
+				<div class="visualClear"></div>
 
 			</div>';
 		}
@@ -588,7 +588,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 						. $this->msg( 'picturegame-adminpaneldelete' )->text() .
 					'</a>
 				</div>
-				<div class="cleared"></div>
+				<div class="visualClear"></div>
 
 			</div>';
 		}
@@ -919,11 +919,11 @@ class PictureGameHome extends UnlistedSpecialPage {
 					<p>{$imgTwoPercent}%</p>
 				</div>
 
-				<div class=\"cleared\"></div>
+				<div class=\"visualClear\"></div>
 			</div>";
 
 			if( $x != 1 && $x % $per_row == 0 ) {
-				$output .= '<div class="cleared"></div>';
+				$output .= '<div class="visualClear"></div>';
 			}
 			$x++;
 		}
@@ -1393,7 +1393,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 			$createLink = '
 			<div class="create-link">
 				<a href="' . htmlspecialchars( $this->getPageTitle()->getFullURL( 'picGameAction=startCreate' ) ) . '">
-					<img src="' . $wgExtensionAssetsPath . '/PictureGame/images/addIcon.gif" border="0" alt="" />'
+					<img src="' . $wgExtensionAssetsPath . '/SocialProfile/images/addIcon.gif" border="0" alt="" />'
 					. $this->msg( 'picturegame-createlink' )->text() .
 				'</a>
 			</div>';
@@ -1403,7 +1403,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 		if( $user->isLoggedIn() && $user->isAllowed( 'picturegameadmin' ) && $wgUseEditButtonFloat == true ) {
 			$editLink .= '<div class="edit-menu-pic-game">
 				<div class="edit-button-pic-game">
-					<img src="' . $wgExtensionAssetsPath . '/PictureGame/images/editIcon.gif" alt="" />
+					<img src="' . $wgExtensionAssetsPath . '/SocialProfile/images/editIcon.gif" alt="" />
 					<a class="picgame-edit-link" href="javascript:void(0)">' . $this->msg( 'edit' )->text() . '</a>
 				</div>
 			</div>';
@@ -1417,8 +1417,6 @@ class PictureGameHome extends UnlistedSpecialPage {
 		$preload = '';
 
 		$out->setHTMLTitle( $this->msg( 'pagetitle', $title )->text() );
-
-		$out->addModules( 'ext.pictureGame.lightBox' );
 
 		$next_id = ( isset( $next_id ) ? $next_id : 0 );
 
@@ -1436,18 +1434,18 @@ class PictureGameHome extends UnlistedSpecialPage {
 
 				<div class=\"imgContent\" id=\"imgContent\">
 					<div class=\"imgTitle\" id=\"imgTitle\">" . $title . "</div>
-					<div class=\"imgContainer\" id=\"imgContainer\" style=\"width:45%;\">
+					<div class=\"imgContainer\" id=\"imgContainerOne\" style=\"width:45%;\">
 						<div class=\"imgCaption\" id=\"imgOneCaption\">" . $img1_caption . "</div>
 						<div class=\"imageOne\" id=\"imageOne\" style=\"padding:5px;\">
 							" . $imgOne . "	</div>
 					</div>
 
-					<div class=\"imgContainer\" id=\"imgContainer\" style=\"width:45%;\">
+					<div class=\"imgContainer\" id=\"imgContainerTwo\" style=\"width:45%;\">
 						<div class=\"imgCaption\" id=\"imgTwoCaption\">" . $img2_caption . "</div>
 						<div class=\"imageTwo\" id=\"imageTwo\" style=\"padding:5px;\">
 						" . $imgTwo . "	</div>
 					</div>
-					<div class=\"cleared\"></div>
+					<div class=\"visualClear\"></div>
 
 					<div class=\"pic-game-navigation\">
 						<ul>
@@ -1489,20 +1487,20 @@ class PictureGameHome extends UnlistedSpecialPage {
 						<a href=\"{$user_title->getFullURL()}\">{$user_name}</a>
 						<ul>
 							<li>
-								<img src=\"{$wgExtensionAssetsPath}/PictureGame/images/voteIcon.gif\" border=\"0\" alt=\"\" />
+								<img src=\"{$wgExtensionAssetsPath}/SocialProfile/images/voteIcon.gif\" border=\"0\" alt=\"\" />
 								{$formattedVoteCount}
 							</li>
 							<li>
-								<img src=\"{$wgExtensionAssetsPath}/PictureGame/images/pencilIcon.gif\" border=\"0\" alt=\"\" />
+								<img src=\"{$wgExtensionAssetsPath}/SocialProfile/images/editIcon.gif\" border=\"0\" alt=\"\" />
 								{$formattedEditCount}
 							</li>
 							<li>
-								<img src=\"{$wgExtensionAssetsPath}/PictureGame/images/commentsIcon.gif\" border=\"0\" alt=\"\" />
+								<img src=\"{$wgExtensionAssetsPath}/SocialProfile/images/commentsIcon.gif\" border=\"0\" alt=\"\" />
 								{$formattedCommentCount}
 							</li>
 						</ul>
 					</div>
-					<div class=\"cleared\"></div>
+					<div class=\"visualClear\"></div>
 				</div>
 
 				<div class=\"voteStats\" id=\"voteStats\" style=\"display:none\">
@@ -1512,14 +1510,14 @@ class PictureGameHome extends UnlistedSpecialPage {
 						<span class=\"vote-thumbnail\" id=\"one-vote-thumbnail\">{$vote_one_tag}</span>
 						<span class=\"vote-percent\" id=\"one-vote-percent\">{$imgOnePercent}%</span>
 						<span class=\"vote-blue\">
-							<img src=\"{$wgExtensionAssetsPath}/PictureGame/images/vote-bar-blue.gif\" id=\"one-vote-width\" border=\"0\" style=\"width:{$barOneWidth}px;height:11px;\" alt=\"\" />
+							<img src=\"{$wgExtensionAssetsPath}/SocialProfile/images/vote-bar-1.gif\" id=\"one-vote-width\" border=\"0\" style=\"width:{$barOneWidth}px;height:11px;\" alt=\"\" />
 						</span>
 					</div>
 					<div class=\"vote-bar\">
 						<span class=\"vote-thumbnail\" id=\"two-vote-thumbnail\">{$vote_two_tag}</span>
 						<span class=\"vote-percent\" id=\"two-vote-percent\">{$imgTwoPercent}%</span>
 						<span class=\"vote-red\">
-							<img src=\"{$wgExtensionAssetsPath}/PictureGame/images/vote-bar-red.gif\" id=\"two-vote-width\" border=\"0\" style=\"width:{$barTwoWidth}px;height:11px;\" alt=\"\" />
+							<img src=\"{$wgExtensionAssetsPath}/SocialProfile/images/vote-bar-2.gif\" id=\"two-vote-width\" border=\"0\" style=\"width:{$barTwoWidth}px;height:11px;\" alt=\"\" />
 						</span>
 					</div>
 				</div>
@@ -1536,18 +1534,18 @@ class PictureGameHome extends UnlistedSpecialPage {
 
 			</div>
 
-			<div class=\"cleared\"></div>
+			<div class=\"visualClear\"></div>
 
 			<script language=\"javascript\">{$permalinkJS}</script>
 
 		<div id=\"preload\" style=\"display:none\">
 			{$preload}
 			<object classid=\"clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\" codebase=\"http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,28,0\" width=\"75\" height=\"75\" title=\"hourglass\">
-				<param name=\"movie\" value=\"" . $wgExtensionAssetsPath . "/PictureGame/picturegame/ajax-loading.swf\" />
+				<param name=\"movie\" value=\"" . $wgExtensionAssetsPath . "/SocialProfile/images/ajax-loading.swf\" />
 				<param name=\"quality\" value=\"high\" />
 				<param name=\"wmode\" value=\"transparent\" />
 				<param name=\"bgcolor\" value=\"#ffffff\" />
-				<embed src=\"" . $wgExtensionAssetsPath . "/PictureGame/picturegame/ajax-loading.swf\" quality=\"high\" wmode=\"transparent\" bgcolor=\"#ffffff\" pluginspage=\"http://www.adobe.com/shockwave/download/download.cgi?P1_Prod_Version=ShockwaveFlash\" type=\"application/x-shockwave-flash\" width=\"100\" height=\"100\"></embed>
+				<embed src=\"" . $wgExtensionAssetsPath . "/SocialProfile/images/ajax-loading.swf\" quality=\"high\" wmode=\"transparent\" bgcolor=\"#ffffff\" pluginspage=\"http://www.adobe.com/shockwave/download/download.cgi?P1_Prod_Version=ShockwaveFlash\" type=\"application/x-shockwave-flash\" width=\"100\" height=\"100\"></embed>
 			 </object>
 		</div>";
 
@@ -1588,7 +1586,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 			$row = $dbr->fetchObject( $res );
 
 			// if these image pairs don't exist, insert them
-			if( $row->mycount == 0 ) {
+			if( isset( $row ) && $row->mycount == 0 ) {
 				$dbr->insert(
 					'picturegame_images',
 					array(
@@ -1817,7 +1815,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 							<!--Caption:<br /><input name="picOneDesc" id="picOneDesc" type="text" value="" /><br />-->
 							<div id="imageOneUploadError"></div>
 							<div id="imageOneLoadingImg" class="loadingImg" style="display:none">
-								<img src="' . $wgExtensionAssetsPath . '/PictureGame/images/ajax-loader-white.gif" alt="" />
+								<img src="' . $wgExtensionAssetsPath . '/SocialProfile/images/ajax-loader-white.gif" alt="" />
 							</div>
 							<div id="imageOne" class="imageOne" style="display:none;"></div>
 							<iframe class="imageOneUpload-frame" scrolling="no" frameborder="0" width="400" id="imageOneUpload-frame" src="' .
@@ -1829,14 +1827,14 @@ class PictureGameHome extends UnlistedSpecialPage {
 							<!--Caption:<br /><input name="picTwoDesc" id="picTwoDesc" type="text" value="" /><br />-->
 							<div id="imageTwoUploadError"></div>
 							<div id="imageTwoLoadingImg" class="loadingImg" style="display:none">
-								<img src="' . $wgExtensionAssetsPath . '/PictureGame/images/ajax-loader-white.gif" alt="" />
+								<img src="' . $wgExtensionAssetsPath . '/SocialProfile/images/ajax-loader-white.gif" alt="" />
 							</div>
 							<div id="imageTwo" class="imageTwo" style="display:none;"></div>
 							<iframe id="imageTwoUpload-frame" scrolling="no" frameborder="0" width="510" src="' .
 								htmlspecialchars( $uploadObj->getFullURL( 'callbackPrefix=imageTwo_' ) ) . '"></iframe>
 						</div>
 
-						<div class="cleared"></div>
+						<div class="visualClear"></div>
 					</div>
 				</div>
 			</div>
