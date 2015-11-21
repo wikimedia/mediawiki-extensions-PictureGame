@@ -1,0 +1,101 @@
+{
+	"name": "PictureGame",
+	"version": "3.3",
+	"author": [
+		"Aaron Wright",
+		"Ashish Datta",
+		"David Pean",
+		"Jack Phoenix"
+	],
+	"license-name": "GPL-2.0+",
+	"url": "https://www.mediawiki.org/wiki/Extension:PictureGame",
+	"description": "Allows making [[Special:PictureGameHome|picture games]]",
+	"type": "other",
+	"config": {
+		"CreatePictureGameThresholds": []
+	},
+	"SpecialPages": {
+		"PictureGameHome": "PictureGameHome",
+		"PictureGameAjaxUpload": "SpecialPictureGameAjaxUpload"
+	},
+	"MessagesDirs": {
+		"PictureGame": [
+			"i18n"
+		]
+	},
+	"ExtensionMessagesFiles": {
+		"PictureGameAlias": "PictureGame.alias.php"
+	},
+	"AutoloadClasses": {
+		"PictureGameHome": "PictureGameHome.body.php",
+		"PictureGameHooks": "PictureGameHooks.class.php",
+		"SpecialPictureGameAjaxUpload": "AjaxUploadForm.php",
+		"PictureGameAjaxUploadForm": "AjaxUploadForm.php",
+		"PictureGameUpload": "AjaxUploadForm.php",
+		"ViewPoll": "SpecialViewPoll.php"
+	},
+	"Hooks": {
+		"SkinTemplateNavigation::SpecialPage": [
+			"PictureGameHooks::addContentActions"
+		],
+		"LoadExtensionSchemaUpdates": [
+			"PictureGameHooks::onLoadExtensionSchemaUpdates"
+		],
+		"RenameUserSQL": [
+			"PictureGameHooks::onUserRename"
+		]
+	},
+	"ResourceFileModulePaths": {
+		"localBasePath": "picturegame",
+		"remoteExtPath": "PictureGame/picturegame"
+	},
+	"ResourceModules": {
+		"ext.pictureGame": {
+			"scripts": "PictureGame.js",
+			"messages": [
+				"picturegame-js-edit", "picturegame-js-error-title",
+				"picturegame-js-error-upload-imgone",
+				"picturegame-js-error-upload-imgtwo", "picturegame-js-editing-imgone",
+				"picturegame-js-editing-imgtwo", "picturegame-protectimgconfirm",
+				"picturegame-flagimgconfirm"
+			],
+			"dependencies": [
+				"ext.socialprofile.flash",
+				"ext.socialprofile.LightBox"
+			],
+			"position": "bottom"
+		},
+		"ext.pictureGame.adminPanel": {
+			"styles": "adminpanel.css",
+			"position": "top"
+		},
+		"ext.pictureGame.editPanel": {
+			"styles": "editpanel.css",
+			"position": "top"
+		},
+		"ext.pictureGame.gallery": {
+			"styles": "gallery.css",
+			"position": "top"
+		},
+		"ext.pictureGame.mainGame": {
+			"styles": "maingame.css",
+			"position": "top"
+		},
+		"ext.pictureGame.startGame": {
+			"styles": "startgame.css",
+			"position": "top"
+		},
+	},
+	"AvailableRights": [
+		"picturegameadmin"
+	],
+	"GroupPermissions": {
+		"staff": {
+			"picturegameadmin": true
+		},
+		"sysop": {
+			"picturegameadmin": true
+		}
+	},
+	"manifest_version": 1
+}

@@ -15,7 +15,7 @@
 // Extension credits that will show up on Special:Version
 $wgExtensionCredits['other'][] = array(
 	'name' => 'PictureGame',
-	'version' => '3.2',
+	'version' => '3.3',
 	'author' => array( 'Aaron Wright', 'Ashish Datta', 'David Pean', 'Jack Phoenix' ),
 	'description' => 'Allows making [[Special:PictureGameHome|picture games]]',
 	'url' => 'https://www.mediawiki.org/wiki/Extension:PictureGame'
@@ -74,14 +74,10 @@ $wgResourceModules['ext.pictureGame.startGame'] = array(
 	'position' => 'top'
 );
 
-// picturegame_images.flag used to be an enum() and that sucked, big time
-define( 'PICTUREGAME_FLAG_NONE', 0 );
-define( 'PICTUREGAME_FLAG_FLAGGED', 1 );
-define( 'PICTUREGAME_FLAG_PROTECT', 2 );
-
 // Set up the new special page and autoload classes
 $wgMessagesDirs['PictureGame'] = __DIR__ . '/i18n';
 $wgExtensionMessagesFiles['PictureGameAlias'] = __DIR__ . '/PictureGame.alias.php';
+
 $wgAutoloadClasses['PictureGameHome'] = __DIR__ . '/PictureGameHome.body.php';
 $wgSpecialPages['PictureGameHome'] = 'PictureGameHome';
 

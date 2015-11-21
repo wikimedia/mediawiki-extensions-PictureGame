@@ -1,6 +1,23 @@
 <?php
+/**
+ * PictureGame extension - allows making picture games
+ *
+ * @file
+ * @ingroup Extensions
+ * @author Aaron Wright <aaron.wright@gmail.com>
+ * @author Ashish Datta <ashish@setfive.com>
+ * @author David Pean <david.pean@gmail.com>
+ * @author Jack Phoenix <jack@countervandalism.net>
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License 2.0 or later
+ * @link https://www.mediawiki.org/wiki/Extension:PictureGame Documentation
+ */
 
 class PictureGameHome extends UnlistedSpecialPage {
+	// picturegame_images.flag used to be an enum() and that sucked, big time
+	static $FLAG_NONE = 0;
+	static $FLAG_FLAGGED = 1;
+	static $FLAG_PROTECT = 2;
+
 	/**
 	 * @var String: MD5 hash of the current user's username; used to salt admin panel requests
 	 */
@@ -218,7 +235,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 		$dbw = wfGetDB( DB_MASTER );
 		$dbw->update(
 			'picturegame_images',
-			array( 'flag' => PICTUREGAME_FLAG_NONE ),
+			array( 'flag' => PictureGameHome::$FLAG_NONE ),
 			array( 'id' => $id ),
 			__METHOD__
 		);
@@ -480,7 +497,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 			'picturegame_images',
 			array( 'id', 'img1', 'img2' ),
 			array(
-				'flag' => PICTUREGAME_FLAG_FLAGGED,
+				'flag' => PictureGameHome::$FLAG_FLAGGED,
 				"img1 <> ''",
 				"img2 <> ''"
 			),
@@ -541,7 +558,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 			'picturegame_images',
 			array( 'id', 'img1', 'img2' ),
 			array(
-				'flag' => PICTUREGAME_FLAG_PROTECT,
+				'flag' => PictureGameHome::$FLAG_PROTECT,
 				"img1 <> ''", "img2 <> ''"
 			),
 			__METHOD__
@@ -618,8 +635,8 @@ class PictureGameHome extends UnlistedSpecialPage {
 		$dbw = wfGetDB( DB_MASTER );
 		$dbw->update(
 			'picturegame_images',
-			array( 'flag' => PICTUREGAME_FLAG_FLAGGED ),
-			array( 'id' => $id, 'flag' => PICTUREGAME_FLAG_NONE ),
+			array( 'flag' => PictureGameHome::$FLAG_FLAGGED ),
+			array( 'id' => $id, 'flag' => PictureGameHome::$FLAG_NONE ),
 			__METHOD__
 		);
 
@@ -650,7 +667,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 		$dbw = wfGetDB( DB_MASTER );
 		$dbw->update(
 			'picturegame_images',
-			array( 'flag' => PICTUREGAME_FLAG_NONE ),
+			array( 'flag' => PictureGameHome::$FLAG_NONE ),
 			array( 'id' => $id ),
 			__METHOD__
 		);
@@ -679,7 +696,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 		$dbw = wfGetDB( DB_MASTER );
 		$dbw->update(
 			'picturegame_images',
-			array( 'flag' => PICTUREGAME_FLAG_PROTECT ),
+			array( 'flag' => PictureGameHome::$FLAG_PROTECT ),
 			array( 'id' => $id ),
 			__METHOD__
 		);
@@ -857,7 +874,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 			'picturegame_images',
 			'*',
 			array(
-				'flag <> ' . PICTUREGAME_FLAG_FLAGGED,
+				'flag <> ' . PictureGameHome::$FLAG_FLAGGED,
 				"img1 <> ''",
 				"img2 <> ''"
 			),
@@ -1112,7 +1129,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 			// Trying to implode an empty array...well, you'll get "id NOT IN ()"
 			// which in turn is invalid SQL.
 			$whereConds = array(
-				'flag <> ' . PICTUREGAME_FLAG_FLAGGED,
+				'flag <> ' . PictureGameHome::$FLAG_FLAGGED,
 				"img1 <> ''",
 				"img2 <> ''"
 			);
@@ -1133,7 +1150,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 				'picturegame_images',
 				'*',
 				array(
-					'flag <> ' . PICTUREGAME_FLAG_FLAGGED,
+					'flag <> ' . PictureGameHome::$FLAG_FLAGGED,
 					"img1 <> ''",
 					"img2 <> ''",
 					'id' => $imgID
@@ -1185,7 +1202,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 					array(
 						"id <> {$imgID}",
 						'id NOT IN (' . implode( ',', $excludedImgIds ) . ')',
-						'flag != ' . PICTUREGAME_FLAG_FLAGGED,
+						'flag != ' . PictureGameHome::$FLAG_FLAGGED,
 						"img1 <> ''",
 						"img2 <> ''"
 					),
@@ -1319,7 +1336,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 				'picturegame_images',
 				'*',
 				array(
-					'flag <> ' . PICTUREGAME_FLAG_FLAGGED,
+					'flag <> ' . PictureGameHome::$FLAG_FLAGGED,
 					'id' => $lastID
 				),
 				__METHOD__
@@ -1642,8 +1659,8 @@ class PictureGameHome extends UnlistedSpecialPage {
 				'picturegame_images',
 				'COUNT(*) AS mycount',
 				array(
-					'flag = ' . PICTUREGAME_FLAG_NONE .
-						' OR flag = ' . PICTUREGAME_FLAG_PROTECT,
+					'flag = ' . PictureGameHome::$FLAG_NONE .
+						' OR flag = ' . PictureGameHome::$FLAG_PROTECT,
 					'id' => $permalinkID
 				),
 				__METHOD__
@@ -1755,7 +1772,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 				'COUNT(*) AS mycount',
 				array(
 					'id NOT IN(' . implode( ',', $excluded  ) . ')',
-					'flag != ' . PICTUREGAME_FLAG_FLAGGED,
+					'flag != ' . PictureGameHome::$FLAG_FLAGGED,
 					"img1 <> ''",
 					"img2 <> ''"
 				),
