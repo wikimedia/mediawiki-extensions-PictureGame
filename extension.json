@@ -84,7 +84,7 @@
 		"ext.pictureGame.startGame": {
 			"styles": "startgame.css",
 			"position": "top"
-		},
+		}
 	},
 	"AvailableRights": [
 		"picturegameadmin"
