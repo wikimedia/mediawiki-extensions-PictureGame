@@ -31,8 +31,7 @@
 		"PictureGameHooks": "PictureGameHooks.class.php",
 		"SpecialPictureGameAjaxUpload": "AjaxUploadForm.php",
 		"PictureGameAjaxUploadForm": "AjaxUploadForm.php",
-		"PictureGameUpload": "AjaxUploadForm.php",
-		"ViewPoll": "SpecialViewPoll.php"
+		"PictureGameUpload": "AjaxUploadForm.php"
 	},
 	"Hooks": {
 		"SkinTemplateNavigation::SpecialPage": [
