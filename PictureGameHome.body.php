@@ -50,8 +50,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 
 		// Blocked through Special:Block? No access for you either!
 		if( $user->isBlocked() ) {
-			$out->blockedPage( false );
-			return false;
+			throw new UserBlockedError( $user->getBlock() );
 		}
 
 		$wgSupressPageTitle = true;
@@ -135,8 +134,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 				break;
 			case 'startCreate':
 				if( $user->isBlocked() ) {
-					$out->blockedPage( false );
-					return '';
+					throw new UserBlockedError( $user->getBlock() );
 				} else {
 					$this->showHomePage();
 				}
