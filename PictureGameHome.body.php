@@ -173,7 +173,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 
 		$dbw = wfGetDB( DB_MASTER );
 		$dbw->delete( 'picturegame_images', array( 'id' => $id ), __METHOD__ );
-		$dbw->commit();
+		$dbw->commit( __METHOD__ );
 
 		global $wgMemc;
 		$key = wfMemcKey( 'user', 'profile', 'picgame', $user->getID() );
