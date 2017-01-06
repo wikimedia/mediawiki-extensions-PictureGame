@@ -446,7 +446,7 @@ var PictureGame = window.PictureGame = {
 	}
 };
 
-jQuery( document ).ready( function() {
+jQuery( function() {
 	// Handle clicks on "Reinstate" links on the admin panel
 	jQuery( 'div.admin-controls a.picgame-unflag-link' ).on( 'click', function() {
 		PictureGame.unflag( jQuery( this ).parent().parent().attr( 'id' ) );
