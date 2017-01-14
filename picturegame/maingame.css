@@ -26,7 +26,7 @@
 	width: 100%;
 	height: 500px;
 	/* background-image: url(images/overlay.png); */
-	background-color: black;
+	background-color: #000;
 	filter: alpha(opacity=80);
 	opacity: .8;
 }
@@ -39,12 +39,12 @@
 }*/
 
 body {
-	margin: 0px;
-	padding: 0px;
+	margin: 0;
+	padding: 0;
 }
 
 .imgContent {
-	font-family: arial;
+	font-family: Arial;
 	float: left;
 	min-width: 55%;
 	width: 55%;
@@ -52,10 +52,10 @@ body {
 
 .imgTitle {
 	background: transparent none repeat scroll 0%;
-	border-bottom: 1px solid #AAAAAA;
-	color: black;
+	border-bottom: 1px solid #aaa;
+	color: #000;
 	font-weight: normal !important;
-	margin: 0px 0px 15px 0px !important;
+	margin: 0 0 15px 0 !important;
 	padding-bottom: 0.17em;
 	padding-top: 0.5em;
 	font-size: 188% !important;
@@ -63,28 +63,28 @@ body {
 
 .imgCaption {
 	font-size: 16px;
-	color: #333333;
+	color: #333;
 	font-weight: bold;
-	margin: 0px 0px 5px 0px;
+	margin: 0 0 5px 0;
 }
 
 .imgContainer {
 	vertical-align: top;
 	float: left;
-	margin: 0px 20px 0px 0px;
+	margin: 0 20px 0 0;
 	/*min-width: 200px;*/
 }
 
 .imageOne, .imageTwo {
 	text-align: center;
 	border: 1px solid #dcdcdc;
-	padding: 4px 0px 4px 0px;
+	padding: 4px 0;
 }
 
 .utilityButtons {
 	clear: both;
 	font-size: 12px;
-	margin: 10px 0px 0px 0px;
+	margin: 10px 0 0 0;
 }
 
 .utilityButtons a {
@@ -99,7 +99,7 @@ body {
 	font-family: Arial;
 	font-size: 12px;
 	font-weight: bold;
-	margin: 10px 0px 0px 0px;
+	margin: 10px 0 0 0;
 }
 
 .voteStats img {
@@ -107,36 +107,36 @@ body {
 }
 
 .voteStats h1 {
+	border-bottom: 0;
+	color: #333;
 	font-size: 14px;
-	color: #333333;
 	font-weight: bold;
-	border-bottom: none;
-	margin: 10px 0px 10px 0px !important;
+	margin: 10px 0 10px 0 !important;
 }
 
 .vote-thumbnail img {
-	padding: 3px;
 	border: 1px solid #dcdcdc;
+	padding: 3px;
 }
 
 .vote-percent {
-	margin: 0px 10px 0px 10px;
+	margin: 0 10px;
 }
 
 .vote-bar {
-	margin: 0px 0px 10px 0px;
+	margin: 0 0 10px 0;
 	vertical-align: middle;
 }
 
 .vote-red img {
-	border-bottom: 2px solid #000000;
-	border-right: 2px solid #000000;
+	border-bottom: 2px solid #000;
+	border-right: 2px solid #000;
 	border-top: 2px solid #f0b4ab;
 }
 
 .vote-blue img {
-	border-bottom: 2px solid #000000;
-	border-right: 2px solid #000000;
+	border-bottom: 2px solid #000;
+	border-right: 2px solid #000;
 	border-top: 2px solid #82c3ff;
 }
 
@@ -146,23 +146,23 @@ body {
 
 .create-link img {
 	vertical-align: middle;
-	margin: -1px 2px 0px 0px;
+	margin: -1px 2px 0 0;
 }
 
 .credit-box {
 	border: 1px solid #dcdcdc;
 	padding: 10px;
-	background-color: #F2F4F7;
-	margin: 8px 0px 0px 0px;
+	background-color: #f2f4f7;
+	margin: 8px 0 0 0;
 }
 
 .credit-box h1 {
 	font-size: 14px;
-	color: #333333;
+	color: #333;
 	font-weight: bold;
 	border-bottom: none;
-	padding: 0px !important;
-	margin: 0px 0px 10px 0px !important;
+	padding: 0 !important;
+	margin: 0 0 10px 0 !important;
 }
 
 .other-info {
@@ -186,12 +186,12 @@ body {
 .submitted-by-user ul {
 	list-style: none;
 	padding: 0px;
-	margin: 3px 0px 0px 0px;
+	margin: 3px 0 0 0;
 }
 
 .submitted-by-user li {
 	float: left;
-	margin: 0px 6px 0px 0px;
+	margin: 0 6px 0 0;
 	font-size: 12px;
 	color: #333333;
 	font-weight: bold;
@@ -199,7 +199,7 @@ body {
 
 .submitted-by-user img {
 	vertical-align: middle;
-	margin: 0px 1px 0px 0px;
+	margin: 0 1px 0 0;
 }
 
 .submitted-by-user a {
@@ -209,8 +209,8 @@ body {
 }
 
 .edit-button-pic-game {
-	background-color: #FFFCA9;
-	border: 1px solid #FDC745;
+	background-color: #fffca9;
+	border: 1px solid #fdc745;
 	padding: 5px 0px 5px 5px;
 	width: 90px;
 }
@@ -222,29 +222,29 @@ body {
 }
 
 .edit-button-pic-game img {
-	margin: -5px 3px 0px 0px;
+	margin: -5px 3px 0 0;
 	vertical-align: middle;
 }
 
 .edit-menu-pic-game {
 	float: right;
-	margin: -5px 0px 0px 10px;
+	margin: -5px 0 0 10px;
 	position: relative;
 }
 
 .pic-game-navigation {
-	padding: 15px 0px 0px 0px;
+	padding: 15px 0 0 0;
 }
 
 .pic-game-navigation ul {
-	margin: 0px;
-	padding: 0px;
+	margin: 0;
+	padding: 0;
 	list-style: none;
 }
 
 .pic-game-navigation li {
 	float: left;
-	margin: 0px 20px 0px 0px;
+	margin: 0 20px 0 0;
 }
 
 .pic-game-navigation a {

@@ -6,44 +6,44 @@
 }
 
 .complete-buttons {
-	margin: 10px 0px 0px 0px;
+	margin: 10px 0 0 0;
 }
 
 .edit-textboxes h1 {
-	color: #333333;
+	color: #333;
 	font-size: 16px;
 	font-weight: bold;
 	border-bottom: none;
-	padding: 15px 0px 5px 0px;
+	padding: 15px 0 5px 0;
 }
 
 .edit-images h1 {
-	color: #333333;
+	color: #333;
 	font-weight: bold;
 	border-bottom: none;
 	font-size: 16px;
-	margin: 0px 0px 5px 0px !important;
-	padding: 0px;
+	margin: 0 0 5px 0 !important;
+	padding: 0;
 }
 
 .edit-textboxes h2 {
 	font-size: 14px;
-	margin: 0px 0px 0px 0px !important;
+	margin: 0 !important;
 }
 
 .edit-images h2 {
 	font-size: 12px;
-	margin: 5px 0px 3px 0px !important;
+	margin: 5px 0 3px 0 !important;
 }
 
 .edit-images {
-	margin: 0px 0px 0px 0px;
+	margin: 0;
 	float: left;
 }
 
 .edit-image-frame {
 	float: left;
-	margin: 0px 0px 0px 20px;
+	margin: 0 0 0 20px;
 }
 
 .edit-image-one img {
@@ -53,30 +53,30 @@
 
 .edit-image-one, .edit-image-two {
 	float: left;
-	margin: 0px 20px 0px 0px;
+	margin: 0 20px 0 0;
 	width: 200px;
 }
 
 .edit-images-container {
-	margin: 18px 0px 0px 0px;
+	margin: 18px 0 0 0;
 }
 
 .credit-box-edit {
 	border: 1px solid #dcdcdc;
 	padding: 10px;
 	padding-bottom: 60px;
-	background-color: #F2F4F7;
-	margin: 8px 0px 0px 0px;
+	background-color: #f2f4f7;
+	margin: 8px 0 0 0;
 	width: 30%;
 }
 
 .credit-box-edit h1 {
 	font-size: 14px;
-	color: #333333;
+	color: #333;
 	font-weight: bold;
 	border-bottom: none;
 	padding: 0px;
-	margin: 0px 0px 10px 0px !important;
+	margin: 0 0 10px 0 !important;
 }
 
 .submitted-by-image {
@@ -95,20 +95,20 @@
 .submitted-by-user ul {
 	list-style: none;
 	padding: 0px;
-	margin: 3px 0px 0px 0px;
+	margin: 3px 0 0 0;
 }
 
 .submitted-by-user li {
 	float: left;
-	margin: 0px 6px 0px 0px;
+	margin: 0 6px 0 0;
 	font-size: 12px;
-	color: #333333;
+	color: #333;
 	font-weight: bold;
 }
 
 .submitted-by-user img {
 	vertical-align: middle;
-	margin: 0px 1px 0px 0px;
+	margin: 0 1px 0 0;
 }
 
 .submitted-by-user a {
@@ -119,13 +119,13 @@
 
 .copyright-warning {
 	width: 500px;
-	margin: 10px 0px 0px 0px;
+	margin: 10px 0 0 0;
 	font-size: 11px;
 	color: #797979;
 }
 
 .edit-image-text h2 {
 	font-size: 16px;
-	color: #333333;
-	margin: 0px 0px 10px 0px !important;
+	color: #333;
+	margin: 0 0 10px 0 !important;
 }
