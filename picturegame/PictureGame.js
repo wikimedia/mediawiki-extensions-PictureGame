@@ -447,18 +447,38 @@ var PictureGame = window.PictureGame = {
 };
 
 jQuery( function() {
-	// Handle clicks on "Reinstate" links on the admin panel
+	// Handle clicks on "Un-flag" links on the admin panel
 	jQuery( 'div.admin-controls a.picgame-unflag-link' ).on( 'click', function() {
-		PictureGame.unflag( jQuery( this ).parent().parent().attr( 'id' ) );
+		var options = {
+			actions: [
+				{ label: mw.msg( 'picturegame-confirm-cancel' ) },
+				{ label: mw.msg( 'picturegame-adminpanelunflag' ), action: 'accept', flags: ['constructive'] }
+			]
+		};
+		OO.ui.confirm( mw.msg( 'picturegame-adminpanelunflag-confirm' ), options ).done( function ( confirmed ) {
+			if ( confirmed ) {
+				PictureGame.unflag( jQuery( this ).parent().parent().attr( 'id' ) );
+			}
+		} );
 	} );
 
 	// Handle clicks on "Delete" links on the admin panel
 	jQuery( 'div.admin-controls a.picgame-delete-link' ).on( 'click', function() {
-		PictureGame.deleteimg(
-			jQuery( this ).parent().parent().attr( 'id' ),
-			jQuery( this ).data( 'row-img1' ),
-			jQuery( this ).data( 'row-img2' )
-		);
+		var options = {
+			actions: [
+				{ label: mw.msg( 'picturegame-confirm-cancel' ) },
+				{ label: mw.msg( 'picturegame-adminpaneldelete' ), action: 'accept', flags: ['destructive'] }
+			]
+		};
+		OO.ui.confirm( mw.msg( 'picturegame-adminpaneldelete-confirm' ), options ).done( function ( confirmed ) {
+			if ( confirmed ) {
+				PictureGame.deleteimg(
+					jQuery( this ).parent().parent().attr( 'id' ),
+					jQuery( this ).data( 'row-img1' ),
+					jQuery( this ).data( 'row-img2' )
+				);
+			}
+		} );
 	} );
 
 	// Handle clicks on "Unprotect" links on the admin panel

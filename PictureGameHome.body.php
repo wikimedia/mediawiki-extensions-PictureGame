@@ -537,7 +537,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 				</div>
 				<div class=\"admin-controls\">
 					<a class=\"picgame-unflag-link\" href=\"javascript:void(0)\">" .
-						$this->msg( 'picturegame-adminpanelreinstate' )->text() .
+						$this->msg( 'picturegame-adminpanelunflag' )->text() .
 					"</a> |
 					<a class=\"picgame-delete-link\" href=\"javascript:void(0);\" data-row-img1=\"{$row->img1}\" data-row-img2=\"{$row->img2}\">"
 						. $this->msg( 'picturegame-adminpaneldelete' )->text() .

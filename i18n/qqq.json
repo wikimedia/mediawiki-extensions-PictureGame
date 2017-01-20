@@ -1,0 +1,8 @@
+{
+    "@metadata": {
+        "authors": []
+    },
+    "picturegame-adminpanelunflag-confirm": "Confirmation message shown in the un-flag dialog.",
+    "picturegame-confirm-cancel": "Cancel button message shown in dialogs",
+    "picturegame-adminpanelunflag-confirm": "Confirmation message shown in the delete dialog."
+}
