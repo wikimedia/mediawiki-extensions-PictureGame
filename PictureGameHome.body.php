@@ -36,8 +36,6 @@ class PictureGameHome extends UnlistedSpecialPage {
 	 * @param $par Mixed: parameter passed to the page or null
 	 */
 	public function execute( $par ) {
-		global $wgSupressPageTitle;
-
 		$out = $this->getOutput();
 		$request = $this->getRequest();
 		$user = $this->getUser();
@@ -52,8 +50,6 @@ class PictureGameHome extends UnlistedSpecialPage {
 		if( $user->isBlocked() ) {
 			throw new UserBlockedError( $user->getBlock() );
 		}
-
-		$wgSupressPageTitle = true;
 
 		// Salt as you like
 		$this->SALT = md5( $user->getName() );
@@ -1735,8 +1731,6 @@ class PictureGameHome extends UnlistedSpecialPage {
 			}
 
 			if( $can_create == false ) {
-				global $wgSupressPageTitle;
-				$wgSupressPageTitle = false;
 				$out->setPageTitle( $this->msg( 'picturegame-create-threshold-title' )->plain() );
 				$out->addHTML( $this->msg( 'picturegame-create-threshold-reason', $threshold_reason )->text() );
 				return '';
@@ -1785,11 +1779,10 @@ class PictureGameHome extends UnlistedSpecialPage {
 		$now = time();
 
 		$out->setHTMLTitle( $this->msg( 'pagetitle', $this->msg( 'picturegame-creategametitle' )->text() )->text() );
-
+		$out->setPageTitle( $this->msg( 'picturegame-creategametitle' )->text() );
 		$out->addModules( 'ext.pictureGame.startGame' );
 
-		$output = "\t\t" . '<div class="pick-game-welcome-message">
-			<h1>' . $this->msg( 'picturegame-creategametitle' )->plain() . '</h1>';
+		$output = "\t\t" . '<div class="pick-game-welcome-message">';
 		$output .= $this->msg( 'picturegame-creategamewelcome' )->text();
 		$output .= '<br />
 
