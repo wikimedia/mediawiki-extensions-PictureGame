@@ -4,5 +4,7 @@
     },
     "picturegame-adminpanelunflag-confirm": "Confirmation message shown in the un-flag dialog.",
     "picturegame-confirm-cancel": "Cancel button message shown in dialogs",
-    "picturegame-adminpanelunflag-confirm": "Confirmation message shown in the delete dialog."
+    "picturegame-adminpanelunflag-confirm": "Confirmation message shown in the delete dialog.",
+    "picturegame-error-socialprofile": "Error message shown when SocialProfle extension is not installed.",
+  	"picturegame-error-socialprofile-title": "Title for <code>quizgame-error-socialprofile</code>."
 }

@@ -13,6 +13,8 @@
 	"picturegame-permalink": "Permalink",
 	"picturegame-adminpanel": "Admin Panel",
 	"picturegame-protectimages": "Protect Images",
+	"picturegame-error-socialprofile": "[https://www.mediawiki.org/wiki/Extension:SocialProfile SocialProfile extension] is not installed. Please install this extension and try again.",
+	"picturegame-error-socialprofile-title": "SocialProfile extension is not installed.",
 	"picturegame-createlink": "Create a Picture Game",
 	"picturegame-skipbutton": "Skip",
 	"picturegame-backbutton": "Go Back",
