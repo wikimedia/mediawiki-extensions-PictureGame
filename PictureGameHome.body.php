@@ -45,6 +45,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 			$out->readOnlyPage();
 			return false;
 		}
+
 		// https://phabricator.wikimedia.org/T155405
 		// Throws error message when SocialProfile extension is not installed
 		if( !class_exists( 'UserStats' ) ) {
@@ -344,7 +345,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 
 		$output = '';
 
-		$out->addModules( 'ext.pictureGame.editPanel' );
+		$out->addModuleStyles( 'ext.pictureGame.editPanel' );
 
 		$out->setPageTitle( $this->msg( 'picturegame-editgame-editing-title', $title_text )->text() );
 
@@ -479,7 +480,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 			var __admin_panel_key__ = "' . $key . '";
 		</script>';
 
-		$out->addModules( 'ext.pictureGame.adminPanel' );
+		$out->addModuleStyles( 'ext.pictureGame.adminPanel' );
 
 		$out->setPageTitle( $this->msg( 'picturegame-adminpaneltitle' )->text() );
 		$output .= '
@@ -745,7 +746,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 		}
 
 		// Add CSS
-		$out->addModules( 'ext.pictureGame.gallery' );
+		$out->addModuleStyles( 'ext.pictureGame.gallery' );
 
 		$output = '<div class="picgame-gallery-navigation">';
 
@@ -1666,7 +1667,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 			);
 
 			if( $mycount == 0 ) {
-				$out->addModules( 'ext.pictureGame.mainGame' );
+				$out->addModuleStyles( 'ext.pictureGame.mainGame' );
 				$output = '
 					<div class="picgame-container" id="picgame-container">
 						<p>' . $this->msg( 'picturegame-permalinkflagged' )->text() . '</p>
@@ -1681,7 +1682,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 			}
 		}
 
-		$out->addModules( 'ext.pictureGame.mainGame' );
+		$out->addModuleStyles( 'ext.pictureGame.mainGame' );
 
 		$output = '<div class="picgame-container" id="picgame-container">' .
 			$this->getImageDivs( $isPermalink, $permalinkID, $lastId ) .
@@ -1785,7 +1786,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 
 		$out->setHTMLTitle( $this->msg( 'pagetitle', $this->msg( 'picturegame-creategametitle' )->text() )->text() );
 		$out->setPageTitle( $this->msg( 'picturegame-creategametitle' )->text() );
-		$out->addModules( 'ext.pictureGame.startGame' );
+		$out->addModuleStyles( 'ext.pictureGame.startGame' );
 
 		$output = "\t\t" . '<div class="pick-game-welcome-message">';
 		$output .= $this->msg( 'picturegame-creategamewelcome' )->text();
