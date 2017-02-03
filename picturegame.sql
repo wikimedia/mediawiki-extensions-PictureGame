@@ -1,6 +1,6 @@
 -- Required tables for the PictureGame extension
 CREATE TABLE /*_*/picturegame_images (
-  `id` int(10) unsigned NOT NULL auto_increment PRIMARY KEY,
+  `id` int(10) unsigned NOT NULL PRIMARY KEY auto_increment,
   -- Both of these were originally varchar(64)
   `img1` varchar(255) NOT NULL default '',
   `img2` varchar(255) NOT NULL default '',
@@ -26,7 +26,7 @@ CREATE TABLE /*_*/picturegame_votes (
   `picid` int(10) unsigned NOT NULL default '0',
   `userid` int(5) default NULL,
   `imgpicked` int(1) unsigned NOT NULL default '0',
-  `id` int(10) unsigned NOT NULL auto_increment PRIMARY KEY,
+  `id` int(10) unsigned NOT NULL PRIMARY KEY auto_increment,
   `username` varchar(255) default NULL,
   `vote_date` datetime default NULL
 ) /*$wgDBTableOptions*/;
