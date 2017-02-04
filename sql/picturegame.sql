@@ -17,7 +17,8 @@ CREATE TABLE /*_*/picturegame_images (
   `img0_votes` int(10) unsigned NOT NULL default '0',
   `img1_votes` int(10) unsigned NOT NULL default '0',
   `heat` double NOT NULL default '0',
-  `pg_date` datetime default NULL
+  `pg_date` datetime default NULL,
+  `comment` varchar(255) default ''
 ) /*$wgDBTableOptions*/;
 
 CREATE INDEX /*i*/userid ON /*_*/picturegame_images (userid);

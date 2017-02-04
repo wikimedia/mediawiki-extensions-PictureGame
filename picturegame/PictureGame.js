@@ -5,6 +5,39 @@
  * @ingroup Extensions
  * @author Jack Phoenix <jack@countervandalism.net>
  */
+
+ /*
+	* That needs to be removed, when we drop support to MW 1.28. Modified copy pasta from OOjsUI windows.js
+	* @see https://gerrit.wikimedia.org/r/#/c/336008/
+	*/
+reasonPrompt = function ( text, options ) {
+	manager = new OO.ui.WindowManager();
+	textInput = new OO.ui.TextInputWidget( ( options && options.textInput ) || {} );
+	textField = new OO.ui.FieldLayout( textInput, {
+		align: 'top',
+		label: text
+	} );
+	$( 'body' ).append( manager.$element );
+	manager.addWindows( [ new OO.ui.MessageDialog() ] );
+
+	// TODO: This is a little hacky, and could be done by extending MessageDialog instead.
+
+	return manager.openWindow( 'message', $.extend( {
+		message: textField.$element
+	}, options ) ).then( function ( opened ) {
+		// After ready
+		textInput.on( 'enter', function () {
+			manager.getCurrentWindow().close( { action: 'accept' } );
+		} );
+		textInput.focus();
+		return opened.then( function ( closing ) {
+			return closing.then( function ( data ) {
+				return $.Deferred().resolve( data && data.action === 'accept' ? textInput.getValue() : null );
+			} );
+		} );
+	} );
+};
+
 var PictureGame = window.PictureGame = {
 	currImg: 0, // from editpanel.js
 
@@ -25,7 +58,7 @@ var PictureGame = window.PictureGame = {
 				id: id
 			},
 			function( data ) {
-				alert( data );
+				OO.ui.alert( data );
 			}
 		);
 	},
@@ -51,7 +84,7 @@ var PictureGame = window.PictureGame = {
 				img2: imageName2
 			},
 			function( data ) {
-				alert( data );
+				OO.ui.alert( data );
 			}
 		);
 	},
@@ -140,26 +173,35 @@ var PictureGame = window.PictureGame = {
 
 	/**
 	 * Flags an image set
-	 *
-	 * @param msg String
+	 * @see https://phabricator.wikimedia.org/T156304
+	 * @see https://phabricator.wikimedia.org/T155451
 	 */
-	flagImg: function( msg ) {
-		var ask = confirm( msg );
-		if( ask ) {
-			jQuery.get(
-				mw.config.get( 'wgScript' ),
-				{
-					title: 'Special:PictureGameHome',
-					picGameAction: 'flagImage',
-					key: document.getElementById( 'key' ).value,
-					id: document.getElementById( 'id' ).value
-				},
-				function( data ) {
-					document.getElementById( 'serverMessages' ).innerHTML =
+	flagImg: function() {
+		var options = {
+			actions: [
+				{ label: mw.msg( 'cancel' ) },
+				{ label: mw.msg( 'picturegame-reportimages' ), action: 'accept', flags: ['destructive', 'primary'] },
+			],
+			textInput: { placeholder: mw.msg( 'picturegame-adminpanelreason' ) }
+		};
+		reasonPrompt( mw.msg( 'picturegame-flagimgconfirm' ), options ).then( function ( reason ) {
+			if ( reason !== null ) {
+				jQuery.get(
+					mw.config.get( 'wgScript' ),
+					{
+						title: 'Special:PictureGameHome',
+						picGameAction: 'flagImage',
+						key: document.getElementById( 'key' ).value,
+						id: document.getElementById( 'id' ).value,
+						comment: reason
+					},
+					function( data ) {
+						document.getElementById( 'serverMessages' ).innerHTML =
 						'<strong>' + data + '</strong>';
-				}
-			);
-		}
+					}
+				);
+			}
+		} );
 	},
 
 	doHover: function( divID ) {
@@ -448,32 +490,34 @@ var PictureGame = window.PictureGame = {
 
 jQuery( function() {
 	// Handle clicks on "Un-flag" links on the admin panel
-	jQuery( 'div.admin-controls a.picgame-unflag-link' ).on( 'click', function() {
+	jQuery( 'div.admin-controls a.picgame-unflag-link' ).on( 'click', function( event ) {
+		event.preventDefault();
 		var options = {
 			actions: [
-				{ label: mw.msg( 'picturegame-confirm-cancel' ) },
+				{ label: mw.msg( 'cancel' ) },
 				{ label: mw.msg( 'picturegame-adminpanelunflag' ), action: 'accept', flags: ['constructive'] }
 			]
-		};
+		}, id = jQuery( this ).parent().parent().attr( 'id' );
 		OO.ui.confirm( mw.msg( 'picturegame-adminpanelunflag-confirm' ), options ).done( function ( confirmed ) {
 			if ( confirmed ) {
-				PictureGame.unflag( jQuery( this ).parent().parent().attr( 'id' ) );
+				PictureGame.unflag( id );
 			}
 		} );
 	} );
 
 	// Handle clicks on "Delete" links on the admin panel
-	jQuery( 'div.admin-controls a.picgame-delete-link' ).on( 'click', function() {
+	jQuery( 'div.admin-controls a.picgame-delete-link' ).on( 'click', function( event ) {
+		event.preventDefault();
 		var options = {
 			actions: [
-				{ label: mw.msg( 'picturegame-confirm-cancel' ) },
+				{ label: mw.msg( 'cancel' ) },
 				{ label: mw.msg( 'picturegame-adminpaneldelete' ), action: 'accept', flags: ['destructive'] }
 			]
-		};
+		}, id = jQuery( this ).parent().parent().attr( 'id' );
 		OO.ui.confirm( mw.msg( 'picturegame-adminpaneldelete-confirm' ), options ).done( function ( confirmed ) {
 			if ( confirmed ) {
 				PictureGame.deleteimg(
-					jQuery( this ).parent().parent().attr( 'id' ),
+					id,
 					jQuery( this ).data( 'row-img1' ),
 					jQuery( this ).data( 'row-img2' )
 				);
@@ -482,39 +526,53 @@ jQuery( function() {
 	} );
 
 	// Handle clicks on "Unprotect" links on the admin panel
-	jQuery( 'div.admin-controls a.picgame-unprotect-link' ).on( 'click', function() {
+	jQuery( 'div.admin-controls a.picgame-unprotect-link' ).on( 'click', function( event ) {
+		event.preventDefault();
 		PictureGame.unprotect( jQuery( this ).parent().parent().attr( 'id' ) );
 	} );
 
 	// Handle clicks on "Protect" links on the admin panel
-	jQuery( 'a.picgame-protect-link' ).on( 'click', function() {
+	jQuery( 'a.picgame-protect-link' ).on( 'click', function( event ) {
+		event.preventDefault();
 		PictureGame.protectImages( mw.msg( 'picturegame-protectimgconfirm' ) );
 	} );
 
-	jQuery( 'div.edit-button-pic-game a.picgame-edit-link' ).on( 'click', function() {
+	jQuery( 'div.edit-button-pic-game a.picgame-edit-link' ).on( 'click', function( event ) {
+		event.preventDefault();
 		PictureGame.editPanel();
 	} );
 
+	// Permalink
+	jQuery( 'div#utilityButtons a.picgame-permalink' ).on( 'click', function( event ) {
+		event.preventDefault();
+		window.parent.document.location = window.location.href.replace( 'startGame', 'renderPermalink' );
+	} );
+
 	// "Flag" link
-	jQuery( 'div#utilityButtons a.picgame-flag-link' ).on( 'click', function() {
-		PictureGame.flagImg( mw.msg( 'picturegame-flagimgconfirm' ) );
+	jQuery( 'div#utilityButtons a.picgame-flag-link' ).on( 'click', function( event ) {
+		event.preventDefault();
+		PictureGame.flagImg();
 	} );
 
 	// "Skip to game" button
-	jQuery( 'input#skip-button' ).on( 'click', function() {
+	jQuery( 'input#skip-button' ).on( 'click', function( event ) {
+		event.preventDefault();
 		PictureGame.skipToGame();
 	} );
 
-	jQuery( 'div#edit-image-one p a.picgame-upload-link-1' ).on( 'click', function() {
+	jQuery( 'div#edit-image-one p a.picgame-upload-link-1' ).on( 'click', function( event ) {
+		event.preventDefault();
 		PictureGame.loadUploadFrame( jQuery( this ).data( 'img-one-name' ), 1 );
 	} );
 
-	jQuery( 'div#edit-image-two p a.picgame-upload-link-2' ).on( 'click', function() {
+	jQuery( 'div#edit-image-two p a.picgame-upload-link-2' ).on( 'click', function( event ) {
+		event.preventDefault();
 		PictureGame.loadUploadFrame( jQuery( this ).data( 'img-two-name' ), 2 );
 	} );
 
 	// "Create and Play!" button on picture game creation form
-	jQuery( 'div#startButton input' ).on( 'click', function() {
+	jQuery( 'div#startButton input' ).on( 'click', function( event ) {
+		event.preventDefault();
 		PictureGame.startGame();
 	} );
 

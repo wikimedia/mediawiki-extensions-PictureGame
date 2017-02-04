@@ -235,7 +235,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 		$dbw = wfGetDB( DB_MASTER );
 		$dbw->update(
 			'picturegame_images',
-			array( 'flag' => PictureGameHome::$FLAG_NONE ),
+			array( 'flag' => PictureGameHome::$FLAG_NONE, 'comment' => '' ),
 			array( 'id' => $id ),
 			__METHOD__
 		);
@@ -419,7 +419,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 						<h1>" . $this->msg( 'picturegame-createeditfirstimage' )->plain() . "</h1>
 						<p><input name=\"imgOneCaption\" id=\"imgOneCaption\" type=\"text\" value=\"{$img1_caption_text}\" /></p>
 						<p id=\"image-one-tag\">{$imgOne}</p>
-						<p><a class=\"picgame-upload-link-1\" href=\"javascript:void(0);\" data-img-one-name=\"{$imgOneName}\">" .
+						<p><a class=\"picgame-upload-link-1\" href=\"#\" data-img-one-name=\"{$imgOneName}\">" .
 							$this->msg( 'picturegame-editgameuploadtext' )->plain() . '</a></p>
 					</div>
 
@@ -427,7 +427,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 						<h1>' . $this->msg( 'picturegame-createeditsecondimage' )->plain() . "</h1>
 						<p><input name=\"imgTwoCaption\" id=\"imgTwoCaption\" type=\"text\" value=\"{$img2_caption_text}\" /></p>
 						<p id=\"image-two-tag\">{$imgTwo}</p>
-						<p><a class=\"picgame-upload-link-2\" href=\"javascript:void(0);\" data-img-two-name=\"{$imgTwoName}\">" .
+						<p><a class=\"picgame-upload-link-2\" href=\"#\" data-img-two-name=\"{$imgTwoName}\">" .
 							$this->msg( 'picturegame-editgameuploadtext' )->plain() . "</a></p>
 					</div>
 
@@ -455,7 +455,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 				<input type="button" onclick="document.picGameVote.submit()" value="' . $this->msg( 'picturegame-buttonsubmit' )->plain() . "\"/>
 				<input type=\"button\" onclick=\"window.location='" .
 					htmlspecialchars( $this->getPageTitle()->getFullURL( "picGameAction=renderPermalink&id={$imgID}" ) ) . "'\" value=\"" .
-					$this->msg( 'picturegame-buttoncancel' )->plain() . "\"/>
+					$this->msg( 'cancel' )->plain() . "\"/>
 			</div>
 		</form>
 		</div>";
@@ -495,7 +495,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 		$dbw = wfGetDB( DB_MASTER );
 		$res = $dbw->select(
 			'picturegame_images',
-			array( 'id', 'img1', 'img2' ),
+			array( 'id', 'img1', 'img2', 'comment' ),
 			array(
 				'flag' => PictureGameHome::$FLAG_FLAGGED,
 				"img1 <> ''",
@@ -527,8 +527,14 @@ class PictureGameHome extends UnlistedSpecialPage {
 			$img_one_description = $lang->truncate( $row->img1, 12 );
 			$img_two_description = $lang->truncate( $row->img2, 12 );
 
-			$output .= '<div id="' . $row->id . "\" class=\"admin-row\">
+			$reason = '';
+			if( !empty( $row->comment ) ) {
+				$reason .= "<div class=\"picturegame-adminpanelflag\" id=\"picturegame-adminpanelflagreason-{$row->id}\">
+				<b>" . $this->msg( 'picturegame-adminpanelreason' )->escaped() . "</b>: {$row->comment}
+				</div><p>";
+			}
 
+			$output .= '<div id="' . $row->id . "\" class=\"admin-row\">
 				<div class=\"admin-image\">
 					<p>{$img_one_tag}</p>
 					<p><b>{$img_one_description}</b></p>
@@ -538,16 +544,16 @@ class PictureGameHome extends UnlistedSpecialPage {
 					<p><b>{$img_two_description}</b></p>
 				</div>
 				<div class=\"admin-controls\">
-					<a class=\"picgame-unflag-link\" href=\"javascript:void(0)\">" .
+					<a class=\"picgame-unflag-link\" href=\"#\">" .
 						$this->msg( 'picturegame-adminpanelunflag' )->text() .
 					"</a> |
-					<a class=\"picgame-delete-link\" href=\"javascript:void(0);\" data-row-img1=\"{$row->img1}\" data-row-img2=\"{$row->img2}\">"
+					<a class=\"picgame-delete-link\" href=\"#\" data-row-img1=\"{$row->img1}\" data-row-img2=\"{$row->img2}\">"
 						. $this->msg( 'picturegame-adminpaneldelete' )->text() .
-					'</a>
+					"</a>
+					{$reason}
 				</div>
-				<div class="visualClear"></div>
-
-			</div>';
+				<div class=\"visualClear\"></div>
+			</div>";
 		}
 
 		$output .= '</div>
@@ -598,16 +604,15 @@ class PictureGameHome extends UnlistedSpecialPage {
 					<p><b>{$img_two_description}</b></p>
 				</div>
 				<div class=\"admin-controls\">
-					<a class=\"picgame-unprotect-link\" href=\"javascript:void(0)\">" .
+					<a class=\"picgame-unprotect-link\" href=\"#\">" .
 						$this->msg( 'picturegame-adminpanelunprotect' )->text() .
 					"</a> |
-					<a class=\"picgame-delete-link\" href=\"javascript:void(0);\" data-row-img1=\"{$row->img1}\" data-row-img2=\"{$row->img2}\">"
+					<a class=\"picgame-delete-link\" href=\"#\" data-row-img1=\"{$row->img1}\" data-row-img2=\"{$row->img2}\">"
 						. $this->msg( 'picturegame-adminpaneldelete' )->text() .
-					'</a>
-				</div>
-				<div class="visualClear"></div>
-
-			</div>';
+						'</a>
+					</div>
+					<div class="visualClear"></div>
+				</div>';
 		}
 
 		$output .= '</div>';
@@ -626,7 +631,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 
 		$id = $request->getInt( 'id' );
 		$key = $request->getVal( 'key' );
-
+		$comment = $request->getVal( 'comment' ) ? $request->getVal( 'comment' ) : ''; // reason for flagging
 		if( $key != md5( $id . $this->SALT ) ) {
 			echo $this->msg( 'picturegame-sysmsg-badkey' )->plain();
 			return;
@@ -635,7 +640,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 		$dbw = wfGetDB( DB_MASTER );
 		$dbw->update(
 			'picturegame_images',
-			array( 'flag' => PictureGameHome::$FLAG_FLAGGED ),
+			array( 'flag' => PictureGameHome::$FLAG_FLAGGED, 'comment' => $comment ),
 			array( 'id' => $id, 'flag' => PictureGameHome::$FLAG_NONE ),
 			__METHOD__
 		);
@@ -1415,15 +1420,18 @@ class PictureGameHome extends UnlistedSpecialPage {
 				'</a>
 			</div>';
 		}
-
-		$editLink = '';
-		if( $user->isLoggedIn() && $user->isAllowed( 'picturegameadmin' ) && $wgUseEditButtonFloat == true ) {
-			$editLink .= '<div class="edit-menu-pic-game">
-				<div class="edit-button-pic-game">
-					<img src="' . $wgExtensionAssetsPath . '/SocialProfile/images/editIcon.gif" alt="" />
-					<a class="picgame-edit-link" href="javascript:void(0)">' . $this->msg( 'edit' )->text() . '</a>
-				</div>
-			</div>';
+		$editLink = $flagLink = '';
+		if( $user->isLoggedIn() ) {
+			if ( $user->isAllowed( 'picturegameadmin' ) && $wgUseEditButtonFloat == true ) {
+				$editLink .= '<div class="edit-menu-pic-game">
+					<div class="edit-button-pic-game">
+						<img src="' . $wgExtensionAssetsPath . '/SocialProfile/images/editIcon.gif" alt="" />
+						<a class="picgame-edit-link" href="#">' . $this->msg( 'edit' )->text() . '</a>
+					</div>
+				</div>';
+			}
+			$flagLink .= "<a class=\"picgame-flag-link\" href=\"#\">"
+				. $this->msg( 'picturegame-reportimages' )->text() . " </a> - ";
 		}
 
 		$id = User::idFromName( $user_title->getText() );
@@ -1538,12 +1546,8 @@ class PictureGameHome extends UnlistedSpecialPage {
 						</span>
 					</div>
 				</div>
-
-				<div class=\"utilityButtons\" id=\"utilityButtons\">
-					<a class=\"picgame-flag-link\" href=\"javascript:void(0);\">"
-						. $this->msg( 'picturegame-reportimages' )->text() .
-					" </a> -
-					<a href=\"javascript:window.parent.document.location='" . htmlspecialchars( $this->getPageTitle()->getFullURL( 'picGameAction=renderPermalink' ) ) . "&id=' + document.getElementById('id').value\">"
+				<div class=\"utilityButtons\" id=\"utilityButtons\">" . $flagLink .
+					"<a class=\"picgame-permalink\" href=\"#\">"
 						. $this->msg( 'picturegame-permalink' )->text() .
 					'</a>'
 				. $editlinks . "

@@ -1,6 +1,6 @@
 {
 	"name": "PictureGame",
-	"version": "3.7",
+	"version": "3.8",
 	"author": [
 		"Aaron Wright",
 		"Ashish Datta",
@@ -56,16 +56,17 @@
 				"picturegame-js-error-upload-imgone",
 				"picturegame-js-error-upload-imgtwo", "picturegame-js-editing-imgone",
 				"picturegame-js-editing-imgtwo", "picturegame-protectimgconfirm",
-				"picturegame-flagimgconfirm", "picturegame-confirm-cancel",
-				"picturegame-adminpaneldelete-confirm", "picturegame-adminpanelunflag-confirm",
-				"picturegame-adminpaneldelete", "picturegame-adminpanelunflag",
-				"picturegame-adminpaneldelete-confirm", "picturegame-confirm-cancel"
+				"picturegame-flagimgconfirm", "picturegame-adminpaneldelete-confirm",
+				"picturegame-adminpanelunflag-confirm", "picturegame-adminpaneldelete",
+				"picturegame-adminpanelunflag", "picturegame-adminpaneldelete-confirm",
+				"picturegame-adminpanelreason", "cancel", "picturegame-reportimages"
 			],
 			"dependencies": [
 				"ext.socialprofile.flash",
 				"ext.socialprofile.LightBox",
 				"oojs-ui-core",
-				"oojs-ui-windows"
+				"oojs-ui-windows",
+				"oojs-ui-widgets"
 			],
 			"position": "bottom"
 		},
