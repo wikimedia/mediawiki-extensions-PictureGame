@@ -3,7 +3,7 @@
 		"authors": []
 	},
 	"picturegame-adminpanelunflag-confirm": "Confirmation message shown in the un-flag dialog.",
-	"picturegame-adminpanelunflag-confirm": "Confirmation message shown in the delete dialog.",
+	"picturegame-adminpaneldelete-confirm": "Confirmation message shown in the delete dialog.",
 	"picturegame-flagimgconfirm": "Confirmation message shown in the report dialog.",
 	"picturegame-error-socialprofile": "Error message shown when SocialProfle extension is not installed.",
 	"picturegame-error-socialprofile-title": "Title for <code>quizgame-error-socialprofile</code>."
