@@ -245,7 +245,6 @@ var PictureGame = window.PictureGame = {
 		if( document.getElementById( 'lightboxText' ) !== null ) {
 			// pop up the lightbox
 			var objLink = {};
-			//objLink.href = '../../images/common/ajax-loader.gif';
 			objLink.href = '#';
 			objLink.title = '';
 
