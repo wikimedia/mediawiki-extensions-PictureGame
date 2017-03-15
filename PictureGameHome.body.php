@@ -41,10 +41,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 		$user = $this->getUser();
 
 		// Is the database locked?
-		if( wfReadOnly() ) {
-			$out->readOnlyPage();
-			return false;
-		}
+		$this->checkReadOnly();
 
 		// https://phabricator.wikimedia.org/T155405
 		// Throws error message when SocialProfile extension is not installed
