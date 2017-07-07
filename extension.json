@@ -1,6 +1,6 @@
 {
 	"name": "PictureGame",
-	"version": "3.9.1",
+	"version": "4.0.0",
 	"author": [
 		"Aaron Wright",
 		"Ashish Datta",
@@ -24,14 +24,14 @@
 		]
 	},
 	"ExtensionMessagesFiles": {
-		"PictureGameAlias": "PictureGame.alias.php"
+		"PictureGameAlias": "includes/PictureGame.alias.php"
 	},
 	"AutoloadClasses": {
-		"PictureGameHome": "PictureGameHome.body.php",
-		"PictureGameHooks": "PictureGameHooks.class.php",
-		"SpecialPictureGameAjaxUpload": "AjaxUploadForm.php",
-		"PictureGameAjaxUploadForm": "AjaxUploadForm.php",
-		"PictureGameUpload": "AjaxUploadForm.php"
+		"PictureGameHome": "includes/specials/SpecialPictureGameHome.php",
+		"PictureGameHooks": "includes/PictureGame.hooks.php",
+		"SpecialPictureGameAjaxUpload": "includes/specials/SpecialPictureGameAjaxUpload.php",
+		"PictureGameAjaxUploadForm": "includes/upload/PictureGameAjaxUploadForm.class.php",
+		"PictureGameUpload": "includes/upload/PictureGameUpload.class.php"
 	},
 	"Hooks": {
 		"SkinTemplateNavigation::SpecialPage": [
@@ -45,12 +45,12 @@
 		]
 	},
 	"ResourceFileModulePaths": {
-		"localBasePath": "picturegame",
-		"remoteExtPath": "PictureGame/picturegame"
+		"localBasePath": "",
+		"remoteExtPath": "PictureGame"
 	},
 	"ResourceModules": {
 		"ext.pictureGame": {
-			"scripts": "PictureGame.js",
+			"scripts": "resources/js/PictureGame.js",
 			"messages": [
 				"picturegame-js-edit", "picturegame-js-error-title",
 				"picturegame-js-error-upload-imgone",
@@ -71,23 +71,23 @@
 			"position": "bottom"
 		},
 		"ext.pictureGame.adminPanel": {
-			"styles": "adminpanel.css",
+			"styles": "resources/css/adminpanel.css",
 			"position": "top"
 		},
 		"ext.pictureGame.editPanel": {
-			"styles": "editpanel.css",
+			"styles": "resources/css/editpanel.css",
 			"position": "top"
 		},
 		"ext.pictureGame.gallery": {
-			"styles": "gallery.css",
+			"styles": "resources/css/gallery.css",
 			"position": "top"
 		},
 		"ext.pictureGame.mainGame": {
-			"styles": "maingame.css",
+			"styles": "resources/css/maingame.css",
 			"position": "top"
 		},
 		"ext.pictureGame.startGame": {
-			"styles": "startgame.css",
+			"styles": "resources/css/startgame.css",
 			"position": "top"
 		}
 	},
