@@ -847,7 +847,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 		$per_row = 3;
 		$x = 1;
 
-		$dbr = wfGetDB( DB_SLAVE );
+		$dbr = wfGetDB( DB_REPLICA );
 		$total = (int)$dbr->selectField(
 			'picturegame_images',
 			array( 'COUNT(*) AS mycount' ),
@@ -1111,7 +1111,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 
 		$totalVotes = 0;
 
-		$dbr = wfGetDB( DB_SLAVE );
+		$dbr = wfGetDB( DB_REPLICA );
 
 		// if imgID is -1 then we need some random IDs
 		if( $imgID == -1 ) {
