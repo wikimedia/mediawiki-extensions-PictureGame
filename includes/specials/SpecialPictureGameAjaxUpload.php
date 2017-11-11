@@ -14,7 +14,7 @@
  * @file
  * @ingroup SpecialPage
  * @ingroup Upload
- * @author Jack Phoenix <jack@countervandalism.net>
+ * @author Jack Phoenix
  * @date 22 July 2013
  * @note Based on 1.16 core SpecialUpload.php (GPL-licensed) by Bryan et al.
  * @see http://bugzilla.shoutwiki.com/show_bug.cgi?id=22

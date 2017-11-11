@@ -3,7 +3,6 @@
  *
  * @file
  * @ingroup Extensions
- * @author Jack Phoenix <jack@countervandalism.net>
  */
 
  /*
