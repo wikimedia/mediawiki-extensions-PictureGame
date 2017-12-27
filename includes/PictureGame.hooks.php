@@ -64,8 +64,8 @@ class PictureGameHooks {
 	 * @return Boolean
 	 */
 	public static function onLoadExtensionSchemaUpdates( $updater ) {
-		$updater->addExtensionUpdate( array( 'addTable', 'picturegame_images', __DIR__ . '/../sql/picturegame.sql', true ) );
-		$updater->addExtensionUpdate( array( 'addTable', 'picturegame_votes', __DIR__ . '/../sql/picturegame.sql', true ) );
+		$updater->addExtensionTable( 'picturegame_images', __DIR__ . '/../sql/picturegame.sql' );
+		$updater->addExtensionTable( 'picturegame_votes', __DIR__ . '/../sql/picturegame.sql' );
 		$updater->addExtensionField( 'picturegame_images', 'comment', __DIR__ . '/../sql/picturegame-add-comment.sql' );
 
 		return true;
