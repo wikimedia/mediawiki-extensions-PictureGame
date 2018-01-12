@@ -175,7 +175,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 		$dbw->commit( __METHOD__ );
 
 		global $wgMemc;
-		$key = wfMemcKey( 'user', 'profile', 'picgame', $user->getID() );
+		$key = $wgMemc->makeKey( 'user', 'profile', 'picgame', $user->getID() );
 		$wgMemc->delete( $key );
 
 		/* Pop the images out of MediaWiki also */
@@ -1633,7 +1633,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 
 				// Purge memcached
 				global $wgMemc;
-				$key = wfMemcKey( 'user', 'profile', 'picgame', $user->getID() );
+				$key = $wgMemc->makeKey( 'user', 'profile', 'picgame', $user->getID() );
 				$wgMemc->delete( $key );
 			}
 		}
