@@ -28,21 +28,15 @@
 	},
 	"AutoloadClasses": {
 		"PictureGameHome": "includes/specials/SpecialPictureGameHome.php",
-		"PictureGameHooks": "includes/PictureGame.hooks.php",
+		"PictureGameHooks": "includes/PictureGameHooks.php",
 		"SpecialPictureGameAjaxUpload": "includes/specials/SpecialPictureGameAjaxUpload.php",
 		"PictureGameAjaxUploadForm": "includes/upload/PictureGameAjaxUploadForm.class.php",
 		"PictureGameUpload": "includes/upload/PictureGameUpload.class.php"
 	},
 	"Hooks": {
-		"SkinTemplateNavigation::SpecialPage": [
-			"PictureGameHooks::addContentActions"
-		],
-		"LoadExtensionSchemaUpdates": [
-			"PictureGameHooks::onLoadExtensionSchemaUpdates"
-		],
-		"RenameUserSQL": [
-			"PictureGameHooks::onUserRename"
-		]
+		"SkinTemplateNavigation::SpecialPage": "PictureGameHooks::onSkinTemplateNavigationSpecialPage",
+		"LoadExtensionSchemaUpdates": "PictureGameHooks::onLoadExtensionSchemaUpdates",
+		"RenameUserSQL": "PictureGameHooks::onRenameUserSQL"
 	},
 	"ResourceFileModulePaths": {
 		"localBasePath": "",
