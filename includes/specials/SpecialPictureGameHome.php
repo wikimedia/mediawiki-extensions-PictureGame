@@ -304,7 +304,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 		}
 
 		$imgID = $row->id;
-		$user_name = $lang->truncate( $row->username, 20 );
+		$user_name = $lang->truncateForVisual( $row->username, 20 );
 
 		$title_text = $row->title;
 		$img1_caption_text = $row->img1_caption;
@@ -521,8 +521,8 @@ class PictureGameHome extends UnlistedSpecialPage {
 				$img_two_tag = $thumb_two->toHtml();
 			}
 
-			$img_one_description = $lang->truncate( $row->img1, 12 );
-			$img_two_description = $lang->truncate( $row->img2, 12 );
+			$img_one_description = $lang->truncateForVisual( $row->img1, 12 );
+			$img_two_description = $lang->truncateForVisual( $row->img2, 12 );
 
 			$reason = '';
 			if( !empty( $row->comment ) ) {
@@ -587,8 +587,8 @@ class PictureGameHome extends UnlistedSpecialPage {
 				$img_two_tag = $thumb_two->toHtml();
 			}
 
-			$img_one_description = $lang->truncate( $row->img1, 12 );
-			$img_two_description = $lang->truncate( $row->img2, 12 );
+			$img_one_description = $lang->truncateForVisual( $row->img1, 12 );
+			$img_two_description = $lang->truncateForVisual( $row->img2, 12 );
 
 			$output .= '<div id="' . $row->id . "\" class=\"admin-row\">
 
@@ -893,7 +893,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 		foreach( $res as $row ) {
 			$gameid = $row->id;
 
-			$title_text = $lang->truncate( $row->title, 23 );
+			$title_text = $lang->truncateForVisual( $row->title, 23 );
 
 			$imgOneCount = $row->img0_votes;
 			$imgTwoCount = $row->img1_votes;
@@ -1254,7 +1254,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 		$imgOneCount = $row->img0_votes;
 		$imgTwoCount = $row->img1_votes;
 
-		$user_name = $lang->truncate( $row->username, 20 );
+		$user_name = $lang->truncateForVisual( $row->username, 20 );
 
 		$title_text_length = strlen( $row->title );
 		$title_text_space = stripos( $row->title, ' ' );
