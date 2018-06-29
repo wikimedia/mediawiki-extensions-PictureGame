@@ -54,6 +54,10 @@ class PictureGameHome extends UnlistedSpecialPage {
 			throw new UserBlockedError( $user->getBlock() );
 		}
 
+		// Set the correct robot policies, ensure that skins don't render a link to
+		// Special:WhatLinksHere on their toolboxes, etc.
+		$this->setHeaders();
+
 		// Salt as you like
 		$this->SALT = md5( $user->getName() );
 
