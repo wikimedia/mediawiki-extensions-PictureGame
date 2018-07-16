@@ -1074,11 +1074,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 						__METHOD__
 					);
 
-					$sql = "UPDATE picturegame_images SET img" . $imgnum . "_votes=img" . $imgnum . "_votes+1,
-						heat=ABS( ( img0_votes / ( img0_votes+img1_votes) ) - ( img1_votes / ( img0_votes+img1_votes ) ) )
-						WHERE id=" . $id . ";";
-					$res = $dbw->query( $sql, __METHOD__ );
-					/*$res = $dbw->update(
+					$res = $dbw->update(
 						'picturegame_images',
 						[
 							"img{$imgnum}_votes = img{$imgnum}_votes + 1",
@@ -1086,7 +1082,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 						],
 						[ 'id' => $id ],
 						__METHOD__
-					);*/
+					);
 
 					// Increase social statistics
 					$stats = new UserStatsTrack( $user->getId(), $user->getName() );
@@ -1599,12 +1595,19 @@ class PictureGameHome extends UnlistedSpecialPage {
 		$dbr = wfGetDB( DB_MASTER );
 
 		// make sure no one is trying to do bad things
-		if( $key == md5( $chain . $this->SALT ) ) {
-			$sql = "SELECT COUNT(*) AS mycount FROM {$dbr->tableName( 'picturegame_images' )} WHERE
-				( img1 = \"" . $img1 . "\" OR img2 = \"" . $img1 . "\" ) AND
-				( img1 = \"" . $img2 . "\" OR img2 = \"" . $img2 . "\" ) GROUP BY id;";
-
-			$res = $dbr->query( $sql, __METHOD__ );
+		if ( $key == md5( $chain . $this->SALT ) ) {
+			$res = $dbr->select(
+				'picturegame_images',
+				'COUNT(*) AS mycount',
+				// Resulting SQL looks like ...WHERE (img1 = $img1 OR img2 = $img1) AND
+				// (img1 = $img2 OR $img2 = $img2)
+				[
+					$dbr->makeList( [ 'img1' => $img1, 'img2' => $img1 ], LIST_OR ),
+					$dbr->makeList( [ 'img1' => $img2, 'img2' => $img1 ], LIST_OR ),
+				],
+				__METHOD__,
+				[ 'GROUP BY' => 'id' ]
+			);
 			$row = $dbr->fetchObject( $res );
 
 			// if these image pairs don't exist, insert them
