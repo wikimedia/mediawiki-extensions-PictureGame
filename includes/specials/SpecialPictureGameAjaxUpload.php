@@ -51,7 +51,7 @@ class SpecialPictureGameAjaxUpload extends SpecialUpload {
 
 		// Guess the desired name from the filename if not provided
 		$this->mDesiredDestName   = $request->getText( 'wpDestFile' );
-		if( !$this->mDesiredDestName && $request->getFileName( 'wpUploadFile' ) !== null ) {
+		if ( !$this->mDesiredDestName && $request->getFileName( 'wpUploadFile' ) !== null ) {
 			$this->mDesiredDestName = $request->getFileName( 'wpUploadFile' );
 		}
 		$this->mComment           = $request->getText( 'wpUploadDescription' );
@@ -69,7 +69,7 @@ class SpecialPictureGameAjaxUpload extends SpecialUpload {
 
 		// If it was posted check for the token (no remote POST'ing with user credentials)
 		$token = $request->getVal( 'wpEditToken' );
-		if( $this->mSourceType == 'file' && $token == null ) {
+		if ( $this->mSourceType == 'file' && $token == null ) {
 			// Skip token check for file uploads as that can't be faked via JS...
 			// Some client-side tools don't expect to need to send wpEditToken
 			// with their submissions, as that's new in 1.16.
@@ -94,19 +94,19 @@ class SpecialPictureGameAjaxUpload extends SpecialUpload {
 		$this->getOutput()->allowClickjacking();
 
 		# Check that uploading is enabled
-		if( !UploadBase::isEnabled() ) {
+		if ( !UploadBase::isEnabled() ) {
 			throw new ErrorPageError( 'uploaddisabled', 'uploaddisabledtext' );
 		}
 
 		# Check permissions
 		$user = $this->getUser();
 		$permissionRequired = UploadBase::isAllowed( $user );
-		if( $permissionRequired !== true ) {
+		if ( $permissionRequired !== true ) {
 			throw new PermissionsError( $permissionRequired );
 		}
 
 		# Check blocks
-		if( $user->isBlocked() ) {
+		if ( $user->isBlocked() ) {
 			throw new UserBlockedError( $user->getBlock() );
 		}
 
@@ -145,18 +145,18 @@ class SpecialPictureGameAjaxUpload extends SpecialUpload {
 	 */
 	protected function getUploadForm( $message = '', $sessionKey = '', $hideIgnoreWarning = false ) {
 		# Initialize form
-		$form = new PictureGameAjaxUploadForm( array(
+		$form = new PictureGameAjaxUploadForm( [
 			'watch' => $this->getWatchCheck(),
 			'forreupload' => $this->mForReUpload,
 			'sessionkey' => $sessionKey,
 			'hideignorewarning' => $hideIgnoreWarning,
 			'destwarningack' => (bool)$this->mDestWarningAck,
 			'destfile' => $this->mDesiredDestName,
-		) );
+		] );
 		$form->setTitle( $this->getPageTitle() );
 
 		# Check the token, but only if necessary
-		if( !$this->mTokenOk && !$this->mCancelUpload
+		if ( !$this->mTokenOk && !$this->mCancelUpload
 				&& ( $this->mUpload && $this->mUploadClicked ) ) {
 			$form->addPreText( $this->msg( 'session_fail_preview' )->parse() );
 		}
@@ -199,7 +199,7 @@ class SpecialPictureGameAjaxUpload extends SpecialUpload {
 			$prefix = '';
 		}
 		$message = addslashes( $message );
-		$message = str_replace( array( "\r\n", "\r", "\n" ), ' ', $message );
+		$message = str_replace( [ "\r\n", "\r", "\n" ], ' ', $message );
 		$output = "<script language=\"javascript\">
 			/*<![CDATA[*/
 				// If PictureGame class isn't loaded, then load it via ResourceLoader
@@ -230,7 +230,7 @@ class SpecialPictureGameAjaxUpload extends SpecialUpload {
 
 		// Fetch the file if required
 		$status = $this->mUpload->fetchFile();
-		if( !$status->isOK() ) {
+		if ( !$status->isOK() ) {
 			$this->showUploadError( $this->getOutput()->parse( $status->getWikiText() ) );
 			return;
 		}
@@ -244,7 +244,7 @@ class SpecialPictureGameAjaxUpload extends SpecialUpload {
 
 		// Verify permissions for this title
 		$permErrors = $this->mUpload->verifyTitlePermissions( $this->getUser() );
-		if( $permErrors !== true ) {
+		if ( $permErrors !== true ) {
 			$code = array_shift( $permErrors[0] );
 			$this->showRecoverableUploadError( $this->msg( $code, $permErrors[0] )->parse() );
 			return;
@@ -253,9 +253,9 @@ class SpecialPictureGameAjaxUpload extends SpecialUpload {
 		$this->mLocalFile = $this->mUpload->getLocalFile();
 
 		// Check warnings if necessary
-		if( !$this->mIgnoreWarning ) {
+		if ( !$this->mIgnoreWarning ) {
 			$warnings = $this->mUpload->checkWarnings();
-			if( $this->showUploadWarning( $warnings ) ) {
+			if ( $this->showUploadWarning( $warnings ) ) {
 				return;
 			}
 		}
@@ -306,7 +306,7 @@ class SpecialPictureGameAjaxUpload extends SpecialUpload {
 			);
 		}
 
-		$thumb = $img->transform( array( 'width' => $thumbWidth ) );
+		$thumb = $img->transform( [ 'width' => $thumbWidth ] );
 		$img_tag = $thumb->toHtml();
 		$slashedImgTag = addslashes( $img_tag );
 

@@ -6,15 +6,15 @@
  * @ingroup Extensions
  */
 
-$specialPageAliases = array();
+$specialPageAliases = [];
 
 /** English */
-$specialPageAliases['en'] = array(
-	'PictureGameHome' => array( 'PictureGameHome' ),
-	'PictureGameAjaxUpload' => array( 'PictureGameAjaxUpload' ),
-);
+$specialPageAliases['en'] = [
+	'PictureGameHome' => [ 'PictureGameHome' ],
+	'PictureGameAjaxUpload' => [ 'PictureGameAjaxUpload' ],
+];
 
 /** Finnish (Suomi) */
-$specialPageAliases['fi'] = array(
-	'PictureGameHome' => array( 'Kuvapelin kotisivu' ),
-);
+$specialPageAliases['fi'] = [
+	'PictureGameHome' => [ 'Kuvapelin kotisivu' ],
+];

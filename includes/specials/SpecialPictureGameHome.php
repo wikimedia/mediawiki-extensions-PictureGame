@@ -33,7 +33,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 	/**
 	 * Show the special page
 	 *
-	 * @param $par Mixed: parameter passed to the page or null
+	 * @param mixed|null $par Parameter passed to the page, if any
 	 */
 	public function execute( $par ) {
 		$out = $this->getOutput();
@@ -45,12 +45,12 @@ class PictureGameHome extends UnlistedSpecialPage {
 
 		// https://phabricator.wikimedia.org/T155405
 		// Throws error message when SocialProfile extension is not installed
-		if( !class_exists( 'UserStats' ) ) {
+		if ( !class_exists( 'UserStats' ) ) {
 			throw new ErrorPageError( 'picturegame-error-socialprofile-title', 'picturegame-error-socialprofile' );
 		}
 
 		// Blocked through Special:Block? No access for you either!
-		if( $user->isBlocked() ) {
+		if ( $user->isBlocked() ) {
 			throw new UserBlockedError( $user->getBlock() );
 		}
 
@@ -67,7 +67,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 		// What should we do?
 		$action = $request->getVal( 'picGameAction' );
 
-		switch( $action ) {
+		switch ( $action ) {
 			case 'startGame':
 				$this->renderPictureGame();
 				break;
@@ -87,56 +87,56 @@ class PictureGameHome extends UnlistedSpecialPage {
 				$this->displayGallery();
 				break;
 			case 'editPanel':
-				if( $user->isLoggedIn() && $user->isAllowed( 'picturegameadmin' ) ) {
+				if ( $user->isLoggedIn() && $user->isAllowed( 'picturegameadmin' ) ) {
 					$this->editPanel();
 				} else {
 					$this->showHomePage();
 				}
 				break;
 			case 'completeEdit':
-				if( $user->isLoggedIn() && $user->isAllowed( 'picturegameadmin' ) ) {
+				if ( $user->isLoggedIn() && $user->isAllowed( 'picturegameadmin' ) ) {
 					$this->completeEdit();
 				} else {
 					$this->showHomePage();
 				}
 				break;
 			case 'adminPanel':
-				if( $user->isLoggedIn() && $user->isAllowed( 'picturegameadmin' ) ) {
+				if ( $user->isLoggedIn() && $user->isAllowed( 'picturegameadmin' ) ) {
 					$this->adminPanel();
 				} else {
 					$this->showHomePage();
 				}
 				break;
 			case 'adminPanelUnflag':
-				if( $user->isLoggedIn() && $user->isAllowed( 'picturegameadmin' ) ) {
+				if ( $user->isLoggedIn() && $user->isAllowed( 'picturegameadmin' ) ) {
 					$this->adminPanelUnflag();
 				} else {
 					$this->showHomePage();
 				}
 				break;
 			case 'adminPanelDelete':
-				if( $user->isLoggedIn() && $user->isAllowed( 'picturegameadmin' ) ) {
+				if ( $user->isLoggedIn() && $user->isAllowed( 'picturegameadmin' ) ) {
 					$this->adminPanelDelete();
 				} else {
 					$this->showHomePage();
 				}
 				break;
 			case 'protectImages':
-				if( $user->isLoggedIn() && $user->isAllowed( 'picturegameadmin' ) ) {
+				if ( $user->isLoggedIn() && $user->isAllowed( 'picturegameadmin' ) ) {
 					$this->protectImages();
 				} else {
 					echo $this->msg( 'picturegame-sysmsg-unauthorized' )->text();
 				}
 				break;
 			case 'unprotectImages':
-				if( $user->isLoggedIn() && $user->isAllowed( 'picturegameadmin' ) ) {
+				if ( $user->isLoggedIn() && $user->isAllowed( 'picturegameadmin' ) ) {
 					$this->unprotectImages();
 				} else {
 					$this->showHomePage();
 				}
 				break;
 			case 'startCreate':
-				if( $user->isBlocked() ) {
+				if ( $user->isBlocked() ) {
 					throw new UserBlockedError( $user->getBlock() );
 				} else {
 					$this->showHomePage();
@@ -165,7 +165,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 		$key = $request->getVal( 'key' );
 		$now = $request->getVal( 'chain' );
 
-		if(
+		if (
 			$key != md5( $now . $this->SALT ) ||
 			( !$user->isLoggedIn() || !$user->isAllowed( 'picturegameadmin' ) )
 		)
@@ -175,36 +175,36 @@ class PictureGameHome extends UnlistedSpecialPage {
 		}
 
 		$dbw = wfGetDB( DB_MASTER );
-		$dbw->delete( 'picturegame_images', array( 'id' => $id ), __METHOD__ );
+		$dbw->delete( 'picturegame_images', [ 'id' => $id ], __METHOD__ );
 
 		global $wgMemc;
-		$key = $wgMemc->makeKey( 'user', 'profile', 'picgame', $user->getID() );
+		$key = $wgMemc->makeKey( 'user', 'profile', 'picgame', $user->getId() );
 		$wgMemc->delete( $key );
 
 		/* Pop the images out of MediaWiki also */
 		//$img_one = wfFindFile( $image1 );
 		$oneResult = $twoResult = false;
-		if( $image1 ) {
+		if ( $image1 ) {
 			$img_one = Title::makeTitle( NS_FILE, $image1 );
 			$article = new Article( $img_one );
 			$oneResult = $article->doDeleteArticle( 'Picture Game image 1 Delete' );
 		}
 
-		if( $image2 ) {
+		if ( $image2 ) {
 			$img_two = Title::makeTitle( NS_FILE, $image2 );
 			$article = new Article( $img_two );
 			$twoResult = $article->doDeleteArticle( 'Picture Game image 2 Delete' );
 		}
 
-		if( $oneResult && $twoResult ) {
+		if ( $oneResult && $twoResult ) {
 			echo $this->msg( 'picturegame-sysmsg-successfuldelete' )->text();
 			return;
 		}
 
-		if( $oneResult ) {
+		if ( $oneResult ) {
 			echo $this->msg( 'picturegame-sysmsg-unsuccessfuldelete', $image1 )->text();
 		}
-		if( $twoResult ) {
+		if ( $twoResult ) {
 			echo $this->msg( 'picturegame-sysmsg-unsuccessfuldelete', $image2 )->text();
 		}
 	}
@@ -224,7 +224,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 		$key = $request->getVal( 'key' );
 		$now = $request->getVal( 'chain' );
 
-		if(
+		if (
 			$key != md5( $now . $this->SALT ) ||
 			( !$user->isLoggedIn() || !$user->isAllowed( 'picturegameadmin' ) )
 		) {
@@ -235,8 +235,8 @@ class PictureGameHome extends UnlistedSpecialPage {
 		$dbw = wfGetDB( DB_MASTER );
 		$dbw->update(
 			'picturegame_images',
-			array( 'flag' => PictureGameHome::$FLAG_NONE, 'comment' => '' ),
-			array( 'id' => $id ),
+			[ 'flag' => PictureGameHome::$FLAG_NONE, 'comment' => '' ],
+			[ 'id' => $id ],
 			__METHOD__
 		);
 
@@ -258,7 +258,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 		$imgOneCaption = $request->getVal( 'imgOneCaption' );
 		$imgTwoCaption = $request->getVal( 'imgTwoCaption' );
 
-		if( $key != md5( $id . $this->SALT ) ) {
+		if ( $key != md5( $id . $this->SALT ) ) {
 			$out->addHTML( '<h3>' . $this->msg( 'picturegame-sysmsg-badkey' )->plain() . '</h3>' );
 			return;
 		}
@@ -266,12 +266,12 @@ class PictureGameHome extends UnlistedSpecialPage {
 		$dbw = wfGetDB( DB_MASTER );
 		$dbw->update(
 			'picturegame_images',
-			array(
+			[
 				'title' => $title,
 				'img1_caption' => $imgOneCaption,
 				'img2_caption' => $imgTwoCaption
-			),
-			array( 'id' => $id ),
+			],
+			[ 'id' => $id ],
 			__METHOD__
 		);
 
@@ -296,7 +296,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 		$res = $dbw->select(
 			'picturegame_images',
 			'*',
-			array( 'id' => $id ),
+			[ 'id' => $id ],
 			__METHOD__
 		);
 
@@ -357,15 +357,15 @@ class PictureGameHome extends UnlistedSpecialPage {
 
 		if ( $wgRightsText ) {
 			$copywarnMsg = 'copyrightwarning';
-			$copywarnMsgParams = array(
+			$copywarnMsgParams = [
 				'[[' . $this->msg( 'copyrightpage' )->inContentLanguage()->plain() . ']]',
 				$wgRightsText
-			);
+			];
 		} else {
 			$copywarnMsg = 'copyrightwarning2';
-			$copywarnMsgParams = array(
+			$copywarnMsgParams = [
 				'[[' . $this->msg( 'copyrightpage' )->inContentLanguage()->plain() . ']]'
-			);
+			];
 		}
 
 		$usrTitleObj = Title::makeTitle( NS_USER, $row->username );
@@ -495,12 +495,12 @@ class PictureGameHome extends UnlistedSpecialPage {
 		$dbw = wfGetDB( DB_MASTER );
 		$res = $dbw->select(
 			'picturegame_images',
-			array( 'id', 'img1', 'img2', 'comment' ),
-			array(
+			[ 'id', 'img1', 'img2', 'comment' ],
+			[
 				'flag' => PictureGameHome::$FLAG_FLAGGED,
 				"img1 <> ''",
 				"img2 <> ''"
-			),
+			],
 			__METHOD__
 		);
 
@@ -514,13 +514,13 @@ class PictureGameHome extends UnlistedSpecialPage {
 			$img_one_tag = $img_two_tag = '';
 			$img_one = wfFindFile( $row->img1 );
 			if ( is_object( $img_one ) ) {
-				$thumb_one = $img_one->transform( array( 'width' => 128 ) );
+				$thumb_one = $img_one->transform( [ 'width' => 128 ] );
 				$img_one_tag = $thumb_one->toHtml();
 			}
 
 			$img_two = wfFindFile( $row->img2 );
 			if ( is_object( $img_two ) ) {
-				$thumb_two = $img_two->transform( array( 'width' => 128 ) );
+				$thumb_two = $img_two->transform( [ 'width' => 128 ] );
 				$img_two_tag = $thumb_two->toHtml();
 			}
 
@@ -528,7 +528,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 			$img_two_description = $lang->truncateForVisual( $row->img2, 12 );
 
 			$reason = '';
-			if( !empty( $row->comment ) ) {
+			if ( !empty( $row->comment ) ) {
 				$reason .= "<div class=\"picturegame-adminpanelflag\" id=\"picturegame-adminpanelflagreason-{$row->id}\">
 				<b>" . $this->msg( 'picturegame-adminpanelreason' )->escaped() . "</b>: {$row->comment}
 				</div><p>";
@@ -562,11 +562,12 @@ class PictureGameHome extends UnlistedSpecialPage {
 		$dbw = wfGetDB( DB_MASTER );
 		$res = $dbw->select(
 			'picturegame_images',
-			array( 'id', 'img1', 'img2' ),
-			array(
+			[ 'id', 'img1', 'img2' ],
+			[
 				'flag' => PictureGameHome::$FLAG_PROTECT,
-				"img1 <> ''", "img2 <> ''"
-			),
+				"img1 <> ''",
+				"img2 <> ''"
+			],
 			__METHOD__
 		);
 
@@ -580,13 +581,13 @@ class PictureGameHome extends UnlistedSpecialPage {
 			$img_one_tag = $img_two_tag = '';
 			$img_one = wfFindFile( $row->img1 );
 			if ( is_object( $img_one ) ) {
-				$thumb_one = $img_one->transform( array( 'width' => 128 ) );
+				$thumb_one = $img_one->transform( [ 'width' => 128 ] );
 				$img_one_tag = $thumb_one->toHtml();
 			}
 
 			$img_two = wfFindFile( $row->img2 );
 			if ( is_object( $img_two ) ) {
-				$thumb_two = $img_two->transform( array( 'width' => 128 ) );
+				$thumb_two = $img_two->transform( [ 'width' => 128 ] );
 				$img_two_tag = $thumb_two->toHtml();
 			}
 
@@ -632,7 +633,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 		$id = $request->getInt( 'id' );
 		$key = $request->getVal( 'key' );
 		$comment = $request->getVal( 'comment' ) ? $request->getVal( 'comment' ) : ''; // reason for flagging
-		if( $key != md5( $id . $this->SALT ) ) {
+		if ( $key != md5( $id . $this->SALT ) ) {
 			echo $this->msg( 'picturegame-sysmsg-badkey' )->plain();
 			return;
 		}
@@ -640,8 +641,8 @@ class PictureGameHome extends UnlistedSpecialPage {
 		$dbw = wfGetDB( DB_MASTER );
 		$dbw->update(
 			'picturegame_images',
-			array( 'flag' => PictureGameHome::$FLAG_FLAGGED, 'comment' => $comment ),
-			array( 'id' => $id, 'flag' => PictureGameHome::$FLAG_NONE ),
+			[ 'flag' => PictureGameHome::$FLAG_FLAGGED, 'comment' => $comment ],
+			[ 'id' => $id, 'flag' => PictureGameHome::$FLAG_NONE ],
 			__METHOD__
 		);
 
@@ -664,7 +665,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 		$key = $request->getVal( 'key' );
 		$chain = $request->getVal( 'chain' );
 
-		if( $key != md5( $chain . $this->SALT ) ) {
+		if ( $key != md5( $chain . $this->SALT ) ) {
 			echo $this->msg( 'picturegame-sysmsg-badkey' )->plain();
 			return;
 		}
@@ -672,8 +673,8 @@ class PictureGameHome extends UnlistedSpecialPage {
 		$dbw = wfGetDB( DB_MASTER );
 		$dbw->update(
 			'picturegame_images',
-			array( 'flag' => PictureGameHome::$FLAG_NONE ),
-			array( 'id' => $id ),
+			[ 'flag' => PictureGameHome::$FLAG_NONE ],
+			[ 'id' => $id ],
 			__METHOD__
 		);
 
@@ -693,7 +694,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 		$id = $request->getInt( 'id' );
 		$key = $request->getVal( 'key' );
 
-		if( $key != md5( $id . $this->SALT ) ) {
+		if ( $key != md5( $id . $this->SALT ) ) {
 			echo $this->msg( 'picturegame-sysmsg-badkey' )->plain();
 			return;
 		}
@@ -701,8 +702,8 @@ class PictureGameHome extends UnlistedSpecialPage {
 		$dbw = wfGetDB( DB_MASTER );
 		$dbw->update(
 			'picturegame_images',
-			array( 'flag' => PictureGameHome::$FLAG_PROTECT ),
-			array( 'id' => $id ),
+			[ 'flag' => PictureGameHome::$FLAG_PROTECT ],
+			[ 'id' => $id ],
 			__METHOD__
 		);
 
@@ -722,19 +723,19 @@ class PictureGameHome extends UnlistedSpecialPage {
 		$type = $request->getVal( 'type' );
 		$direction = $request->getVal( 'direction' );
 
-		if( ( $type == 'heat' ) && ( $direction == 'most' ) ) {
+		if ( ( $type == 'heat' ) && ( $direction == 'most' ) ) {
 			$crit = 'Heat';
 			$order = 'ASC';
 			$sortheader = $this->msg( 'picturegame-sorted-most-heat' )->text();
-		} elseif( ( $type == 'heat' ) && ( $direction == 'least' ) ) {
+		} elseif ( ( $type == 'heat' ) && ( $direction == 'least' ) ) {
 			$crit = 'Heat';
 			$order = 'DESC';
 			$sortheader = $this->msg( 'picturegame-sorted-least-heat' )->text();
-		} elseif( ( $type == 'votes' ) && ( $direction == 'most' ) ) {
+		} elseif ( ( $type == 'votes' ) && ( $direction == 'most' ) ) {
 			$crit = '(img0_votes + img1_votes)';
 			$order = 'DESC';
 			$sortheader = $this->msg( 'picturegame-sorted-most-votes' )->text();
-		} elseif( ( $type == 'votes' ) && ( $direction == 'least' ) ) {
+		} elseif ( ( $type == 'votes' ) && ( $direction == 'least' ) ) {
 			$crit = '(img0_votes + img1_votes)';
 			$order = 'ASC';
 			$sortheader = $this->msg( 'picturegame-sorted-least-votes' )->text();
@@ -755,91 +756,91 @@ class PictureGameHome extends UnlistedSpecialPage {
 
 		$output = '<div class="picgame-gallery-navigation">';
 
-		if( $type == 'votes' && $direction == 'most' ) {
+		if ( $type == 'votes' && $direction == 'most' ) {
 			$output .= '<h1>' . $this->msg( 'picturegame-most' )->text() . '</h1>
 					<p><b>' . $this->msg( 'picturegame-mostvotes' )->text() . '</b></p>
-					<p><a href="' . htmlspecialchars( $thisTitle->getFullURL( array(
+					<p><a href="' . htmlspecialchars( $thisTitle->getFullURL( [
 						'picGameAction' => 'gallery',
 						'type' => 'heat',
 						'direction' => 'most'
-					) ) ) . '">' . $this->msg( 'picturegame-mostheat' )->text() . '</a></p>
+					] ) ) . '">' . $this->msg( 'picturegame-mostheat' )->text() . '</a></p>
 
 					<h1 style="margin:10px 0px !important;">' . $this->msg( 'picturegame-least' )->text() . '</h1>
-					<p><a href="' . htmlspecialchars( $thisTitle->getFullURL( array(
+					<p><a href="' . htmlspecialchars( $thisTitle->getFullURL( [
 						'picGameAction' => 'gallery',
 						'type' => 'votes',
 						'direction' => 'least'
-					) ) ) . '">' . $this->msg( 'picturegame-leastvotes' )->text() . '</a></p>
-					<p><a href="' . htmlspecialchars( $thisTitle->getFullURL( array(
+					] ) ) . '">' . $this->msg( 'picturegame-leastvotes' )->text() . '</a></p>
+					<p><a href="' . htmlspecialchars( $thisTitle->getFullURL( [
 						'picGameAction' => 'gallery',
 						'type' => 'heat',
 						'direction' => 'least'
-					) ) ) . '">' . $this->msg( 'picturegame-leastheat' )->text() . '</a></p>';
+					] ) ) . '">' . $this->msg( 'picturegame-leastheat' )->text() . '</a></p>';
 		}
 
-		if( $type == 'votes' && $direction == 'least' ) {
+		if ( $type == 'votes' && $direction == 'least' ) {
 			$output .= '<h1>' . $this->msg( 'picturegame-most' )->text() . '</h1>
-					<p><a href="' . htmlspecialchars( $thisTitle->getFullURL( array(
+					<p><a href="' . htmlspecialchars( $thisTitle->getFullURL( [
 						'picGameAction' => 'gallery',
 						'type' => 'votes',
 						'direction' => 'most'
-					) ) ) . '">' . $this->msg( 'picturegame-mostvotes' )->text() . '</a></p>
-					<p><a href="' . htmlspecialchars( $thisTitle->getFullURL( array(
+					] ) ) . '">' . $this->msg( 'picturegame-mostvotes' )->text() . '</a></p>
+					<p><a href="' . htmlspecialchars( $thisTitle->getFullURL( [
 						'picGameAction' => 'gallery',
 						'type' => 'heat',
 						'direction' => 'most'
-					) ) ) . '">' . $this->msg( 'picturegame-mostheat' )->text() . '</a></p>
+					] ) ) . '">' . $this->msg( 'picturegame-mostheat' )->text() . '</a></p>
 
 					<h1 style="margin:10px 0px !important;">' . $this->msg( 'picturegame-least' )->text() . '</h1>
 					<p><b>' . $this->msg( 'picturegame-leastvotes' )->text() . '</b></p>
-					<p><a href="' . htmlspecialchars( $thisTitle->getFullURL( array(
+					<p><a href="' . htmlspecialchars( $thisTitle->getFullURL( [
 						'picGameAction' => 'gallery',
 						'type' => 'heat',
 						'direction' => 'least'
-					) ) ) . '">' . $this->msg( 'picturegame-leastheat' )->text() . '</a></p>';
+					] ) ) . '">' . $this->msg( 'picturegame-leastheat' )->text() . '</a></p>';
 		}
 
-		if( $type == 'heat' && $direction == 'most' ) {
+		if ( $type == 'heat' && $direction == 'most' ) {
 			$output .= '<h1>' . $this->msg( 'picturegame-most' )->text() . '</h1>
-					<p><a href="' . htmlspecialchars( $thisTitle->getFullURL( array(
+					<p><a href="' . htmlspecialchars( $thisTitle->getFullURL( [
 						'picGameAction' => 'gallery',
 						'type' => 'votes',
 						'direction' => 'most'
-					) ) ) . '">' . $this->msg( 'picturegame-mostvotes' )->text() . '</a></p>
+					] ) ) . '">' . $this->msg( 'picturegame-mostvotes' )->text() . '</a></p>
 					<p><b>' . $this->msg( 'picturegame-mostheat' )->text() . '</b></p>
 
 					<h1 style="margin:10px 0px !important;">' . $this->msg( 'picturegame-least' )->text() . '</h1>
-					<p><a href="' . htmlspecialchars( $thisTitle->getFullURL( array(
+					<p><a href="' . htmlspecialchars( $thisTitle->getFullURL( [
 						'picGameAction' => 'gallery',
 						'type' => 'votes',
 						'direction' => 'least'
-					) ) ) . '">' . $this->msg( 'picturegame-leastvotes' )->text() . '</a></p>
-					<p><a href="' . htmlspecialchars( $thisTitle->getFullURL( array(
+					] ) ) . '">' . $this->msg( 'picturegame-leastvotes' )->text() . '</a></p>
+					<p><a href="' . htmlspecialchars( $thisTitle->getFullURL( [
 						'picGameAction' => 'gallery',
 						'type' => 'heat',
 						'direction' => 'least'
-					) ) ) . '">' . $this->msg( 'picturegame-leastheat' )->text() . '</a></p>';
+					] ) ) . '">' . $this->msg( 'picturegame-leastheat' )->text() . '</a></p>';
 		}
 
-		if( $type == 'heat' && $direction == 'least' ) {
+		if ( $type == 'heat' && $direction == 'least' ) {
 			$output .= '<h1>' . $this->msg( 'picturegame-most' )->text() . '</h1>
-					<p><a href="' . htmlspecialchars( $thisTitle->getFullURL( array(
+					<p><a href="' . htmlspecialchars( $thisTitle->getFullURL( [
 						'picGameAction' => 'gallery',
 						'type' => 'votes',
 						'direction' => 'most'
-					) ) ) . '">' . $this->msg( 'picturegame-mostvotes' )->text() . '</a></p>
-					<p><a href="' . htmlspecialchars( $thisTitle->getFullURL( array(
+					] ) ) . '">' . $this->msg( 'picturegame-mostvotes' )->text() . '</a></p>
+					<p><a href="' . htmlspecialchars( $thisTitle->getFullURL( [
 						'picGameAction' => 'gallery',
 						'type' => 'heat',
 						'direction' => 'most'
-					) ) ) . '">' . $this->msg( 'picturegame-mostheat' )->text() . '</a></p>
+					] ) ) . '">' . $this->msg( 'picturegame-mostheat' )->text() . '</a></p>
 
 					<h1 style="margin:10px 0px !important;">' . $this->msg( 'picturegame-least' )->text() . '</h1>
-					<p><a href="' . htmlspecialchars( $thisTitle->getFullURL( array(
+					<p><a href="' . htmlspecialchars( $thisTitle->getFullURL( [
 						'picGameAction' => 'gallery',
 						'type' => 'votes',
 						'direction' => 'least'
-					) ) ) . '">' . $this->msg( 'picturegame-leastvotes' )->text() . '</a></p>
+					] ) ) . '">' . $this->msg( 'picturegame-leastvotes' )->text() . '</a></p>
 					<p><b>' . $this->msg( 'picturegame-leastheat' )->text() . '</b></p>';
 		}
 
@@ -853,8 +854,8 @@ class PictureGameHome extends UnlistedSpecialPage {
 		$dbr = wfGetDB( DB_REPLICA );
 		$total = (int)$dbr->selectField(
 			'picturegame_images',
-			array( 'COUNT(*) AS mycount' ),
-			array(),
+			[ 'COUNT(*) AS mycount' ],
+			[],
 			__METHOD__
 		);
 
@@ -870,7 +871,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 		$limit = $per_page;
 
 		$limitvalue = 0;
-		if( $limit > 0 && $page ) {
+		if ( $limit > 0 && $page ) {
 			$limitvalue = $page * $limit - ( $limit );
 		}
 
@@ -878,22 +879,22 @@ class PictureGameHome extends UnlistedSpecialPage {
 		$res = $dbw->select(
 			'picturegame_images',
 			'*',
-			array(
+			[
 				'flag <> ' . PictureGameHome::$FLAG_FLAGGED,
 				"img1 <> ''",
 				"img2 <> ''"
-			),
+			],
 			__METHOD__,
-			array(
+			[
 				'ORDER BY' => "{$crit} {$order}",
 				'OFFSET' => $limitvalue,
 				'LIMIT' => $limit
-			)
+			]
 		);
 
-		$preloadImages = array();
+		$preloadImages = [];
 
-		foreach( $res as $row ) {
+		foreach ( $res as $row ) {
 			$gameid = $row->id;
 
 			$title_text = $lang->truncateForVisual( $row->title, 23 );
@@ -902,13 +903,13 @@ class PictureGameHome extends UnlistedSpecialPage {
 			$imgTwoCount = $row->img1_votes;
 			$totalVotes = $imgOneCount + $imgTwoCount;
 
-			if( $imgOneCount == 0 ) {
+			if ( $imgOneCount == 0 ) {
 				$imgOnePercent = 0;
 			} else {
 				$imgOnePercent = floor( $imgOneCount / $totalVotes  * 100 );
 			}
 
-			if( $imgTwoCount == 0 ) {
+			if ( $imgTwoCount == 0 ) {
 				$imgTwoPercent = 0;
 			} else {
 				$imgTwoPercent = 100 - $imgOnePercent;
@@ -917,13 +918,13 @@ class PictureGameHome extends UnlistedSpecialPage {
 			$gallery_thumbnail_one = $gallery_thumbnail_two = '';
 			$img_one = wfFindFile( $row->img1 );
 			if ( is_object( $img_one ) ) {
-				$gallery_thumb_image_one = $img_one->transform( array( 'width' => 80 ) );
+				$gallery_thumb_image_one = $img_one->transform( [ 'width' => 80 ] );
 				$gallery_thumbnail_one = $gallery_thumb_image_one->toHtml();
 			}
 
 			$img_two = wfFindFile( $row->img2 );
 			if ( is_object( $img_two ) ) {
-				$gallery_thumb_image_two = $img_two->transform( array( 'width' => 80 ) );
+				$gallery_thumb_image_two = $img_two->transform( [ 'width' => 80 ] );
 				$gallery_thumbnail_two = $gallery_thumb_image_two->toHtml();
 			}
 
@@ -944,7 +945,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 				<div class=\"visualClear\"></div>
 			</div>";
 
-			if( $x != 1 && $x % $per_row == 0 ) {
+			if ( $x != 1 && $x % $per_row == 0 ) {
 				$output .= '<div class="visualClear"></div>';
 			}
 			$x++;
@@ -955,52 +956,52 @@ class PictureGameHome extends UnlistedSpecialPage {
 		// Page Nav
 		$numofpages = ceil( $total / $per_page );
 
-		if( $numofpages > 1 ) {
+		if ( $numofpages > 1 ) {
 			$output .= '<div class="page-nav">';
 
-			if( $page > 1 ) {
+			if ( $page > 1 ) {
 				$output .= Linker::link(
 					$thisTitle,
 					$this->msg( 'picturegame-prev' )->text(),
-					array(),
-					array(
+					[],
+					[
 						'picGameAction' => 'gallery',
 						'page' => ( $page - 1 ),
 						'type' => $type,
 						'direction' => $direction
-					)
+					]
 				) . $this->msg( 'word-separator' )->plain();
 			}
 
-			for( $i = 1; $i <= $numofpages; $i++ ) {
-				if( $i == $page ) {
+			for ( $i = 1; $i <= $numofpages; $i++ ) {
+				if ( $i == $page ) {
 					$output .= ( $i . ' ' );
 				} else {
 					$output .= Linker::link(
 						$thisTitle,
 						$i,
-						array(),
-						array(
+						[],
+						[
 							'picGameAction' => 'gallery',
 							'page' => $i,
 							'type' => $type,
 							'direction' => $direction
-						)
+						]
 					) . $this->msg( 'word-separator' )->plain();
 				}
 			}
 
-			if( $page < $numofpages ) {
+			if ( $page < $numofpages ) {
 				$output .= $this->msg( 'word-separator' )->plain() . Linker::link(
 					$thisTitle,
 					$this->msg( 'picturegame-next' )->text(),
-					array(),
-					array(
+					[],
+					[
 						'picGameAction' => 'gallery',
 						'page' => ( $page + 1 ),
 						'type' => $type,
 						'direction' => $direction
-					)
+					]
 				);
 			}
 
@@ -1028,48 +1029,48 @@ class PictureGameHome extends UnlistedSpecialPage {
 
 		$imgnum = ( $img == 0 ) ? 0 : 1;
 
-		if( $key != md5( $id . $this->SALT ) ) {
+		if ( $key != md5( $id . $this->SALT ) ) {
 			$out->addHTML( $this->msg( 'picturegame-sysmsg-badkey' )->plain() );
 			return;
 		}
 
-		if( strlen( $id ) > 0 && strlen( $img ) > 0 ) {
+		if ( strlen( $id ) > 0 && strlen( $img ) > 0 ) {
 			$dbw = wfGetDB( DB_MASTER );
 
 			// check if the user has voted on this already
 			// @todo FIXME: in both cases we can just use selectField(), I think
 			$res = $dbw->select(
 				'picturegame_votes',
-				array( 'COUNT(*) AS mycount' ),
-				array(
+				[ 'COUNT(*) AS mycount' ],
+				[
 					'username' => $user->getName(),
 					'picid' => $id
-				),
+				],
 				__METHOD__
 			);
 			$row = $dbw->fetchObject( $res );
 
 			// if they haven't, then check if the id exists and then insert the
 			// vote
-			if( $row->mycount == 0 ) {
+			if ( $row->mycount == 0 ) {
 				$res = $dbw->select(
 					'picturegame_images',
-					array( 'COUNT(*) AS mycount' ),
-					array( 'id' => $id ),
+					[ 'COUNT(*) AS mycount' ],
+					[ 'id' => $id ],
 					__METHOD__
 				);
 				$row = $dbw->fetchObject( $res );
 
-				if( $row->mycount == 1 ) {
+				if ( $row->mycount == 1 ) {
 					$dbw->insert(
 						'picturegame_votes',
-						array(
+						[
 							'picid' => $id,
-							'userid' => $user->getID(),
+							'userid' => $user->getId(),
 							'username' => $user->getName(),
 							'imgpicked' => $imgnum,
 							'vote_date' => date( 'Y-m-d H:i:s' )
-						),
+						],
 						__METHOD__
 					);
 
@@ -1079,16 +1080,16 @@ class PictureGameHome extends UnlistedSpecialPage {
 					$res = $dbw->query( $sql, __METHOD__ );
 					/*$res = $dbw->update(
 						'picturegame_images',
-						array(
+						[
 							"img{$imgnum}_votes = img{$imgnum}_votes + 1",
 							"heat = ABS( ( img0_votes / ( img0_votes+img1_votes) ) - ( img1_votes / ( img0_votes+img1_votes ) ) )"
-						),
-						array( 'id' => $id ),
+						],
+						[ 'id' => $id ],
 						__METHOD__
 					);*/
 
 					// Increase social statistics
-					$stats = new UserStatsTrack( $user->getID(), $user->getName() );
+					$stats = new UserStatsTrack( $user->getId(), $user->getName() );
 					$stats->incStatField( 'picturegame_vote' );
 				}
 			}
@@ -1117,14 +1118,14 @@ class PictureGameHome extends UnlistedSpecialPage {
 		$dbr = wfGetDB( DB_REPLICA );
 
 		// if imgID is -1 then we need some random IDs
-		if( $imgID == -1 ) {
+		if ( $imgID == -1 ) {
 			$query = $dbr->select(
 				'picturegame_votes',
 				'picid',
-				array( 'username' => $user->getName() ),
+				[ 'username' => $user->getName() ],
 				__METHOD__
 			);
-			$picIds = array();
+			$picIds = [];
 			foreach ( $query as $resultRow ) {
 				$picIds[] = $resultRow->picid;
 			}
@@ -1133,11 +1134,11 @@ class PictureGameHome extends UnlistedSpecialPage {
 			// the above query won't add anything to the picIds array.
 			// Trying to implode an empty array...well, you'll get "id NOT IN ()"
 			// which in turn is invalid SQL.
-			$whereConds = array(
+			$whereConds = [
 				'flag <> ' . PictureGameHome::$FLAG_FLAGGED,
 				"img1 <> ''",
 				"img2 <> ''"
-			);
+			];
 			if ( !empty( $picIds ) ) {
 				$whereConds[] = 'id NOT IN (' . implode( ',', $picIds ) . ')';
 			}
@@ -1146,7 +1147,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 				'*',
 				$whereConds,
 				__METHOD__,
-				array( 'LIMIT' => 1 )
+				[ 'LIMIT' => 1 ]
 			);
 			$row = $dbr->fetchObject( $res );
 			$imgID = isset( $row->id ) ? $row->id : 0;
@@ -1154,12 +1155,12 @@ class PictureGameHome extends UnlistedSpecialPage {
 			$res = $dbr->select(
 				'picturegame_images',
 				'*',
-				array(
+				[
 					'flag <> ' . PictureGameHome::$FLAG_FLAGGED,
 					"img1 <> ''",
 					"img2 <> ''",
 					'id' => $imgID
-				),
+				],
 				__METHOD__
 			);
 			$row = $dbr->fetchObject( $res );
@@ -1167,7 +1168,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 
 		// Early return here in case if we have *nothing* in the database to
 		// prevent fatals etc.
-		if( empty( $row ) ) {
+		if ( empty( $row ) ) {
 			$out->setPageTitle( $this->msg( 'picturegame-nomoretitle' )->text() );
 			// Wrap it in plainlinks to hide the external link icon since a
 			// link to this wiki is not really an external link
@@ -1183,17 +1184,17 @@ class PictureGameHome extends UnlistedSpecialPage {
 
 		$user_title = Title::makeTitle( NS_USER, $row->username );
 
-		if( $imgID ) {
+		if ( $imgID ) {
 			global $wgPictureGameID;
 			$wgPictureGameID = $imgID;
 			$toExclude = $dbr->select(
 				'picturegame_votes',
 				'picid',
-				array( 'username' => $user->getName() ),
+				[ 'username' => $user->getName() ],
 				__METHOD__
 			);
 
-			$excludedImgIds = array();
+			$excludedImgIds = [];
 			foreach ( $toExclude as $excludedRow ) {
 				$excludedImgIds[] = $excludedRow->picid;
 			}
@@ -1204,34 +1205,34 @@ class PictureGameHome extends UnlistedSpecialPage {
 				$nextres = $dbr->select(
 					'picturegame_images',
 					'*',
-					array(
+					[
 						"id <> {$imgID}",
 						'id NOT IN (' . implode( ',', $excludedImgIds ) . ')',
 						'flag != ' . PictureGameHome::$FLAG_FLAGGED,
 						"img1 <> ''",
 						"img2 <> ''"
-					),
+					],
 					__METHOD__,
-					array( 'LIMIT' => 1 )
+					[ 'LIMIT' => 1 ]
 				);
 				$nextrow = $dbr->fetchObject( $nextres );
 				$next_id = ( isset( $nextrow->id ) ? $nextrow->id : 0 );
 			}
 
-			if( $next_id ) {
+			if ( $next_id ) {
 				$img_one = wfFindFile( $nextrow->img1 );
-				if( is_object( $img_one ) ) {
-					$preload_thumb = $img_one->transform( array( 'width' => 256 ) );
+				if ( is_object( $img_one ) ) {
+					$preload_thumb = $img_one->transform( [ 'width' => 256 ] );
 				}
-				if( is_object( $preload_thumb ) ) {
+				if ( is_object( $preload_thumb ) ) {
 					$preload_one_tag = $preload_thumb->toHtml();
 				}
 
 				$img_two = wfFindFile( $nextrow->img2 );
-				if( is_object( $img_two ) ) {
-					$preload_thumb = $img_two->transform( array( 'width' => 256 ) );
+				if ( is_object( $img_two ) ) {
+					$preload_thumb = $img_two->transform( [ 'width' => 256 ] );
 				}
-				if( is_object( $preload_thumb ) ) {
+				if ( is_object( $preload_thumb ) ) {
 					$preload_two_tag = $preload_thumb->toHtml();
 				}
 
@@ -1239,7 +1240,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 			}
 		}
 
-		if( ( $imgID < 0 ) || !is_numeric( $imgID ) || is_null( $row ) ) {
+		if ( ( $imgID < 0 ) || !is_numeric( $imgID ) || is_null( $row ) ) {
 			$out->setPageTitle( $this->msg( 'picturegame-nomoretitle' )->plain() );
 
 			// Wrap it in plainlinks to hide the external link icon since a
@@ -1262,13 +1263,13 @@ class PictureGameHome extends UnlistedSpecialPage {
 		$title_text_length = strlen( $row->title );
 		$title_text_space = stripos( $row->title, ' ' );
 
-		if( ( $title_text_space == false || $title_text_space >= '48' ) && $title_text_length > 48 ) {
+		if ( ( $title_text_space == false || $title_text_space >= '48' ) && $title_text_length > 48 ) {
 			$title_text = substr( $row->title, 0, 48 ) . '<br />' .
 				substr( $row->title, 48, 48 );
-		} elseif( $title_text_length > 48 && substr( $row->title, 48, 1 ) == ' ' ) {
+		} elseif ( $title_text_length > 48 && substr( $row->title, 48, 1 ) == ' ' ) {
 			$title_text = substr( $row->title, 0, 48 ) . '<br />' .
 				substr( $row->title, 48, 48 );
-		} elseif( $title_text_length > 48 && substr( $row->title, 48, 1 ) != ' ' ) {
+		} elseif ( $title_text_length > 48 && substr( $row->title, 48, 1 ) != ' ' ) {
 			$title_text_lastspace = strrpos( substr( $row->title, 0, 48 ), ' ' );
 			$title_text = substr( $row->title, 0, $title_text_lastspace ) .
 				'<br />' . substr( $row->title, $title_text_lastspace, 30 );
@@ -1279,8 +1280,8 @@ class PictureGameHome extends UnlistedSpecialPage {
 		$x = 1;
 		$img1_caption_text = '';
 		$img1caption_array = str_split( $row->img1_caption );
-		foreach( $img1caption_array as $img1_character ) {
-			if( $x % 30 == 0 ) {
+		foreach ( $img1caption_array as $img1_character ) {
+			if ( $x % 30 == 0 ) {
 				$img1_caption_text .= $img1_character . '<br />';
 			} else {
 				$img1_caption_text .= $img1_character;
@@ -1303,7 +1304,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 		// I assume MediaWiki does some caching with these functions
 		$img_one = wfFindFile( $row->img1 );
 		$thumb_one_url = '';
-		if( is_object( $img_one ) ) {
+		if ( is_object( $img_one ) ) {
 			$thumb_one_url = $img_one->createThumb( 256 );
 			$imageOneWidth = $img_one->getWidth();
 		}
@@ -1314,7 +1315,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 
 		$img_two = wfFindFile( $row->img2 );
 		$thumb_two_url = '';
-		if( is_object( $img_two ) ) {
+		if ( is_object( $img_two ) ) {
 			$thumb_two_url = $img_two->createThumb( 256 );
 			$imageTwoWidth = $img_two->getWidth();
 		}
@@ -1336,19 +1337,19 @@ class PictureGameHome extends UnlistedSpecialPage {
 		$permalinkJS = '';
 
 		$isShowVotes = false;
-		if( $lastID > 0 ) {
+		if ( $lastID > 0 ) {
 			$res = $dbr->select(
 				'picturegame_images',
 				'*',
-				array(
+				[
 					'flag <> ' . PictureGameHome::$FLAG_FLAGGED,
 					'id' => $lastID
-				),
+				],
 				__METHOD__
 			);
 			$row = $dbr->fetchObject( $res );
 
-			if( $row ) {
+			if ( $row ) {
 				$img_one = wfFindFile( $row->img1 );
 				$img_two = wfFindFile( $row->img2 );
 				$imgOneCount = $row->img0_votes;
@@ -1357,24 +1358,24 @@ class PictureGameHome extends UnlistedSpecialPage {
 			}
 		}
 
-		if( $isPermalink || $isShowVotes ) {
-			if( is_object( $img_one ) ) {
-				$vote_one_thumb = $img_one->transform( array( 'width' => 40 ) );
+		if ( $isPermalink || $isShowVotes ) {
+			if ( is_object( $img_one ) ) {
+				$vote_one_thumb = $img_one->transform( [ 'width' => 40 ] );
 			}
-			if( is_object( $vote_one_thumb ) ) {
+			if ( is_object( $vote_one_thumb ) ) {
 				$vote_one_tag = $vote_one_thumb->toHtml();
 			}
 
-			if( is_object( $img_two ) ) {
-				$vote_two_thumb = $img_two->transform( array( 'width' => 40 ) );
+			if ( is_object( $img_two ) ) {
+				$vote_two_thumb = $img_two->transform( [ 'width' => 40 ] );
 			}
-			if( is_object( $vote_two_thumb ) ) {
+			if ( is_object( $vote_two_thumb ) ) {
 				$vote_two_tag = $vote_two_thumb->toHtml();
 			}
 
 			$totalVotes = $imgOneCount + $imgTwoCount;
 
-			if( $imgOneCount == 0 ) {
+			if ( $imgOneCount == 0 ) {
 				$imgOnePercent = 0;
 				$barOneWidth = 0;
 			} else {
@@ -1382,7 +1383,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 				$barOneWidth = floor( 200 * ( $imgOneCount / $totalVotes ) );
 			}
 
-			if( $imgTwoCount == 0 ) {
+			if ( $imgTwoCount == 0 ) {
 				$imgTwoPercent = 0;
 				$barTwoWidth = 0;
 			} else {
@@ -1400,7 +1401,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 
 		// figure out if the user is an admin / the creator
 		$editlinks = '';
-		if( $user->isAllowed( 'picturegameadmin' ) ) {
+		if ( $user->isAllowed( 'picturegameadmin' ) ) {
 			// If the user can edit, throw in some links
 			$editlinks = ' - <a href="' . htmlspecialchars( $this->getPageTitle()->getFullURL(
 				'picGameAction=adminPanel' ) ) . '"> ' .
@@ -1411,7 +1412,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 
 		$createLink = '';
 		// Only registered users can create new picture games
-		if( $user->isLoggedIn() ) {
+		if ( $user->isLoggedIn() ) {
 			$createLink = '
 			<div class="create-link">
 				<a href="' . htmlspecialchars( $this->getPageTitle()->getFullURL( 'picGameAction=startCreate' ) ) . '">
@@ -1421,7 +1422,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 			</div>';
 		}
 		$editLink = $flagLink = '';
-		if( $user->isLoggedIn() ) {
+		if ( $user->isLoggedIn() ) {
 			if ( $user->isAllowed( 'picturegameadmin' ) && $wgUseEditButtonFloat == true ) {
 				$editLink .= '<div class="edit-menu-pic-game">
 					<div class="edit-button-pic-game">
@@ -1607,11 +1608,11 @@ class PictureGameHome extends UnlistedSpecialPage {
 			$row = $dbr->fetchObject( $res );
 
 			// if these image pairs don't exist, insert them
-			if( isset( $row ) && $row->mycount == 0 ) {
+			if ( isset( $row ) && $row->mycount == 0 ) {
 				$dbr->insert(
 					'picturegame_images',
-					array(
-						'userid' => $user->getID(),
+					[
+						'userid' => $user->getId(),
 						'username' => $user->getName(),
 						'img1' => $img1,
 						'img2' => $img2,
@@ -1619,24 +1620,24 @@ class PictureGameHome extends UnlistedSpecialPage {
 						'img1_caption' => $img1_caption,
 						'img2_caption' => $img2_caption,
 						'pg_date' => date( 'Y-m-d H:i:s' )
-					),
+					],
 					__METHOD__
 				);
 
 				$id = $dbr->selectField(
 					'picturegame_images',
 					'MAX(id) AS maxid',
-					array(),
+					[],
 					__METHOD__
 				);
 
 				// Increase social statistics
-				$stats = new UserStatsTrack( $user->getID(), $user->getName() );
+				$stats = new UserStatsTrack( $user->getId(), $user->getName() );
 				$stats->incStatField( 'picturegame_created' );
 
 				// Purge memcached
 				global $wgMemc;
-				$key = $wgMemc->makeKey( 'user', 'profile', 'picgame', $user->getID() );
+				$key = $wgMemc->makeKey( 'user', 'profile', 'picgame', $user->getId() );
 				$wgMemc->delete( $key );
 			}
 		}
@@ -1656,21 +1657,21 @@ class PictureGameHome extends UnlistedSpecialPage {
 		$permalinkError = false;
 
 		$dbr = wfGetDB( DB_MASTER );
-		if( $permalinkID > 0 ) {
+		if ( $permalinkID > 0 ) {
 			$isPermalink = true;
 
 			$mycount = (int)$dbr->selectField(
 				'picturegame_images',
 				'COUNT(*) AS mycount',
-				array(
+				[
 					'flag = ' . PictureGameHome::$FLAG_NONE .
 						' OR flag = ' . PictureGameHome::$FLAG_PROTECT,
 					'id' => $permalinkID
-				),
+				],
 				__METHOD__
 			);
 
-			if( $mycount == 0 ) {
+			if ( $mycount == 0 ) {
 				$out->addModuleStyles( 'ext.pictureGame.mainGame' );
 				$output = '
 					<div class="picgame-container" id="picgame-container">
@@ -1707,7 +1708,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 
 		// You need to be logged in to create a new picture game (because
 		// usually only registered users can upload files)
-		if( !$user->isLoggedIn() ) {
+		if ( !$user->isLoggedIn() ) {
 			$out->setPageTitle( $this->msg( 'picturegame-creategametitle' ) );
 			$output = $this->msg( 'picturegame-creategamenotloggedin' )->text();
 			$output .= "<p>
@@ -1726,21 +1727,21 @@ class PictureGameHome extends UnlistedSpecialPage {
 		 * Create Picture Game Thresholds based on User Stats
 		 */
 		global $wgCreatePictureGameThresholds;
-		if( is_array( $wgCreatePictureGameThresholds ) && count( $wgCreatePictureGameThresholds ) > 0 ) {
+		if ( is_array( $wgCreatePictureGameThresholds ) && count( $wgCreatePictureGameThresholds ) > 0 ) {
 			$can_create = true;
 
-			$stats = new UserStats( $user->getID(), $user->getName() );
+			$stats = new UserStats( $user->getId(), $user->getName() );
 			$stats_data = $stats->getUserStats();
 
 			$threshold_reason = '';
-			foreach( $wgCreatePictureGameThresholds as $field => $threshold ) {
+			foreach ( $wgCreatePictureGameThresholds as $field => $threshold ) {
 				if ( $stats_data[$field] < $threshold ) {
 					$can_create = false;
 					$threshold_reason .= ( ( $threshold_reason ) ? ', ' : '' ) . "$threshold $field";
 				}
 			}
 
-			if( $can_create == false ) {
+			if ( $can_create == false ) {
 				$out->setPageTitle( $this->msg( 'picturegame-create-threshold-title' )->plain() );
 				$out->addHTML( $this->msg( 'picturegame-create-threshold-reason', $threshold_reason )->text() );
 				return '';
@@ -1748,7 +1749,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 		}
 
 		// Show a link to the admin panel for picture game admins
-		if( $user->isAllowed( 'picturegameadmin' ) ) {
+		if ( $user->isAllowed( 'picturegameadmin' ) ) {
 			$adminlink = '<a href="' . htmlspecialchars( $this->getPageTitle()->getFullURL( 'picGameAction=adminPanel' ) ) . '"> ' .
 				$this->msg( 'picturegame-adminpanel' )->text() . ' </a>';
 		}
@@ -1758,11 +1759,11 @@ class PictureGameHome extends UnlistedSpecialPage {
 		$excludedIds = $dbr->select(
 			'picturegame_votes',
 			'picid',
-			array( 'username' => $user->getName() ),
+			[ 'username' => $user->getName() ],
 			__METHOD__
 		);
 
-		$excluded = array();
+		$excluded = [];
 		foreach ( $excludedIds as $excludedId ) {
 			$excluded[] = $excludedId->picid;
 		}
@@ -1772,12 +1773,12 @@ class PictureGameHome extends UnlistedSpecialPage {
 			$myCount = (int)$dbr->selectField(
 				'picturegame_images',
 				'COUNT(*) AS mycount',
-				array(
+				[
 					'id NOT IN(' . implode( ',', $excluded  ) . ')',
 					'flag != ' . PictureGameHome::$FLAG_FLAGGED,
 					"img1 <> ''",
 					"img2 <> ''"
-				),
+				],
 				__METHOD__
 			);
 			if ( $myCount > 0 ) {
