@@ -125,7 +125,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 				if ( $user->isLoggedIn() && $user->isAllowed( 'picturegameadmin' ) ) {
 					$this->protectImages();
 				} else {
-					echo $this->msg( 'picturegame-sysmsg-unauthorized' )->text();
+					echo $this->msg( 'picturegame-sysmsg-unauthorized' )->escaped();
 				}
 				break;
 			case 'unprotectImages':
@@ -197,15 +197,15 @@ class PictureGameHome extends UnlistedSpecialPage {
 		}
 
 		if ( $oneResult && $twoResult ) {
-			echo $this->msg( 'picturegame-sysmsg-successfuldelete' )->text();
+			echo $this->msg( 'picturegame-sysmsg-successfuldelete' )->escaped();
 			return;
 		}
 
 		if ( $oneResult ) {
-			echo $this->msg( 'picturegame-sysmsg-unsuccessfuldelete', $image1 )->text();
+			echo $this->msg( 'picturegame-sysmsg-unsuccessfuldelete', $image1 )->escaped();
 		}
 		if ( $twoResult ) {
-			echo $this->msg( 'picturegame-sysmsg-unsuccessfuldelete', $image2 )->text();
+			echo $this->msg( 'picturegame-sysmsg-unsuccessfuldelete', $image2 )->escaped();
 		}
 	}
 
@@ -228,7 +228,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 			$key != md5( $now . $this->SALT ) ||
 			( !$user->isLoggedIn() || !$user->isAllowed( 'picturegameadmin' ) )
 		) {
-			echo $this->msg( 'picturegame-sysmsg-badkey' )->text();
+			echo $this->msg( 'picturegame-sysmsg-badkey' )->escaped();
 			return;
 		}
 
@@ -241,7 +241,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 		);
 
 		$out->clearHTML();
-		echo $this->msg( 'picturegame-sysmsg-unflag' )->text();
+		echo $this->msg( 'picturegame-sysmsg-unflag' )->escaped();
 	}
 
 	/**
@@ -259,7 +259,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 		$imgTwoCaption = $request->getVal( 'imgTwoCaption' );
 
 		if ( $key != md5( $id . $this->SALT ) ) {
-			$out->addHTML( '<h3>' . $this->msg( 'picturegame-sysmsg-badkey' )->plain() . '</h3>' );
+			$out->addHTML( '<h3>' . $this->msg( 'picturegame-sysmsg-badkey' )->escaped() . '</h3>' );
 			return;
 		}
 
@@ -302,7 +302,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 
 		$row = $dbw->fetchObject( $res );
 		if ( empty( $row ) ) {
-			$out->addHTML( $this->msg( 'picturegame-nothing-to-edit' )->text() );
+			$out->addHTML( $this->msg( 'picturegame-nothing-to-edit' )->escaped() );
 			return;
 		}
 
@@ -380,7 +380,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 			<div id="edit-textboxes" class="edit-textboxes">
 
 				<div class="credit-box-edit" id="creditBox">
-					<h1>' . $this->msg( 'picturegame-submittedby' )->plain() . '</h1>
+					<h1>' . $this->msg( 'picturegame-submittedby' )->escaped() . '</h1>
 					<div class="submitted-by-image">
 						<a href="' . htmlspecialchars( $usrTitleObj->getFullURL() ) . "\">
 							<img src=\"{$wgUploadPath}/avatars/{$avatarID}\" style=\"border:1px solid #d7dee8; width:50px; height:50px;\" alt=\"\" border=\"0\"/>
@@ -407,7 +407,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 				</div>
 
 
-				<h1>" . $this->msg( 'picturegame-editgamegametitle' )->plain() . "</h1>
+				<h1>" . $this->msg( 'picturegame-editgamegametitle' )->escaped() . "</h1>
 				<p><input name=\"newTitle\" id=\"newTitle\" type=\"text\" value=\"{$title_text}\" size=\"40\"/></p>
 					<input id=\"key\" name=\"key\" type=\"hidden\" value=\"" . md5( $imgID . $this->SALT ) . "\" />
 					<input id=\"id\" name=\"id\" type=\"hidden\" value=\"{$imgID}\" />
@@ -416,19 +416,19 @@ class PictureGameHome extends UnlistedSpecialPage {
 			<div class=\"edit-images-container\">
 				<div id=\"edit-images\" class=\"edit-images\">
 					<div id=\"edit-image-one\" class=\"edit-image-one\">
-						<h1>" . $this->msg( 'picturegame-createeditfirstimage' )->plain() . "</h1>
+						<h1>" . $this->msg( 'picturegame-createeditfirstimage' )->escaped() . "</h1>
 						<p><input name=\"imgOneCaption\" id=\"imgOneCaption\" type=\"text\" value=\"{$img1_caption_text}\" /></p>
 						<p id=\"image-one-tag\">{$imgOne}</p>
 						<p><a class=\"picgame-upload-link-1\" href=\"#\" data-img-one-name=\"{$imgOneName}\">" .
-							$this->msg( 'picturegame-editgameuploadtext' )->plain() . '</a></p>
+							$this->msg( 'picturegame-editgameuploadtext' )->escaped() . '</a></p>
 					</div>
 
 					<div id="edit-image-two" class="edit-image-one">
-						<h1>' . $this->msg( 'picturegame-createeditsecondimage' )->plain() . "</h1>
+						<h1>' . $this->msg( 'picturegame-createeditsecondimage' )->escaped() . "</h1>
 						<p><input name=\"imgTwoCaption\" id=\"imgTwoCaption\" type=\"text\" value=\"{$img2_caption_text}\" /></p>
 						<p id=\"image-two-tag\">{$imgTwo}</p>
 						<p><a class=\"picgame-upload-link-2\" href=\"#\" data-img-two-name=\"{$imgTwoName}\">" .
-							$this->msg( 'picturegame-editgameuploadtext' )->plain() . "</a></p>
+							$this->msg( 'picturegame-editgameuploadtext' )->escaped() . "</a></p>
 					</div>
 
 					<div id=\"loadingImg\" class=\"loadingImg\" style=\"display:none\">
@@ -452,10 +452,10 @@ class PictureGameHome extends UnlistedSpecialPage {
 			'</div>
 
 			<div id="complete-buttons" class="complete-buttons">
-				<input type="button" onclick="document.picGameVote.submit()" value="' . $this->msg( 'picturegame-buttonsubmit' )->plain() . "\"/>
+				<input type="button" onclick="document.picGameVote.submit()" value="' . $this->msg( 'picturegame-buttonsubmit' )->escaped() . "\"/>
 				<input type=\"button\" onclick=\"window.location='" .
 					htmlspecialchars( $this->getPageTitle()->getFullURL( "picGameAction=renderPermalink&id={$imgID}" ) ) . "'\" value=\"" .
-					$this->msg( 'cancel' )->plain() . "\"/>
+					$this->msg( 'cancel' )->escaped() . "\"/>
 			</div>
 		</form>
 		</div>";
@@ -486,11 +486,11 @@ class PictureGameHome extends UnlistedSpecialPage {
 		$output .= '
 		<div class="back-link">
 			<a href="' . htmlspecialchars( $this->getPageTitle()->getFullURL( 'picGameAction=startGame' ) ) . '"> ' .
-				$this->msg( 'picturegame-adminpanelbacktogame' )->text() . '</a>
+				$this->msg( 'picturegame-adminpanelbacktogame' )->escaped() . '</a>
 		</div>
 
 		<div id="admin-container" class="admin-container">
-			<p><strong>' . $this->msg( 'picturegame-adminpanelflagged' )->text() . '</strong></p>';
+			<p><strong>' . $this->msg( 'picturegame-adminpanelflagged' )->escaped() . '</strong></p>';
 
 		$dbw = wfGetDB( DB_MASTER );
 		$res = $dbw->select(
@@ -507,7 +507,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 		// If we have nothing, indicate that in the UI instead of showing...
 		// well, nothing
 		if ( $dbw->numRows( $res ) <= 0 ) {
-			$output .= $this->msg( 'picturegame-none' )->text();
+			$output .= $this->msg( 'picturegame-none' )->escaped();
 		}
 
 		foreach ( $res as $row ) {
@@ -545,10 +545,10 @@ class PictureGameHome extends UnlistedSpecialPage {
 				</div>
 				<div class=\"admin-controls\">
 					<a class=\"picgame-unflag-link\" href=\"#\">" .
-						$this->msg( 'picturegame-adminpanelunflag' )->text() .
+						$this->msg( 'picturegame-adminpanelunflag' )->escaped() .
 					"</a> |
 					<a class=\"picgame-delete-link\" href=\"#\" data-row-img1=\"{$row->img1}\" data-row-img2=\"{$row->img2}\">"
-						. $this->msg( 'picturegame-adminpaneldelete' )->text() .
+						. $this->msg( 'picturegame-adminpaneldelete' )->escaped() .
 					"</a>
 					{$reason}
 				</div>
@@ -558,7 +558,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 
 		$output .= '</div>
 		<div id="admin-container" class="admin-container">
-			<p><strong>' . $this->msg( 'picturegame-adminpanelprotected' )->text() . '</strong></p>';
+			<p><strong>' . $this->msg( 'picturegame-adminpanelprotected' )->escaped() . '</strong></p>';
 		$dbw = wfGetDB( DB_MASTER );
 		$res = $dbw->select(
 			'picturegame_images',
@@ -574,7 +574,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 		// If we have nothing, indicate that in the UI instead of showing...
 		// well, nothing
 		if ( $dbw->numRows( $res ) <= 0 ) {
-			$output .= $this->msg( 'picturegame-none' )->text();
+			$output .= $this->msg( 'picturegame-none' )->escaped();
 		}
 
 		foreach ( $res as $row ) {
@@ -606,10 +606,10 @@ class PictureGameHome extends UnlistedSpecialPage {
 				</div>
 				<div class=\"admin-controls\">
 					<a class=\"picgame-unprotect-link\" href=\"#\">" .
-						$this->msg( 'picturegame-adminpanelunprotect' )->text() .
+						$this->msg( 'picturegame-adminpanelunprotect' )->escaped() .
 					"</a> |
 					<a class=\"picgame-delete-link\" href=\"#\" data-row-img1=\"{$row->img1}\" data-row-img2=\"{$row->img2}\">"
-						. $this->msg( 'picturegame-adminpaneldelete' )->text() .
+						. $this->msg( 'picturegame-adminpaneldelete' )->escaped() .
 						'</a>
 					</div>
 					<div class="visualClear"></div>
@@ -634,7 +634,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 		$key = $request->getVal( 'key' );
 		$comment = $request->getVal( 'comment' ) ? $request->getVal( 'comment' ) : ''; // reason for flagging
 		if ( $key != md5( $id . $this->SALT ) ) {
-			echo $this->msg( 'picturegame-sysmsg-badkey' )->plain();
+			echo $this->msg( 'picturegame-sysmsg-badkey' )->escaped();
 			return;
 		}
 
@@ -648,7 +648,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 
 		$out->clearHTML();
 		echo '<div style="color:red; font-weight:bold; font-size:16px; margin:-5px 0px 20px 0px;">' .
-			$this->msg( 'picturegame-sysmsg-flag' )->plain() .
+			$this->msg( 'picturegame-sysmsg-flag' )->escaped() .
 		'</div>';
 	}
 
@@ -666,7 +666,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 		$chain = $request->getVal( 'chain' );
 
 		if ( $key != md5( $chain . $this->SALT ) ) {
-			echo $this->msg( 'picturegame-sysmsg-badkey' )->plain();
+			echo $this->msg( 'picturegame-sysmsg-badkey' )->escaped();
 			return;
 		}
 
@@ -679,7 +679,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 		);
 
 		$out->clearHTML();
-		echo $this->msg( 'picturegame-sysmsg-unprotect' )->plain();
+		echo $this->msg( 'picturegame-sysmsg-unprotect' )->escaped();
 	}
 
 	/**
@@ -695,7 +695,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 		$key = $request->getVal( 'key' );
 
 		if ( $key != md5( $id . $this->SALT ) ) {
-			echo $this->msg( 'picturegame-sysmsg-badkey' )->plain();
+			echo $this->msg( 'picturegame-sysmsg-badkey' )->escaped();
 			return;
 		}
 
@@ -708,7 +708,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 		);
 
 		$out->clearHTML();
-		echo $this->msg( 'picturegame-sysmsg-protect' )->plain();
+		echo $this->msg( 'picturegame-sysmsg-protect' )->escaped();
 	}
 
 	function displayGallery() {
@@ -716,6 +716,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 		$out = $this->getOutput();
 		$request = $this->getRequest();
 		$user = $this->getUser();
+		$linkRenderer = $this->getLinkRenderer();
 		$thisTitle = $this->getPageTitle();
 
 		$out->setHTMLTitle( $this->msg( 'pagetitle', $this->msg( 'picturegame-gallery' )->text() )->text() );
@@ -757,91 +758,91 @@ class PictureGameHome extends UnlistedSpecialPage {
 		$output = '<div class="picgame-gallery-navigation">';
 
 		if ( $type == 'votes' && $direction == 'most' ) {
-			$output .= '<h1>' . $this->msg( 'picturegame-most' )->text() . '</h1>
-					<p><b>' . $this->msg( 'picturegame-mostvotes' )->text() . '</b></p>
+			$output .= '<h1>' . $this->msg( 'picturegame-most' )->escaped() . '</h1>
+					<p><b>' . $this->msg( 'picturegame-mostvotes' )->escaped() . '</b></p>
 					<p><a href="' . htmlspecialchars( $thisTitle->getFullURL( [
 						'picGameAction' => 'gallery',
 						'type' => 'heat',
 						'direction' => 'most'
-					] ) ) . '">' . $this->msg( 'picturegame-mostheat' )->text() . '</a></p>
+					] ) ) . '">' . $this->msg( 'picturegame-mostheat' )->escaped() . '</a></p>
 
-					<h1 style="margin:10px 0px !important;">' . $this->msg( 'picturegame-least' )->text() . '</h1>
+					<h1 style="margin:10px 0px !important;">' . $this->msg( 'picturegame-least' )->escaped() . '</h1>
 					<p><a href="' . htmlspecialchars( $thisTitle->getFullURL( [
 						'picGameAction' => 'gallery',
 						'type' => 'votes',
 						'direction' => 'least'
-					] ) ) . '">' . $this->msg( 'picturegame-leastvotes' )->text() . '</a></p>
+					] ) ) . '">' . $this->msg( 'picturegame-leastvotes' )->escaped() . '</a></p>
 					<p><a href="' . htmlspecialchars( $thisTitle->getFullURL( [
 						'picGameAction' => 'gallery',
 						'type' => 'heat',
 						'direction' => 'least'
-					] ) ) . '">' . $this->msg( 'picturegame-leastheat' )->text() . '</a></p>';
+					] ) ) . '">' . $this->msg( 'picturegame-leastheat' )->escaped() . '</a></p>';
 		}
 
 		if ( $type == 'votes' && $direction == 'least' ) {
-			$output .= '<h1>' . $this->msg( 'picturegame-most' )->text() . '</h1>
+			$output .= '<h1>' . $this->msg( 'picturegame-most' )->escaped() . '</h1>
 					<p><a href="' . htmlspecialchars( $thisTitle->getFullURL( [
 						'picGameAction' => 'gallery',
 						'type' => 'votes',
 						'direction' => 'most'
-					] ) ) . '">' . $this->msg( 'picturegame-mostvotes' )->text() . '</a></p>
+					] ) ) . '">' . $this->msg( 'picturegame-mostvotes' )->escaped() . '</a></p>
 					<p><a href="' . htmlspecialchars( $thisTitle->getFullURL( [
 						'picGameAction' => 'gallery',
 						'type' => 'heat',
 						'direction' => 'most'
-					] ) ) . '">' . $this->msg( 'picturegame-mostheat' )->text() . '</a></p>
+					] ) ) . '">' . $this->msg( 'picturegame-mostheat' )->escaped() . '</a></p>
 
-					<h1 style="margin:10px 0px !important;">' . $this->msg( 'picturegame-least' )->text() . '</h1>
-					<p><b>' . $this->msg( 'picturegame-leastvotes' )->text() . '</b></p>
+					<h1 style="margin:10px 0px !important;">' . $this->msg( 'picturegame-least' )->escaped() . '</h1>
+					<p><b>' . $this->msg( 'picturegame-leastvotes' )->escaped() . '</b></p>
 					<p><a href="' . htmlspecialchars( $thisTitle->getFullURL( [
 						'picGameAction' => 'gallery',
 						'type' => 'heat',
 						'direction' => 'least'
-					] ) ) . '">' . $this->msg( 'picturegame-leastheat' )->text() . '</a></p>';
+					] ) ) . '">' . $this->msg( 'picturegame-leastheat' )->escaped() . '</a></p>';
 		}
 
 		if ( $type == 'heat' && $direction == 'most' ) {
-			$output .= '<h1>' . $this->msg( 'picturegame-most' )->text() . '</h1>
+			$output .= '<h1>' . $this->msg( 'picturegame-most' )->escaped() . '</h1>
 					<p><a href="' . htmlspecialchars( $thisTitle->getFullURL( [
 						'picGameAction' => 'gallery',
 						'type' => 'votes',
 						'direction' => 'most'
-					] ) ) . '">' . $this->msg( 'picturegame-mostvotes' )->text() . '</a></p>
-					<p><b>' . $this->msg( 'picturegame-mostheat' )->text() . '</b></p>
+					] ) ) . '">' . $this->msg( 'picturegame-mostvotes' )->escaped() . '</a></p>
+					<p><b>' . $this->msg( 'picturegame-mostheat' )->escaped() . '</b></p>
 
-					<h1 style="margin:10px 0px !important;">' . $this->msg( 'picturegame-least' )->text() . '</h1>
+					<h1 style="margin:10px 0px !important;">' . $this->msg( 'picturegame-least' )->escaped() . '</h1>
 					<p><a href="' . htmlspecialchars( $thisTitle->getFullURL( [
 						'picGameAction' => 'gallery',
 						'type' => 'votes',
 						'direction' => 'least'
-					] ) ) . '">' . $this->msg( 'picturegame-leastvotes' )->text() . '</a></p>
+					] ) ) . '">' . $this->msg( 'picturegame-leastvotes' )->escaped() . '</a></p>
 					<p><a href="' . htmlspecialchars( $thisTitle->getFullURL( [
 						'picGameAction' => 'gallery',
 						'type' => 'heat',
 						'direction' => 'least'
-					] ) ) . '">' . $this->msg( 'picturegame-leastheat' )->text() . '</a></p>';
+					] ) ) . '">' . $this->msg( 'picturegame-leastheat' )->escaped() . '</a></p>';
 		}
 
 		if ( $type == 'heat' && $direction == 'least' ) {
-			$output .= '<h1>' . $this->msg( 'picturegame-most' )->text() . '</h1>
+			$output .= '<h1>' . $this->msg( 'picturegame-most' )->escaped() . '</h1>
 					<p><a href="' . htmlspecialchars( $thisTitle->getFullURL( [
 						'picGameAction' => 'gallery',
 						'type' => 'votes',
 						'direction' => 'most'
-					] ) ) . '">' . $this->msg( 'picturegame-mostvotes' )->text() . '</a></p>
+					] ) ) . '">' . $this->msg( 'picturegame-mostvotes' )->escaped() . '</a></p>
 					<p><a href="' . htmlspecialchars( $thisTitle->getFullURL( [
 						'picGameAction' => 'gallery',
 						'type' => 'heat',
 						'direction' => 'most'
-					] ) ) . '">' . $this->msg( 'picturegame-mostheat' )->text() . '</a></p>
+					] ) ) . '">' . $this->msg( 'picturegame-mostheat' )->escaped() . '</a></p>
 
-					<h1 style="margin:10px 0px !important;">' . $this->msg( 'picturegame-least' )->text() . '</h1>
+					<h1 style="margin:10px 0px !important;">' . $this->msg( 'picturegame-least' )->escaped() . '</h1>
 					<p><a href="' . htmlspecialchars( $thisTitle->getFullURL( [
 						'picGameAction' => 'gallery',
 						'type' => 'votes',
 						'direction' => 'least'
-					] ) ) . '">' . $this->msg( 'picturegame-leastvotes' )->text() . '</a></p>
-					<p><b>' . $this->msg( 'picturegame-leastheat' )->text() . '</b></p>';
+					] ) ) . '">' . $this->msg( 'picturegame-leastvotes' )->escaped() . '</a></p>
+					<p><b>' . $this->msg( 'picturegame-leastheat' )->escaped() . '</b></p>';
 		}
 
 		$output .= '</div>';
@@ -960,7 +961,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 			$output .= '<div class="page-nav">';
 
 			if ( $page > 1 ) {
-				$output .= Linker::link(
+				$output .= $linkRenderer->makeLink(
 					$thisTitle,
 					$this->msg( 'picturegame-prev' )->text(),
 					[],
@@ -970,14 +971,14 @@ class PictureGameHome extends UnlistedSpecialPage {
 						'type' => $type,
 						'direction' => $direction
 					]
-				) . $this->msg( 'word-separator' )->plain();
+				) . $this->msg( 'word-separator' )->escaped();
 			}
 
 			for ( $i = 1; $i <= $numofpages; $i++ ) {
 				if ( $i == $page ) {
 					$output .= ( $i . ' ' );
 				} else {
-					$output .= Linker::link(
+					$output .= $linkRenderer->makeLink(
 						$thisTitle,
 						$i,
 						[],
@@ -987,12 +988,12 @@ class PictureGameHome extends UnlistedSpecialPage {
 							'type' => $type,
 							'direction' => $direction
 						]
-					) . $this->msg( 'word-separator' )->plain();
+					) . $this->msg( 'word-separator' )->escaped();
 				}
 			}
 
 			if ( $page < $numofpages ) {
-				$output .= $this->msg( 'word-separator' )->plain() . Linker::link(
+				$output .= $this->msg( 'word-separator' )->escaped() . $linkRenderer->makeLink(
 					$thisTitle,
 					$this->msg( 'picturegame-next' )->text(),
 					[],
@@ -1030,7 +1031,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 		$imgnum = ( $img == 0 ) ? 0 : 1;
 
 		if ( $key != md5( $id . $this->SALT ) ) {
-			$out->addHTML( $this->msg( 'picturegame-sysmsg-badkey' )->plain() );
+			$out->addHTML( $this->msg( 'picturegame-sysmsg-badkey' )->escaped() );
 			return;
 		}
 
@@ -1401,9 +1402,9 @@ class PictureGameHome extends UnlistedSpecialPage {
 			// If the user can edit, throw in some links
 			$editlinks = ' - <a href="' . htmlspecialchars( $this->getPageTitle()->getFullURL(
 				'picGameAction=adminPanel' ) ) . '"> ' .
-				$this->msg( 'picturegame-adminpanel' )->text() .
+				$this->msg( 'picturegame-adminpanel' )->escaped() .
 			'</a> - <a class="picgame-protect-link" href="javascript:void(0);"> '
-				. $this->msg( 'picturegame-protectimages' )->text() . '</a>';
+				. $this->msg( 'picturegame-protectimages' )->escaped() . '</a>';
 		}
 
 		$createLink = '';
@@ -1413,7 +1414,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 			<div class="create-link">
 				<a href="' . htmlspecialchars( $this->getPageTitle()->getFullURL( 'picGameAction=startCreate' ) ) . '">
 					<img src="' . $wgExtensionAssetsPath . '/SocialProfile/images/addIcon.gif" border="0" alt="" />'
-					. $this->msg( 'picturegame-createlink' )->text() .
+					. $this->msg( 'picturegame-createlink' )->escaped() .
 				'</a>
 			</div>';
 		}
@@ -1423,12 +1424,12 @@ class PictureGameHome extends UnlistedSpecialPage {
 				$editLink .= '<div class="edit-menu-pic-game">
 					<div class="edit-button-pic-game">
 						<img src="' . $wgExtensionAssetsPath . '/SocialProfile/images/editIcon.gif" alt="" />
-						<a class="picgame-edit-link" href="#">' . $this->msg( 'edit' )->text() . '</a>
+						<a class="picgame-edit-link" href="#">' . $this->msg( 'edit' )->escaped() . '</a>
 					</div>
 				</div>';
 			}
 			$flagLink .= "<a class=\"picgame-flag-link\" href=\"#\">"
-				. $this->msg( 'picturegame-reportimages' )->text() . " </a> - ";
+				. $this->msg( 'picturegame-reportimages' )->escaped() . " </a> - ";
 		}
 
 		$id = User::idFromName( $user_title->getText() );
@@ -1475,12 +1476,12 @@ class PictureGameHome extends UnlistedSpecialPage {
 								<a href=\"javascript:window.parent.document.location='" .
 									htmlspecialchars( $this->getPageTitle()->getFullURL( 'picGameAction=renderPermalink' ) ) .
 									"&id=' + document.getElementById('lastid').value\">"
-									. $this->msg( 'picturegame-backbutton' )->text() .
+									. $this->msg( 'picturegame-backbutton' )->escaped() .
 								"</a>
 							</li>
 							<li id=\"skipButton\" style=\"display:" . ( $next_id > 0 ? 'block' : 'none' ) . "\">
 								<a href=\"" . htmlspecialchars( $this->getPageTitle()->getFullURL( 'picGameAction=startGame' ) ) . '">'
-									. $this->msg( 'picturegame-skipbutton' )->text() .
+									. $this->msg( 'picturegame-skipbutton' )->escaped() .
 								'</a>
 							</li>
 						</ul>
@@ -1499,7 +1500,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 			<div class=\"other-info\">
 				{$createLink}
 				<div class=\"credit-box\" id=\"creditBox\">
-					<h1>" . $this->msg( 'picturegame-submittedby' )->text() . "</h1>
+					<h1>" . $this->msg( 'picturegame-submittedby' )->escaped() . "</h1>
 					<div class=\"submitted-by-image\">
 						<a href=\"{$user_title->getFullURL()}\">
 							<img src=\"{$wgUploadPath}/avatars/{$avatarID}\" style=\"border:1px solid #d7dee8; width:50px; height:50px;\" alt=\"\" />
@@ -1527,7 +1528,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 
 				<div class=\"voteStats\" id=\"voteStats\" style=\"display:none\">
 					<div id=\"vote-stats-text\">
-						<h1>" . $this->msg( 'picturegame-previousgame' )->text() . " ({$totalVotes})</h1></div>
+						<h1>" . $this->msg( 'picturegame-previousgame' )->escaped() . " ({$totalVotes})</h1></div>
 					<div class=\"vote-bar\">
 						<span class=\"vote-thumbnail\" id=\"one-vote-thumbnail\">{$vote_one_tag}</span>
 						<span class=\"vote-percent\" id=\"one-vote-percent\">{$imgOnePercent}%</span>
@@ -1545,7 +1546,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 				</div>
 				<div class=\"utilityButtons\" id=\"utilityButtons\">" . $flagLink .
 					"<a class=\"picgame-permalink\" href=\"#\">"
-						. $this->msg( 'picturegame-permalink' )->text() .
+						. $this->msg( 'picturegame-permalink' )->escaped() .
 					'</a>'
 				. $editlinks . "
 				</div>
@@ -1678,9 +1679,9 @@ class PictureGameHome extends UnlistedSpecialPage {
 				$out->addModuleStyles( 'ext.pictureGame.mainGame' );
 				$output = '
 					<div class="picgame-container" id="picgame-container">
-						<p>' . $this->msg( 'picturegame-permalinkflagged' )->text() . '</p>
+						<p>' . $this->msg( 'picturegame-permalinkflagged' )->escaped() . '</p>
 						<p><input type="button" class="site-button" value="' .
-							$this->msg( 'picturegame-buttonplaygame' )->text() .
+							$this->msg( 'picturegame-buttonplaygame' )->escaped() .
 							'" onclick="window.location=\'' .
 							htmlspecialchars( $this->getPageTitle()->getFullURL( 'picGameAction=startGame' ) ) . '\'" />
 						</p>
@@ -1713,14 +1714,14 @@ class PictureGameHome extends UnlistedSpecialPage {
 		// usually only registered users can upload files)
 		if ( !$user->isLoggedIn() ) {
 			$out->setPageTitle( $this->msg( 'picturegame-creategametitle' ) );
-			$output = $this->msg( 'picturegame-creategamenotloggedin' )->text();
+			$output = $this->msg( 'picturegame-creategamenotloggedin' )->escaped();
 			$output .= "<p>
 				<input type=\"button\" class=\"site-button\" onclick=\"window.location='" .
 					htmlspecialchars( SpecialPage::getTitleFor( 'Userlogin', 'signup' )->getFullURL() ) .
-					"'\" value=\"" . $this->msg( 'picturegame-signup' )->text() . "\" />
+					"'\" value=\"" . $this->msg( 'picturegame-signup' )->escaped() . "\" />
 				<input type=\"button\" class=\"site-button\" onclick=\"window.location='" .
 					htmlspecialchars( SpecialPage::getTitleFor( 'Userlogin' )->getFullURL() ) .
-					"'\" value=\"" . $this->msg( 'picturegame-login' )->text() . "\" />
+					"'\" value=\"" . $this->msg( 'picturegame-login' )->escaped() . "\" />
 			</p>";
 			$out->addHTML( $output );
 			return;
@@ -1746,7 +1747,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 
 			if ( $can_create == false ) {
 				$out->setPageTitle( $this->msg( 'picturegame-create-threshold-title' )->plain() );
-				$out->addHTML( $this->msg( 'picturegame-create-threshold-reason', $threshold_reason )->text() );
+				$out->addHTML( $this->msg( 'picturegame-create-threshold-reason', $threshold_reason )->escaped() );
 				return '';
 			}
 		}
@@ -1754,7 +1755,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 		// Show a link to the admin panel for picture game admins
 		if ( $user->isAllowed( 'picturegameadmin' ) ) {
 			$adminlink = '<a href="' . htmlspecialchars( $this->getPageTitle()->getFullURL( 'picGameAction=adminPanel' ) ) . '"> ' .
-				$this->msg( 'picturegame-adminpanel' )->text() . ' </a>';
+				$this->msg( 'picturegame-adminpanel' )->escaped() . ' </a>';
 		}
 
 		$dbr = wfGetDB( DB_MASTER );
@@ -1797,11 +1798,11 @@ class PictureGameHome extends UnlistedSpecialPage {
 		$out->addModuleStyles( 'ext.pictureGame.startGame' );
 
 		$output = "\t\t" . '<div class="pick-game-welcome-message">';
-		$output .= $this->msg( 'picturegame-creategamewelcome' )->text();
+		$output .= $this->msg( 'picturegame-creategamewelcome' )->escaped();
 		$output .= '<br />
 
 			<div id="skipButton" class="startButton">';
-		$play_button_text = $this->msg( 'picturegame-creategameplayinstead' )->text();
+		$play_button_text = $this->msg( 'picturegame-creategameplayinstead' )->escaped();
 		$skipButton = '';
 		if ( $canSkip ) {
 			$skipButton = "<input class=\"site-button\" type=\"button\" id=\"skip-button\" value=\"{$play_button_text}\"/>";
@@ -1814,7 +1815,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 				<div id="uploadTitle" class="uploadTitle">
 					<form id="picGamePlay" name="picGamePlay" method="post" action="' .
 						htmlspecialchars( $this->getPageTitle()->getFullURL( 'picGameAction=createGame' ) ) . '">
-						<h1>' . $this->msg( 'picturegame-creategamegametitle' )->text() . '</h1>
+						<h1>' . $this->msg( 'picturegame-creategamegametitle' )->escaped() . '</h1>
 						<div class="picgame-errors" id="picgame-errors"></div>
 						<p>
 							<input name="picGameTitle" id="picGameTitle" type="text" value="" size="40" />
@@ -1833,7 +1834,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 					<div id="uploadImageForms" class="uploadImage">
 
 						<div id="imageOneUpload" class="imageOneUpload">
-							<h1>' . $this->msg( 'picturegame-createeditfirstimage' )->text() . '</h1>
+							<h1>' . $this->msg( 'picturegame-createeditfirstimage' )->escaped() . '</h1>
 							<!--Caption:<br /><input name="picOneDesc" id="picOneDesc" type="text" value="" /><br />-->
 							<div id="imageOneUploadError"></div>
 							<div id="imageOneLoadingImg" class="loadingImg" style="display:none">
@@ -1845,7 +1846,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 						</div>
 
 						<div id="imageTwoUpload" class="imageTwoUpload">
-							<h1>' . $this->msg( 'picturegame-createeditsecondimage' )->text() . '</h1>
+							<h1>' . $this->msg( 'picturegame-createeditsecondimage' )->escaped() . '</h1>
 							<!--Caption:<br /><input name="picTwoDesc" id="picTwoDesc" type="text" value="" /><br />-->
 							<div id="imageTwoUploadError"></div>
 							<div id="imageTwoLoadingImg" class="loadingImg" style="display:none">
@@ -1862,7 +1863,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 			</div>
 
 			<div id="startButton" class="startButton" style="display: none;">
-				<input type="button" class="site-button" value="' . $this->msg( 'picturegame-creategamecreateplay' )->text() . '" />
+				<input type="button" class="site-button" value="' . $this->msg( 'picturegame-creategamecreateplay' )->escaped() . '" />
 			</div>';
 
 		$out->addHTML( $output );
