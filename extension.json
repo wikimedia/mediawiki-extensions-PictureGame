@@ -1,6 +1,6 @@
 {
 	"name": "PictureGame",
-	"version": "4.0.1",
+	"version": "4.0.2",
 	"author": [
 		"Aaron Wright",
 		"Ashish Datta",
@@ -38,6 +38,7 @@
 	},
 	"Hooks": {
 		"SkinTemplateNavigation::SpecialPage": "PictureGameHooks::onSkinTemplateNavigationSpecialPage",
+		"SkinTemplateOutputPageBeforeExec": "PictureGameHooks::onSkinTemplateOutputPageBeforeExec",
 		"LoadExtensionSchemaUpdates": "PictureGameHooks::onLoadExtensionSchemaUpdates",
 		"RenameUserSQL": "PictureGameHooks::onRenameUserSQL"
 	},

@@ -36,6 +36,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 	 * @param mixed|null $par Parameter passed to the page, if any
 	 */
 	public function execute( $par ) {
+		global $wgSecretKey;
 		$out = $this->getOutput();
 		$request = $this->getRequest();
 		$user = $this->getUser();
@@ -59,7 +60,8 @@ class PictureGameHome extends UnlistedSpecialPage {
 		$this->setHeaders();
 
 		// Salt as you like
-		$this->SALT = md5( $user->getName() );
+		// FIXME replace with MediaWiki's edit token system.
+		$this->SALT = MWCryptHash::hmac( $user->getName(), $wgSecretKey, false );
 
 		// Add the main JS file
 		$out->addModules( 'ext.pictureGame' );
@@ -369,11 +371,11 @@ class PictureGameHome extends UnlistedSpecialPage {
 		}
 
 		$usrTitleObj = Title::makeTitle( NS_USER, $row->username );
-		$imgPath = $wgExtensionAssetsPath . '/SocialProfile/images';
+		$imgPath = htmlspecialchars( $wgExtensionAssetsPath . '/SocialProfile/images' );
 
-		$formattedVoteCount = $lang->formatNum( $stats_data['votes'] );
-		$formattedEditCount = $lang->formatNum( $stats_data['edits'] );
-		$formattedCommentCount = $lang->formatNum( $stats_data['comments'] );
+		$formattedVoteCount = htmlspecialchars( $lang->formatNum( $stats_data['votes'] ) );
+		$formattedEditCount = htmlspecialchars( $lang->formatNum( $stats_data['edits'] ) );
+		$formattedCommentCount = htmlspecialchars( $lang->formatNum( $stats_data['comments'] ) );
 		$output .= '<div id="edit-container" class="edit-container">
 			<form id="picGameVote" name="picGameVote" method="post" action="' .
 			htmlspecialchars( $this->getPageTitle()->getFullURL( 'picGameAction=completeEdit' ) ) . '">
@@ -472,12 +474,12 @@ class PictureGameHome extends UnlistedSpecialPage {
 		$request = $this->getRequest();
 		$user = $this->getUser();
 
-		$now = time();
-		$key = md5( $now . $this->SALT );
+		$now = Xml::encodeJsVar( time() );
+		$key = Xml::encodeJsVar( md5( $now . $this->SALT ) );
 
 		$output = '<script type="text/javascript">
-			var __admin_panel_now__ = "' . $now . '";
-			var __admin_panel_key__ = "' . $key . '";
+			var __admin_panel_now__ = ' . $now . ';
+			var __admin_panel_key__ = ' . $key . ';
 		</script>';
 
 		$out->addModuleStyles( 'ext.pictureGame.adminPanel' );
@@ -524,17 +526,21 @@ class PictureGameHome extends UnlistedSpecialPage {
 				$img_two_tag = $thumb_two->toHtml();
 			}
 
-			$img_one_description = $lang->truncateForVisual( $row->img1, 12 );
-			$img_two_description = $lang->truncateForVisual( $row->img2, 12 );
+			$img_one_description = htmlspecialchars( $lang->truncateForVisual( $row->img1, 12 ) );
+			$img_two_description = htmlspecialchars( $lang->truncateForVisual( $row->img2, 12 ) );
+			$img1Name = htmlspecialchars( $row->img1 );
+			$img2Name = htmlspecialchars( $row->img2 );
 
 			$reason = '';
+			$comment = htmlspecialchars( $row->comment );
+			$id = (int)$row->id;
 			if ( !empty( $row->comment ) ) {
-				$reason .= "<div class=\"picturegame-adminpanelflag\" id=\"picturegame-adminpanelflagreason-{$row->id}\">
-				<b>" . $this->msg( 'picturegame-adminpanelreason' )->escaped() . "</b>: {$row->comment}
+				$reason .= "<div class=\"picturegame-adminpanelflag\" id=\"picturegame-adminpanelflagreason-$id\">
+				<b>" . $this->msg( 'picturegame-adminpanelreason' )->escaped() . "</b>: $comment
 				</div><p>";
 			}
 
-			$output .= '<div id="' . $row->id . "\" class=\"admin-row\">
+			$output .= '<div id="' . $id . "\" class=\"admin-row\">
 				<div class=\"admin-image\">
 					<p>{$img_one_tag}</p>
 					<p><b>{$img_one_description}</b></p>
@@ -547,7 +553,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 					<a class=\"picgame-unflag-link\" href=\"#\">" .
 						$this->msg( 'picturegame-adminpanelunflag' )->escaped() .
 					"</a> |
-					<a class=\"picgame-delete-link\" href=\"#\" data-row-img1=\"{$row->img1}\" data-row-img2=\"{$row->img2}\">"
+					<a class=\"picgame-delete-link\" href=\"#\" data-row-img1=\"$img1Name\" data-row-img2=\"$img2Name\">"
 						. $this->msg( 'picturegame-adminpaneldelete' )->escaped() .
 					"</a>
 					{$reason}
@@ -591,10 +597,13 @@ class PictureGameHome extends UnlistedSpecialPage {
 				$img_two_tag = $thumb_two->toHtml();
 			}
 
-			$img_one_description = $lang->truncateForVisual( $row->img1, 12 );
-			$img_two_description = $lang->truncateForVisual( $row->img2, 12 );
+			$img_one_description = htmlspecialchars( $lang->truncateForVisual( $row->img1, 12 ) );
+			$img_two_description = htmlspecialchars( $lang->truncateForVisual( $row->img2, 12 ) );
 
-			$output .= '<div id="' . $row->id . "\" class=\"admin-row\">
+			$img1Name = htmlspecialchars( $row->img1 );
+			$img2Name = htmlspecialchars( $row->img2 );
+			$id = (int)$row->id;
+			$output .= '<div id="' . $id . "\" class=\"admin-row\">
 
 				<div class=\"admin-image\">
 					<p>{$img_one_tag}</p>
@@ -608,7 +617,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 					<a class=\"picgame-unprotect-link\" href=\"#\">" .
 						$this->msg( 'picturegame-adminpanelunprotect' )->escaped() .
 					"</a> |
-					<a class=\"picgame-delete-link\" href=\"#\" data-row-img1=\"{$row->img1}\" data-row-img2=\"{$row->img2}\">"
+					<a class=\"picgame-delete-link\" href=\"#\" data-row-img1=\"$img1Name\" data-row-img2=\"$img2Name\">"
 						. $this->msg( 'picturegame-adminpaneldelete' )->escaped() .
 						'</a>
 					</div>
@@ -896,12 +905,12 @@ class PictureGameHome extends UnlistedSpecialPage {
 		$preloadImages = [];
 
 		foreach ( $res as $row ) {
-			$gameid = $row->id;
+			$gameid = (int)$row->id;
 
-			$title_text = $lang->truncateForVisual( $row->title, 23 );
+			$title_text = htmlspecialchars( $lang->truncateForVisual( $row->title, 23 ) );
 
-			$imgOneCount = $row->img0_votes;
-			$imgTwoCount = $row->img1_votes;
+			$imgOneCount = (int)$row->img0_votes;
+			$imgTwoCount = (int)$row->img1_votes;
 			$totalVotes = $imgOneCount + $imgTwoCount;
 
 			if ( $imgOneCount == 0 ) {
@@ -930,7 +939,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 			}
 
 			$output .= "
-			<div class=\"picgame-gallery-thumbnail\" id=\"picgame-gallery-thumbnail-{$x}\" onclick=\"javascript:document.location=wgScriptPath+'/index.php?title=Special:PictureGameHome&picGameAction=renderPermalink&id={$gameid}'\">
+			<div class=\"picgame-gallery-thumbnail\" id=\"picgame-gallery-thumbnail-{$x}\" onclick=\"javascript:document.location=mw.config.get('wgScriptPath')+'/index.php?title=Special:PictureGameHome&picGameAction=renderPermalink&id={$gameid}'\">
 			<h1>{$title_text} ({$totalVotes})</h1>
 
 				<div class=\"picgame-gallery-thumbnailimg\">
@@ -1842,7 +1851,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 							</div>
 							<div id="imageOne" class="imageOne" style="display:none;"></div>
 							<iframe class="imageOneUpload-frame" scrolling="no" frameborder="0" width="400" id="imageOneUpload-frame" src="' .
-								htmlspecialchars( $uploadObj->getFullURL( 'callbackPrefix=imageOne_' ) ) . '"></iframe>
+								htmlspecialchars( $uploadObj->getFullURL( 'wpCallbackPrefix=imageOne_' ) ) . '"></iframe>
 						</div>
 
 						<div id="imageTwoUpload" class="imageTwoUpload">
@@ -1854,7 +1863,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 							</div>
 							<div id="imageTwo" class="imageTwo" style="display:none;"></div>
 							<iframe id="imageTwoUpload-frame" scrolling="no" frameborder="0" width="510" src="' .
-								htmlspecialchars( $uploadObj->getFullURL( 'callbackPrefix=imageTwo_' ) ) . '"></iframe>
+								htmlspecialchars( $uploadObj->getFullURL( 'wpCallbackPrefix=imageTwo_' ) ) . '"></iframe>
 						</div>
 
 						<div class="visualClear"></div>

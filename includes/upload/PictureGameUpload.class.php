@@ -23,7 +23,8 @@ class PictureGameUpload extends UploadFromFile {
 		if ( !$desiredDestName ) {
 			$desiredDestName = $request->getFileName( 'wpUploadFile' );
 		}
-		$prefix = $request->getText( 'wpCallbackPrefix' ); // added for PictureGame
+		// Added for PictureGame
+		$prefix = SpecialPictureGameAjaxUpload::getCallbackPrefix( $request );
 		$desiredDestName = time() . '-' . $prefix . $desiredDestName;
 
 		$this->initialize( $desiredDestName, $upload );

@@ -194,12 +194,8 @@ class SpecialPictureGameAjaxUpload extends SpecialUpload {
 	 * @param $message String: error message to show
 	 */
 	protected function showUploadError( $message ) {
-		$prefix = $this->getRequest()->getVal( 'wpCallbackPrefix' );
-		if ( strlen( $prefix ) == 0 ) {
-			$prefix = '';
-		}
-		$message = addslashes( $message );
-		$message = str_replace( [ "\r\n", "\r", "\n" ], ' ', $message );
+		$prefix = self::getCallbackPrefix( $this->getRequest() );
+		$message = Xml::encodeJsVar( $message );
 		$output = "<script language=\"javascript\">
 			/*<![CDATA[*/
 				// If PictureGame class isn't loaded, then load it via ResourceLoader
@@ -208,10 +204,10 @@ class SpecialPictureGameAjaxUpload extends SpecialUpload {
 				// works...
 				if ( typeof PictureGame !== 'object' ) {
 					window.parent.mw.loader.using( 'ext.pictureGame', function() {
-						window.parent.PictureGame.{$prefix}uploadError( '{$message}' );
+						window.parent.PictureGame.{$prefix}uploadError( {$message} );
 					} );
 				} else {
-					window.parent.PictureGame.{$prefix}uploadError( '{$message}' );
+					window.parent.PictureGame.{$prefix}uploadError( {$message} );
 				}
 			/*]]>*/</script>";
 		$this->showUploadForm( $this->getUploadForm( $output ) );
@@ -308,28 +304,38 @@ class SpecialPictureGameAjaxUpload extends SpecialUpload {
 
 		$thumb = $img->transform( [ 'width' => $thumbWidth ] );
 		$img_tag = $thumb->toHtml();
-		$slashedImgTag = addslashes( $img_tag );
+		$slashedImgTag = Xml::encodeJSVar( $img_tag );
 
-		$prefix = $this->getRequest()->getVal( 'wpCallbackPrefix' );
-		if ( strlen( $prefix ) == 0 ) {
-			$prefix = '';
-		}
+		$prefix = self::getCallbackPrefix( $this->getRequest() );
 
 		// $this->mDesiredDestName doesn't include the timestamp so we can't
 		// use it as the second param to the JS function...
 		// @see extensions/QuizGame/QuestionGameUpload.php,
 		// SpecialQuestionGameUpload::processUpload() for a detailed
 		// description of this fucked up logic
-		$imgName = $img->getTitle()->getDBkey();
+		$imgName = Xml::encodeJSVar( $img->getTitle()->getDBkey() );
 		echo "<script language=\"javascript\">
 			/*<![CDATA[*/
 			if ( typeof PictureGame !== 'object' ) {
 				window.parent.mw.loader.using( 'ext.pictureGame', function() {
-					window.parent.PictureGame.{$prefix}uploadComplete(\"{$slashedImgTag}\", \"{$imgName}\", '');
+					window.parent.PictureGame.{$prefix}uploadComplete({$slashedImgTag}, {$imgName}, '');
 				} );
 			} else {
-				window.parent.PictureGame.{$prefix}uploadComplete(\"{$slashedImgTag}\", \"{$imgName}\", '');
+				window.parent.PictureGame.{$prefix}uploadComplete({$slashedImgTag}, {$imgName}, '');
 			}
 			/*]]>*/</script>";
+	}
+
+	/**
+	 * @param WebRequest $req
+	 * @return string Validated prefix. Should be safe for inclusion in js
+	 * @return-taint none
+	 */
+	public static function getCallbackPrefix( WebRequest $req ) {
+		$req = $req->getVal( 'wpCallbackPrefix', '' );
+		if ( preg_match( '/^[a-zA-Z_][a-zA-Z_0-9]*$/D', $req ) ) {
+			return $req;
+		}
+		return '';
 	}
 }

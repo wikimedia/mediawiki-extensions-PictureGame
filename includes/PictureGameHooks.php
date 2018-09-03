@@ -58,6 +58,21 @@ class PictureGameHooks {
 	}
 
 	/**
+	 * Clear the real (displayed usually as the <h1> element by most skins) page
+	 * title on Special:PictureGameHome because:
+	 * 1) the [[MediaWiki:Picturegamehome]] i18n msg doesn't exist and
+	 * 2) we want to show the picture game title as the page title
+	 *
+	 * @param SkinTemplate $skinTpl
+	 * @param BaseTemplate $template
+	 */
+	public static function onSkinTemplateOutputPageBeforeExec( &$skinTpl, &$template ) {
+		$title = $skinTpl->getTitle();
+		if ( $title->isSpecial( 'PictureGameHome' ) ) {
+			$template->data['title'] = '';
+		}
+	}
+	/**
 	 * For the Renameuser extension
 	 *
 	 * @param array $renameUserSQL

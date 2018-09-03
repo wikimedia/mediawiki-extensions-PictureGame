@@ -121,7 +121,9 @@ var PictureGame = window.PictureGame = {
 	},
 
 	/**
-	 * Called when the upload is complete
+	 * Called when the upload is complete if wpCallbackPrefix is empty; otherwise
+	 * imageOne_uploadComplete or imageTwo_uploadComplete are called (assuming
+	 * that wpCallbackPrefix=imageOne_ or wpCallbackPrefix=imageTwo_)
 	 *
 	 * @param imgSrc String: the HTML for the image thumbnail
 	 * @param imgName String: the MediaWiki image name

@@ -218,7 +218,7 @@ class PictureGameAjaxUploadForm extends UploadForm {
 		$descriptor['CallbackPrefix'] = [
 			'type' => 'hidden',
 			'id' => 'CallbackPrefix',
-			'default' => $this->getRequest()->getVal( 'callbackPrefix' ),
+			'default' => SpecialPictureGameAjaxUpload::getCallbackPrefix( $this->getRequest() ),
 		];
 
 		return $descriptor;
