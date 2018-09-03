@@ -1207,23 +1207,30 @@ class PictureGameHome extends UnlistedSpecialPage {
 
 			$next_id = 0;
 
+			$whereConds = [
+				"id <> {$imgID}",
+				'flag != ' . PictureGameHome::$FLAG_FLAGGED,
+				"img1 <> ''",
+				"img2 <> ''"
+			];
 			if ( !empty( $excludedImgIds ) ) {
-				$nextres = $dbr->select(
-					'picturegame_images',
-					'*',
-					[
-						"id <> {$imgID}",
-						'id NOT IN (' . implode( ',', $excludedImgIds ) . ')',
-						'flag != ' . PictureGameHome::$FLAG_FLAGGED,
-						"img1 <> ''",
-						"img2 <> ''"
-					],
-					__METHOD__,
-					[ 'LIMIT' => 1 ]
-				);
-				$nextrow = $dbr->fetchObject( $nextres );
-				$next_id = ( isset( $nextrow->id ) ? $nextrow->id : 0 );
+				// @todo Can we improve this further? i.e. push $imgID into $excludedImgIds
+				// if this condition is hit and unset( $whereConds[0] ) or somesuch...
+				// 'cause right now the SQL this ends up generating is not only funny but
+				// also somewhat redundant because it doesn't make sense to have two separate
+				// "NOT IN" clauses in the same query.
+				$whereConds[] = 'id NOT IN (' . implode( ',', $excludedImgIds ) . ')';
 			}
+
+			$nextres = $dbr->select(
+				'picturegame_images',
+				'*',
+				$whereConds,
+				__METHOD__,
+				[ 'LIMIT' => 1 ]
+			);
+			$nextrow = $dbr->fetchObject( $nextres );
+			$next_id = ( isset( $nextrow->id ) ? $nextrow->id : 0 );
 
 			if ( $next_id ) {
 				$img_one = wfFindFile( $nextrow->img1 );
@@ -1621,7 +1628,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 			$row = $dbr->fetchObject( $res );
 
 			// if these image pairs don't exist, insert them
-			if ( isset( $row ) && $row->mycount == 0 ) {
+			if ( isset( $row ) && isset( $row->mycount ) && $row->mycount == 0 ) {
 				$dbr->insert(
 					'picturegame_images',
 					[
