@@ -364,7 +364,7 @@ var PictureGame = window.PictureGame = {
 		document.picGamePlay.picOneURL.value = imgName;
 		//document.picGamePlay.picOneDesc.value = imgDesc;
 
-		// as per http://www.mediawiki.org/wiki/Special:Code/MediaWiki/68271
+		// as per https://www.mediawiki.org/wiki/Special:Code/MediaWiki/68271
 		var imgOne = jQuery( '#imageOne' );
 		imgOne.fadeIn( 2000 );
 
@@ -374,7 +374,7 @@ var PictureGame = window.PictureGame = {
 			document.picGamePlay.picOneURL.value !== ''
 		)
 		{
-			// as per http://www.mediawiki.org/wiki/Special:Code/MediaWiki/68271
+			// as per https://www.mediawiki.org/wiki/Special:Code/MediaWiki/68271
 			var button = jQuery( '#startButton' );
 			button.fadeIn( 2000 );
 		}
@@ -402,12 +402,12 @@ var PictureGame = window.PictureGame = {
 		document.picGamePlay.picTwoURL.value = imgName;
 		//document.picGamePlay.picTwoDesc.value = imgDesc;
 
-		// as per http://www.mediawiki.org/wiki/Special:Code/MediaWiki/68271
+		// as per https://www.mediawiki.org/wiki/Special:Code/MediaWiki/68271
 		var imgTwo = jQuery( '#imageTwo' );
 		imgTwo.fadeIn( 2000 );
 
 		if( document.picGamePlay.picOneURL.value !== '' ) {
-			// as per http://www.mediawiki.org/wiki/Special:Code/MediaWiki/68271
+			// as per https://www.mediawiki.org/wiki/Special:Code/MediaWiki/68271
 			var button = jQuery( '#startButton' );
 			button.fadeIn( 2000 );
 		}

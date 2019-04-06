@@ -1597,7 +1597,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 		$request = $this->getRequest();
 		$user = $this->getUser();
 
-		// @todo FIXME: as per Tim: http://www.mediawiki.org/wiki/Special:Code/MediaWiki/59183#c4709
+		// @todo FIXME: as per Tim: https://www.mediawiki.org/wiki/Special:Code/MediaWiki/59183#c4709
 		$title = addslashes( $request->getVal( 'picGameTitle' ) );
 
 		$img1 = addslashes( $request->getVal( 'picOneURL' ) );
