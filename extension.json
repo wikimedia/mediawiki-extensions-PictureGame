@@ -50,14 +50,22 @@
 		"ext.pictureGame": {
 			"scripts": "resources/js/PictureGame.js",
 			"messages": [
-				"picturegame-js-edit", "picturegame-js-error-title",
+				"picturegame-js-edit",
+				"picturegame-js-error-title",
 				"picturegame-js-error-upload-imgone",
-				"picturegame-js-error-upload-imgtwo", "picturegame-js-editing-imgone",
-				"picturegame-js-editing-imgtwo", "picturegame-protectimgconfirm",
-				"picturegame-flagimgconfirm", "picturegame-adminpaneldelete-confirm",
-				"picturegame-adminpanelunflag-confirm", "picturegame-adminpaneldelete",
-				"picturegame-adminpanelunflag", "picturegame-adminpaneldelete-confirm",
-				"picturegame-adminpanelreason", "cancel", "picturegame-reportimages"
+				"picturegame-js-error-upload-imgtwo",
+				"picturegame-js-editing-imgone",
+				"picturegame-js-editing-imgtwo",
+				"picturegame-protectimgconfirm",
+				"picturegame-flagimgconfirm",
+				"picturegame-adminpaneldelete-confirm",
+				"picturegame-adminpanelunflag-confirm",
+				"picturegame-adminpaneldelete",
+				"picturegame-adminpanelunflag",
+				"picturegame-adminpaneldelete-confirm",
+				"picturegame-adminpanelreason",
+				"cancel",
+				"picturegame-reportimages"
 			],
 			"dependencies": [
 				"ext.socialprofile.flash",
@@ -65,28 +73,22 @@
 				"oojs-ui-core",
 				"oojs-ui-windows",
 				"oojs-ui-widgets"
-			],
-			"position": "bottom"
+			]
 		},
 		"ext.pictureGame.adminPanel": {
-			"styles": "resources/css/adminpanel.css",
-			"position": "top"
+			"styles": "resources/css/adminpanel.css"
 		},
 		"ext.pictureGame.editPanel": {
-			"styles": "resources/css/editpanel.css",
-			"position": "top"
+			"styles": "resources/css/editpanel.css"
 		},
 		"ext.pictureGame.gallery": {
-			"styles": "resources/css/gallery.css",
-			"position": "top"
+			"styles": "resources/css/gallery.css"
 		},
 		"ext.pictureGame.mainGame": {
-			"styles": "resources/css/maingame.css",
-			"position": "top"
+			"styles": "resources/css/maingame.css"
 		},
 		"ext.pictureGame.startGame": {
-			"styles": "resources/css/startgame.css",
-			"position": "top"
+			"styles": "resources/css/startgame.css"
 		}
 	},
 	"AvailableRights": [
