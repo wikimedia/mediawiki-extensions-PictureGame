@@ -217,13 +217,11 @@ class SpecialPictureGameAjaxUpload extends SpecialUpload {
 	 * Do the upload.
 	 * Checks are made in SpecialPictureGameAjaxUpload::execute()
 	 *
-	 * What was changed here: $wgRequest & $wgContLang were added as globals,
+	 * What was changed here: $wgRequest was added as a global,
 	 * one hook and the post-upload redirect were removed in favor of the code
 	 * below the $this->mUploadSuccessful = true; line
 	 */
 	protected function processUpload() {
-		global $wgContLang;
-
 		// Fetch the file if required
 		$status = $this->mUpload->fetchFile();
 		if ( !$status->isOK() ) {
@@ -256,7 +254,8 @@ class SpecialPictureGameAjaxUpload extends SpecialUpload {
 			}
 		}
 
-		$categoryText = '[[' . $wgContLang->getNsText( NS_CATEGORY ) . ':' .
+		$contLang = MediaWiki\MediaWikiServices::getInstance()->getContentLanguage();
+		$categoryText = '[[' . $contLang->getNsText( NS_CATEGORY ) . ':' .
 			$this->msg( 'picturegame-images-category' )->inContentLanguage()->plain() . ']]';
 		// Get the page text if this is not a reupload
 		//if( !$this->mForReUpload ) {
