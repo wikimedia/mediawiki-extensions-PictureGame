@@ -1,6 +1,6 @@
 {
 	"name": "PictureGame",
-	"version": "4.0.2",
+	"version": "4.1.0",
 	"author": [
 		"Aaron Wright",
 		"Ashish Datta",
@@ -41,6 +41,12 @@
 		"SkinTemplateOutputPageBeforeExec": "PictureGameHooks::onSkinTemplateOutputPageBeforeExec",
 		"LoadExtensionSchemaUpdates": "PictureGameHooks::onLoadExtensionSchemaUpdates",
 		"RenameUserSQL": "PictureGameHooks::onRenameUserSQL"
+	},
+	"LogTypes": [
+		"picturegame"
+	],
+	"LogActionsHandlers": {
+		"picturegame/*": "WikitextLogFormatter"
 	},
 	"ResourceFileModulePaths": {
 		"localBasePath": "",

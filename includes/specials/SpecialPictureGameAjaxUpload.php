@@ -217,9 +217,8 @@ class SpecialPictureGameAjaxUpload extends SpecialUpload {
 	 * Do the upload.
 	 * Checks are made in SpecialPictureGameAjaxUpload::execute()
 	 *
-	 * What was changed here: $wgRequest was added as a global,
-	 * one hook and the post-upload redirect were removed in favor of the code
-	 * below the $this->mUploadSuccessful = true; line
+	 * What was changed here: one hook and the post-upload redirect were removed
+	 * in favor of the code below the $this->mUploadSuccessful = true; line
 	 */
 	protected function processUpload() {
 		// Fetch the file if required
@@ -274,7 +273,7 @@ class SpecialPictureGameAjaxUpload extends SpecialUpload {
 		);
 
 		if ( !$status->isGood() ) {
-			$this->showUploadError( $wgOut->parseAsInterface( $status->getWikiText() ) );
+			$this->showUploadError( $this->getOutput()->parseAsInterface( $status->getWikiText() ) );
 			return;
 		}
 

@@ -87,5 +87,14 @@
 	"picturegame-js-editing-imgone": "A header text",
 	"picturegame-js-editing-imgtwo": "A header text",
 	"action-picturegameadmin": "{{doc-action|picturegameadmin}}",
-	"right-picturegameadmin": "{{doc-right|picturegameadmin}}"
+	"right-picturegameadmin": "{{doc-right|picturegameadmin}}",
+	"log-name-picturegame": "{{doc-logpage}}\n\nAs well as log page title and page header for [[Special:Log/picturegame]].",
+	"log-description-picturegame": "Log description on [[Special:Log/picturegame]].",
+	"logentry-picturegame-create": "{{logentry|[[Special:Log/picturegame]]}}\nParameters:\n* $4 - numerical picture game identifier",
+	"logentry-picturegame-delete": "{{logentry|[[Special:Log/picturegame]]}}\nParameters:\n* $4 - numerical picture game identifier",
+	"logentry-picturegame-edit": "{{logentry|[[Special:Log/picturegame]]}}\nParameters:\n* $4 - numerical picture game identifier",
+	"logentry-picturegame-flag": "{{logentry|[[Special:Log/picturegame]]}}\nParameters:\n* $4 - numerical picture game identifier",
+	"logentry-picturegame-protect": "{{logentry|[[Special:Log/picturegame]]}}\nParameters:\n* $4 - numerical picture game identifier",
+	"logentry-picturegame-unflag": "{{logentry|[[Special:Log/picturegame]]}}\nParameters:\n* $4 - numerical picture game identifier",
+	"logentry-picturegame-unprotect": "{{logentry|[[Special:Log/picturegame]]}}\nParameters:\n* $4 - numerical picture game identifier"
 }

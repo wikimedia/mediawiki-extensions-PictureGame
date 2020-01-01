@@ -37,6 +37,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 	 */
 	public function execute( $par ) {
 		global $wgSecretKey;
+
 		$out = $this->getOutput();
 		$request = $this->getRequest();
 		$user = $this->getUser();
@@ -199,6 +200,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 		}
 
 		if ( $oneResult && $twoResult ) {
+			$this->addLogEntry( 'delete', $id ); // @todo FIXME: Do we want more precise logging? What about the failure cases?
 			echo $this->msg( 'picturegame-sysmsg-successfuldelete' )->escaped();
 			return;
 		}
@@ -242,6 +244,8 @@ class PictureGameHome extends UnlistedSpecialPage {
 			__METHOD__
 		);
 
+		$this->addLogEntry( 'unflag', $id );
+
 		$out->clearHTML();
 		echo $this->msg( 'picturegame-sysmsg-unflag' )->escaped();
 	}
@@ -276,6 +280,10 @@ class PictureGameHome extends UnlistedSpecialPage {
 			[ 'id' => $id ],
 			__METHOD__
 		);
+
+		// @todo FIXME: also log $title, $imgOneCaption, $imgTwoCaption (tho latter are basically
+		// always empty b/c they are not exposed in the UI)
+		$this->addLogEntry( 'edit', $id );
 
 		/* When it's done, redirect to a permalink of these images */
 		$out->setArticleBodyOnly( true );
@@ -655,6 +663,8 @@ class PictureGameHome extends UnlistedSpecialPage {
 			__METHOD__
 		);
 
+		$this->addLogEntry( 'flag', $id, $comment );
+
 		$out->clearHTML();
 		echo '<div style="color:red; font-weight:bold; font-size:16px; margin:-5px 0px 20px 0px;">' .
 			$this->msg( 'picturegame-sysmsg-flag' )->escaped() .
@@ -687,6 +697,8 @@ class PictureGameHome extends UnlistedSpecialPage {
 			__METHOD__
 		);
 
+		$this->addLogEntry( 'unprotect', $id );
+
 		$out->clearHTML();
 		echo $this->msg( 'picturegame-sysmsg-unprotect' )->escaped();
 	}
@@ -715,6 +727,8 @@ class PictureGameHome extends UnlistedSpecialPage {
 			[ 'id' => $id ],
 			__METHOD__
 		);
+
+		$this->addLogEntry( 'protect', $id );
 
 		$out->clearHTML();
 		echo $this->msg( 'picturegame-sysmsg-protect' )->escaped();
@@ -1644,6 +1658,9 @@ class PictureGameHome extends UnlistedSpecialPage {
 					__METHOD__
 				);
 
+				// @todo FIXME: also log at least $title
+				$this->addLogEntry( 'create', $id );
+
 				$id = $dbr->selectField(
 					'picturegame_images',
 					'MAX(id) AS maxid',
@@ -1883,5 +1900,26 @@ class PictureGameHome extends UnlistedSpecialPage {
 			</div>';
 
 		$out->addHTML( $output );
+	}
+
+	/**
+	 * Adds a log entry to Special:Log/picturegame.
+	 *
+	 * @param string $action Log action, i.e. flag, unflag, create, delete, ...
+	 * @param int $id Picture game ID
+	 * @param string $reason Reason for flagging (only when $action = 'flag')
+	 */
+	private function addLogEntry( $action, $id, $reason = '' ) {
+		$logEntry = new ManualLogEntry( 'picturegame', $action );
+		$logEntry->setPerformer( $this->getUser() );
+		$logEntry->setTarget( $this->getPageTitle() );
+		if ( isset( $reason ) && $reason ) {
+			$logEntry->setComment( $reason );
+		}
+		$logEntry->setParameters( [
+			'4::id' => $id
+		] );
+		$logId = $logEntry->insert();
+		$logEntry->publish( $logId );
 	}
 }
