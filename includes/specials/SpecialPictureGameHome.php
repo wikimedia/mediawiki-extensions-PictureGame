@@ -317,7 +317,8 @@ class PictureGameHome extends UnlistedSpecialPage {
 		}
 
 		$imgID = $row->id;
-		$user_name = $lang->truncateForVisual( $row->username, 20 );
+		$actor = User::newFromActorId( $row->actor );
+		$user_name = $lang->truncateForVisual( $actor->getName(), 20 );
 
 		$title_text = $row->title;
 		$img1_caption_text = $row->img1_caption;
@@ -359,10 +360,10 @@ class PictureGameHome extends UnlistedSpecialPage {
 
 		$out->setPageTitle( $this->msg( 'picturegame-editgame-editing-title', $title_text )->text() );
 
-		$id = User::idFromName( $row->username );
+		$id = $actor->getId();
 		$avatar = new wAvatar( $id, 'l' );
 		$avatarID = $avatar->getAvatarImage();
-		$stats = new UserStats( $id, $row->username );
+		$stats = new UserStats( $id, $actor->getName() );
 		$stats_data = $stats->getUserStats();
 
 		if ( $wgRightsText ) {
@@ -378,7 +379,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 			];
 		}
 
-		$usrTitleObj = Title::makeTitle( NS_USER, $row->username );
+		$usrTitleObj = $actor->getUserPage();
 		$imgPath = htmlspecialchars( $wgExtensionAssetsPath . '/SocialProfile/images' );
 
 		$formattedVoteCount = htmlspecialchars( $lang->formatNum( $stats_data['votes'] ) );
@@ -1067,7 +1068,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 				'picturegame_votes',
 				[ 'COUNT(*) AS mycount' ],
 				[
-					'username' => $user->getName(),
+					'actor' => $user->getActorId(),
 					'picid' => $id
 				],
 				__METHOD__
@@ -1090,8 +1091,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 						'picturegame_votes',
 						[
 							'picid' => $id,
-							'userid' => $user->getId(),
-							'username' => $user->getName(),
+							'actor' => $user->getActorId(),
 							'imgpicked' => $imgnum,
 							'vote_date' => date( 'Y-m-d H:i:s' )
 						],
@@ -1142,7 +1142,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 			$query = $dbr->select(
 				'picturegame_votes',
 				'picid',
-				[ 'username' => $user->getName() ],
+				[ 'actor' => $user->getActorId() ],
 				__METHOD__
 			);
 			$picIds = [];
@@ -1202,7 +1202,8 @@ class PictureGameHome extends UnlistedSpecialPage {
 			return;
 		}
 
-		$user_title = Title::makeTitle( NS_USER, $row->username );
+		$actor = User::newFromActorId( $row->actor );
+		$user_title = $actor->getUserPage();
 
 		if ( $imgID ) {
 			global $wgPictureGameID;
@@ -1210,7 +1211,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 			$toExclude = $dbr->select(
 				'picturegame_votes',
 				'picid',
-				[ 'username' => $user->getName() ],
+				[ 'actor' => $user->getActorId() ],
 				__METHOD__
 			);
 
@@ -1285,7 +1286,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 		$imgOneCount = $row->img0_votes;
 		$imgTwoCount = $row->img1_votes;
 
-		$user_name = $lang->truncateForVisual( $row->username, 20 );
+		$user_name = $lang->truncateForVisual( $actor->getName(), 20 );
 
 		$title_text_length = strlen( $row->title );
 		$title_text_space = stripos( $row->title, ' ' );
@@ -1646,8 +1647,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 				$dbr->insert(
 					'picturegame_images',
 					[
-						'userid' => $user->getId(),
-						'username' => $user->getName(),
+						'actor' => $user->getActorId(),
 						'img1' => $img1,
 						'img2' => $img2,
 						'title' => $title,
@@ -1796,7 +1796,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 		$excludedIds = $dbr->select(
 			'picturegame_votes',
 			'picid',
-			[ 'username' => $user->getName() ],
+			[ 'actor' => $user->getActorId() ],
 			__METHOD__
 		);
 

@@ -72,15 +72,6 @@ class PictureGameHooks {
 			$template->data['title'] = '';
 		}
 	}
-	/**
-	 * For the Renameuser extension
-	 *
-	 * @param array $renameUserSQL
-	 */
-	public static function onRenameUserSQL( $renameUserSQL ) {
-		$renameUserSQL->tables['picturegame_images'] = [ 'username', 'userid' ];
-		$renameUserSQL->tables['picturegame_votes'] = [ 'username', 'userid' ];
-	}
 
 	/**
 	 * Adds the new, required database tables when the user runs the core
