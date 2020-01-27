@@ -80,8 +80,15 @@ class PictureGameHooks {
 	 * @param DatabaseUpdater $updater
 	 */
 	public static function onLoadExtensionSchemaUpdates( $updater ) {
-		$updater->addExtensionTable( 'picturegame_images', __DIR__ . '/../sql/picturegame.sql' );
-		$updater->addExtensionTable( 'picturegame_votes', __DIR__ . '/../sql/picturegame.sql' );
-		$updater->addExtensionField( 'picturegame_images', 'comment', __DIR__ . '/../sql/picturegame-add-comment.sql' );
+		$dbType = $updater->getDB()->getType();
+		// @todo Split into one table per file for both DBMSes
+		if ( $dbType === 'postgres' ) {
+			$updater->addExtensionTable( 'picturegame_images', __DIR__ . '/../sql/picturegame.postgres.sql' );
+			$updater->addExtensionTable( 'picturegame_votes', __DIR__ . '/../sql/picturegame.postgres.sql' );
+		} else {
+			$updater->addExtensionTable( 'picturegame_images', __DIR__ . '/../sql/picturegame.sql' );
+			$updater->addExtensionTable( 'picturegame_votes', __DIR__ . '/../sql/picturegame.sql' );
+			$updater->addExtensionField( 'picturegame_images', 'comment', __DIR__ . '/../sql/picturegame-add-comment.sql' );
+		}
 	}
 }
