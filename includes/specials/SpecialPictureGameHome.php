@@ -12,6 +12,8 @@
  * @link https://www.mediawiki.org/wiki/Extension:PictureGame Documentation
  */
 
+use MediaWiki\MediaWikiServices;
+
 class PictureGameHome extends UnlistedSpecialPage {
 	// picturegame_images.flag used to be an enum() and that sucked, big time
 	static $FLAG_NONE = 0;
@@ -185,7 +187,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 		$wgMemc->delete( $key );
 
 		/* Pop the images out of MediaWiki also */
-		//$img_one = wfFindFile( $image1 );
+		//$img_one = MediaWikiServices::getInstance()->getRepoGroup()->findFile( $image1 );
 		$oneResult = $twoResult = false;
 		if ( $image1 ) {
 			$img_one = Title::makeTitle( NS_FILE, $image1 );
@@ -323,9 +325,10 @@ class PictureGameHome extends UnlistedSpecialPage {
 		$title_text = $row->title;
 		$img1_caption_text = $row->img1_caption;
 		$img2_caption_text = $row->img2_caption;
+		$repoGroup = MediaWikiServices::getInstance()->getRepoGroup();
 
 		// I assume MediaWiki does some caching with these functions?
-		$img_one = wfFindFile( $row->img1 );
+		$img_one = $repoGroup->findFile( $row->img1 );
 		$imgOneWidth = 0;
 		$thumb_one_url = $thumb_two_url = '';
 		if ( is_object( $img_one ) ) {
@@ -340,7 +343,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 			$thumb_one_url . '?' . time() . '"/>';
 		$imgOneName = $row->img1;
 
-		$img_two = wfFindFile( $row->img2 );
+		$img_two = $repoGroup->findFile( $row->img2 );
 		$imgTwoWidth = 0;
 		if ( is_object( $img_two ) ) {
 			$thumb_two_url = $img_two->createThumb( 128 );
@@ -520,16 +523,17 @@ class PictureGameHome extends UnlistedSpecialPage {
 		if ( $dbw->numRows( $res ) <= 0 ) {
 			$output .= $this->msg( 'picturegame-none' )->escaped();
 		}
+		$repoGroup = MediaWikiServices::getInstance()->getRepoGroup();
 
 		foreach ( $res as $row ) {
 			$img_one_tag = $img_two_tag = '';
-			$img_one = wfFindFile( $row->img1 );
+			$img_one = $repoGroup->findFile( $row->img1 );
 			if ( is_object( $img_one ) ) {
 				$thumb_one = $img_one->transform( [ 'width' => 128 ] );
 				$img_one_tag = $thumb_one->toHtml();
 			}
 
-			$img_two = wfFindFile( $row->img2 );
+			$img_two = $repoGroup->findFile( $row->img2 );
 			if ( is_object( $img_two ) ) {
 				$thumb_two = $img_two->transform( [ 'width' => 128 ] );
 				$img_two_tag = $thumb_two->toHtml();
@@ -594,13 +598,13 @@ class PictureGameHome extends UnlistedSpecialPage {
 
 		foreach ( $res as $row ) {
 			$img_one_tag = $img_two_tag = '';
-			$img_one = wfFindFile( $row->img1 );
+			$img_one = $repoGroup->findFile( $row->img1 );
 			if ( is_object( $img_one ) ) {
 				$thumb_one = $img_one->transform( [ 'width' => 128 ] );
 				$img_one_tag = $thumb_one->toHtml();
 			}
 
-			$img_two = wfFindFile( $row->img2 );
+			$img_two = $repoGroup->findFile( $row->img2 );
 			if ( is_object( $img_two ) ) {
 				$thumb_two = $img_two->transform( [ 'width' => 128 ] );
 				$img_two_tag = $thumb_two->toHtml();
@@ -918,6 +922,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 		);
 
 		$preloadImages = [];
+		$repoGroup = MediaWikiServices::getInstance()->getRepoGroup();
 
 		foreach ( $res as $row ) {
 			$gameid = (int)$row->id;
@@ -941,13 +946,13 @@ class PictureGameHome extends UnlistedSpecialPage {
 			}
 
 			$gallery_thumbnail_one = $gallery_thumbnail_two = '';
-			$img_one = wfFindFile( $row->img1 );
+			$img_one = $repoGroup->findFile( $row->img1 );
 			if ( is_object( $img_one ) ) {
 				$gallery_thumb_image_one = $img_one->transform( [ 'width' => 80 ] );
 				$gallery_thumbnail_one = $gallery_thumb_image_one->toHtml();
 			}
 
-			$img_two = wfFindFile( $row->img2 );
+			$img_two = $repoGroup->findFile( $row->img2 );
 			if ( is_object( $img_two ) ) {
 				$gallery_thumb_image_two = $img_two->transform( [ 'width' => 80 ] );
 				$gallery_thumbnail_two = $gallery_thumb_image_two->toHtml();
@@ -1204,6 +1209,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 
 		$actor = User::newFromActorId( $row->actor );
 		$user_title = $actor->getUserPage();
+		$repoGroup = MediaWikiServices::getInstance()->getRepoGroup();
 
 		if ( $imgID ) {
 			global $wgPictureGameID;
@@ -1248,7 +1254,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 			$next_id = ( isset( $nextrow->id ) ? $nextrow->id : 0 );
 
 			if ( $next_id ) {
-				$img_one = wfFindFile( $nextrow->img1 );
+				$img_one = $repoGroup->findFile( $nextrow->img1 );
 				if ( is_object( $img_one ) ) {
 					$preload_thumb = $img_one->transform( [ 'width' => 256 ] );
 				}
@@ -1256,7 +1262,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 					$preload_one_tag = $preload_thumb->toHtml();
 				}
 
-				$img_two = wfFindFile( $nextrow->img2 );
+				$img_two = $repoGroup->findFile( $nextrow->img2 );
 				if ( is_object( $img_two ) ) {
 					$preload_thumb = $img_two->transform( [ 'width' => 256 ] );
 				}
@@ -1330,7 +1336,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 		}
 
 		// I assume MediaWiki does some caching with these functions
-		$img_one = wfFindFile( $row->img1 );
+		$img_one = $repoGroup->findFile( $row->img1 );
 		$thumb_one_url = '';
 		if ( is_object( $img_one ) ) {
 			$thumb_one_url = $img_one->createThumb( 256 );
@@ -1341,7 +1347,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 		//$imageOneWidth += 10;
 		$imgOne = '<img style="width:100%;" alt="" src="' . $thumb_one_url . ' "/>';
 
-		$img_two = wfFindFile( $row->img2 );
+		$img_two = $repoGroup->findFile( $row->img2 );
 		$thumb_two_url = '';
 		if ( is_object( $img_two ) ) {
 			$thumb_two_url = $img_two->createThumb( 256 );
@@ -1378,8 +1384,8 @@ class PictureGameHome extends UnlistedSpecialPage {
 			$row = $dbr->fetchObject( $res );
 
 			if ( $row ) {
-				$img_one = wfFindFile( $row->img1 );
-				$img_two = wfFindFile( $row->img2 );
+				$img_one = $repoGroup->findFile( $row->img1 );
+				$img_two = $repoGroup->findFile( $row->img2 );
 				$imgOneCount = $row->img0_votes;
 				$imgTwoCount = $row->img1_votes;
 				$isShowVotes = true;
