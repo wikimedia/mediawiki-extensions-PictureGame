@@ -191,14 +191,28 @@ class PictureGameHome extends UnlistedSpecialPage {
 		$oneResult = $twoResult = false;
 		if ( $image1 ) {
 			$img_one = Title::makeTitle( NS_FILE, $image1 );
-			$article = new Article( $img_one );
-			$oneResult = $article->doDeleteArticle( 'Picture Game image 1 Delete' );
+			$reason = 'Picture Game image 1 Delete';
+			$wikipage = WikiPage::factory( $img_one );
+			if ( version_compare( MW_VERSION, '1.35', '<' ) ) {
+				$status = $wikipage->doDeleteArticleReal( $reason );
+			} else {
+				// Different signature in 1.35 and above
+				$status = $wikipage->doDeleteArticleReal( $reason, $user );
+			}
+			$oneResult = $status->isOK();
 		}
 
 		if ( $image2 ) {
 			$img_two = Title::makeTitle( NS_FILE, $image2 );
-			$article = new Article( $img_two );
-			$twoResult = $article->doDeleteArticle( 'Picture Game image 2 Delete' );
+			$reason = 'Picture Game image 2 Delete';
+			$wikipage = WikiPage::factory( $img_two );
+			if ( version_compare( MW_VERSION, '1.35', '<' ) ) {
+				$status = $wikipage->doDeleteArticleReal( $reason );
+			} else {
+				// Different signature in 1.35 and above
+				$status = $wikipage->doDeleteArticleReal( $reason, $user );
+			}
+			$twoResult = $status->isOK();
 		}
 
 		if ( $oneResult && $twoResult ) {
