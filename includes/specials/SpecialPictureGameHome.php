@@ -182,9 +182,9 @@ class PictureGameHome extends UnlistedSpecialPage {
 		$dbw = wfGetDB( DB_MASTER );
 		$dbw->delete( 'picturegame_images', [ 'id' => $id ], __METHOD__ );
 
-		global $wgMemc;
-		$key = $wgMemc->makeKey( 'user', 'profile', 'picgame', $user->getId() );
-		$wgMemc->delete( $key );
+		$cache = MediaWikiServices::getInstance()->getMainWANObjectCache();
+		$key = $cache->makeKey( 'user', 'profile', 'picgame', $user->getId() );
+		$cache->delete( $key );
 
 		/* Pop the images out of MediaWiki also */
 		//$img_one = MediaWikiServices::getInstance()->getRepoGroup()->findFile( $image1 );
@@ -1692,10 +1692,10 @@ class PictureGameHome extends UnlistedSpecialPage {
 				$stats = new UserStatsTrack( $user->getId(), $user->getName() );
 				$stats->incStatField( 'picturegame_created' );
 
-				// Purge memcached
-				global $wgMemc;
-				$key = $wgMemc->makeKey( 'user', 'profile', 'picgame', $user->getId() );
-				$wgMemc->delete( $key );
+				// Purge object cache
+				$cache = MediaWikiServices::getInstance()->getMainWANObjectCache();
+				$key = $cache->makeKey( 'user', 'profile', 'picgame', $user->getId() );
+				$cache->delete( $key );
 			}
 		}
 
