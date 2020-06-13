@@ -1663,7 +1663,15 @@ class PictureGameHome extends UnlistedSpecialPage {
 			$row = $dbr->fetchObject( $res );
 
 			// if these image pairs don't exist, insert them
-			if ( isset( $row ) && isset( $row->mycount ) && $row->mycount == 0 ) {
+			// @note The second condition is a weird fix for utter PictureGame b0rkage
+			// in June 2020; upon creating a picture game, $id would remain -1 and the
+			// code inside this if() loop was never hit, thus the DB tables never got
+			// any info about the uploaded images or the associated game title etc.
+			// Why? I honestly have no idea, but this seems to fix it...
+			if (
+				isset( $row ) && isset( $row->mycount ) && $row->mycount == 0 ||
+				$dbr->numRows( $res ) === 0
+			) {
 				$dbr->insert(
 					'picturegame_images',
 					[
