@@ -13,7 +13,7 @@ class PictureGameHooks {
 	 * @param SkinTemplate $skinTemplate
 	 * @param array $links
 	 */
-	public static function onSkinTemplateNavigationSpecialPage( &$skinTemplate, &$links ) {
+	public static function onSkinTemplateNavigationUniversal( &$skinTemplate, &$links ) {
 		global $wgPictureGameID;
 
 		$title = $skinTemplate->getTitle();
