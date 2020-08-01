@@ -1112,7 +1112,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 							'picid' => $id,
 							'actor' => $user->getActorId(),
 							'imgpicked' => $imgnum,
-							'vote_date' => date( 'Y-m-d H:i:s' )
+							'vote_date' => $dbw->timestamp( date( 'Y-m-d H:i:s' ) )
 						],
 						__METHOD__
 					);
@@ -1681,7 +1681,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 						'title' => $title,
 						'img1_caption' => $img1_caption,
 						'img2_caption' => $img2_caption,
-						'pg_date' => date( 'Y-m-d H:i:s' )
+						'pg_date' => $dbr->timestamp( date( 'Y-m-d H:i:s' ) )
 					],
 					__METHOD__
 				);
