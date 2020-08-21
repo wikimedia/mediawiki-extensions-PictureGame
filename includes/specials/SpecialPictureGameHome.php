@@ -1798,17 +1798,55 @@ class PictureGameHome extends UnlistedSpecialPage {
 			$stats = new UserStats( $user->getId(), $user->getName() );
 			$stats_data = $stats->getUserStats();
 
-			$threshold_reason = '';
+			$thresholdReasons = [];
 			foreach ( $wgCreatePictureGameThresholds as $field => $threshold ) {
-				if ( $stats_data[$field] < $threshold ) {
+				// If the threshold is greater than the user's amount of whatever
+				// statistic we're looking at, then it means that they can't use
+				// this special page.
+				// Why, oh why did I want to be so fucking smart with these
+				// field names?! This str_replace() voodoo all over the place is
+				// outright painful.
+				$correctField = str_replace( '-', '_', $field );
+				if ( $stats_data[$correctField] < $threshold ) {
 					$can_create = false;
-					$threshold_reason .= ( ( $threshold_reason ) ? ', ' : '' ) . "$threshold $field";
+					$thresholdReasons[$threshold] = $field;
 				}
 			}
 
 			if ( $can_create == false ) {
 				$out->setPageTitle( $this->msg( 'picturegame-create-threshold-title' )->plain() );
-				$out->addHTML( $this->msg( 'picturegame-create-threshold-reason', $threshold_reason )->escaped() );
+				$thresholdMessages = [];
+				foreach ( $thresholdReasons as $requiredAmount => $reason ) {
+					// Replace underscores with hyphens for consistency in i18n
+					// message names.
+					$reason = str_replace( '_', '-', $reason );
+					/**
+					 * For grep:
+					 * picturegame-create-threshold-edits
+					 * picturegame-create-threshold-votes
+					 * picturegame-create-threshold-comments
+					 * picturegame-create-threshold-comment-score-plus
+					 * picturegame-create-threshold-comment-score-minus
+					 * picturegame-create-threshold-recruits
+					 * picturegame-create-threshold-friend-count
+					 * picturegame-create-threshold-foe-count
+					 * picturegame-create-threshold-weekly-wins
+					 * picturegame-create-threshold-monthly-wins
+					 * picturegame-create-threshold-only-confirmed-email
+					 * picturegame-create-threshold-poll-votes
+					 * picturegame-create-threshold-picture-game-votes
+					 * picturegame-create-threshold-quiz-created
+					 * picturegame-create-threshold-quiz-answered
+					 * picturegame-create-threshold-quiz-correct
+					 * picturegame-create-threshold-quiz-points
+					 */
+					$thresholdMessages[] = $this->msg( 'picturegame-create-threshold-' . $reason )->numParams( $requiredAmount )->parse();
+				}
+				$out->addHTML(
+					$this->msg( 'picturegame-create-threshold-reason',
+						$this->getLanguage()->commaList( $thresholdMessages )
+					)->parse()
+				);
 				return '';
 			}
 		}
