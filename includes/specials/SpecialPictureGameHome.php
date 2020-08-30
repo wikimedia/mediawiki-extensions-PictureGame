@@ -1339,9 +1339,9 @@ class PictureGameHome extends UnlistedSpecialPage {
 
 		$x = 1;
 		$img2_caption_text = '';
-		$img1caption_array = str_split( $row->img2_caption );
-		foreach( $img1caption_array as $img2_character ) {
-			if( $x % 30 == 0 ) {
+		$img2caption_array = str_split( $row->img2_caption );
+		foreach ( $img2caption_array as $img2_character ) {
+			if ( $x % 30 == 0 ) {
 				$img2_caption_text .= $img2_character . '<br />';
 			} else {
 				$img2_caption_text .= $img2_character;
