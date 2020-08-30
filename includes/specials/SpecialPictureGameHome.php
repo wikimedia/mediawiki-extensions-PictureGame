@@ -402,6 +402,9 @@ class PictureGameHome extends UnlistedSpecialPage {
 		$formattedVoteCount = htmlspecialchars( $lang->formatNum( $stats_data['votes'] ) );
 		$formattedEditCount = htmlspecialchars( $lang->formatNum( $stats_data['edits'] ) );
 		$formattedCommentCount = htmlspecialchars( $lang->formatNum( $stats_data['comments'] ) );
+		$safeTitleText = htmlspecialchars( $title_text, ENT_QUOTES );
+		$safeUserName = htmlspecialchars( $user_name, ENT_QUOTES );
+
 		$output .= '<div id="edit-container" class="edit-container">
 			<form id="picGameVote" name="picGameVote" method="post" action="' .
 			htmlspecialchars( $this->getPageTitle()->getFullURL( 'picGameAction=completeEdit' ) ) . '">
@@ -415,7 +418,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 						</a>
 					</div>
 					<div class=\"submitted-by-user\">
-						<a href=\"" . htmlspecialchars( $usrTitleObj->getFullURL() ) . "\">{$user_name}</a>
+						<a href=\"" . htmlspecialchars( $usrTitleObj->getFullURL() ) . "\">{$safeUserName}</a>
 						<ul>
 							<li>
 								<img src=\"{$imgPath}/voteIcon.gif\" border=\"0\" alt=\"\" />
@@ -436,7 +439,7 @@ class PictureGameHome extends UnlistedSpecialPage {
 
 
 				<h1>" . $this->msg( 'picturegame-editgamegametitle' )->escaped() . "</h1>
-				<p><input name=\"newTitle\" id=\"newTitle\" type=\"text\" value=\"{$title_text}\" size=\"40\"/></p>
+				<p><input name=\"newTitle\" id=\"newTitle\" type=\"text\" value=\"{$safeTitleText}\" size=\"40\"/></p>
 					<input id=\"key\" name=\"key\" type=\"hidden\" value=\"" . md5( $imgID . $this->SALT ) . "\" />
 					<input id=\"id\" name=\"id\" type=\"hidden\" value=\"{$imgID}\" />
 
@@ -1497,6 +1500,8 @@ class PictureGameHome extends UnlistedSpecialPage {
 		$formattedVoteCount = $lang->formatNum( $stats_data['votes'] );
 		$formattedEditCount = $lang->formatNum( $stats_data['edits'] );
 		$formattedCommentCount = $lang->formatNum( $stats_data['comments'] );
+		$safeUserPage = htmlspecialchars( $user_title->getFullURL(), ENT_QUOTES );
+		$safeUserName = htmlspecialchars( $user_name, ENT_QUOTES );
 
 		$output .= "
 		<script type=\"text/javascript\">var next_id = \"{$next_id}\";</script>
@@ -1507,15 +1512,15 @@ class PictureGameHome extends UnlistedSpecialPage {
 				<div class=\"serverMessages\" id=\"serverMessages\"></div>
 
 				<div class=\"imgContent\" id=\"imgContent\">
-					<div class=\"imgTitle\" id=\"imgTitle\">" . $title . "</div>
+					<div class=\"imgTitle\" id=\"imgTitle\">" . htmlspecialchars( $title, ENT_QUOTES ) . "</div>
 					<div class=\"imgContainer\" id=\"imgContainerOne\" style=\"width:45%;\">
-						<div class=\"imgCaption\" id=\"imgOneCaption\">" . $img1_caption . "</div>
+						<div class=\"imgCaption\" id=\"imgOneCaption\">" . htmlspecialchars( $img1_caption, ENT_QUOTES ) . "</div>
 						<div class=\"imageOne\" id=\"imageOne\" style=\"padding:5px;\">
 							" . $imgOne . "	</div>
 					</div>
 
 					<div class=\"imgContainer\" id=\"imgContainerTwo\" style=\"width:45%;\">
-						<div class=\"imgCaption\" id=\"imgTwoCaption\">" . $img2_caption . "</div>
+						<div class=\"imgCaption\" id=\"imgTwoCaption\">" . htmlspecialchars( $img2_caption, ENT_QUOTES ) . "</div>
 						<div class=\"imageTwo\" id=\"imageTwo\" style=\"padding:5px;\">
 						" . $imgTwo . "	</div>
 					</div>
@@ -1553,12 +1558,12 @@ class PictureGameHome extends UnlistedSpecialPage {
 				<div class=\"credit-box\" id=\"creditBox\">
 					<h1>" . $this->msg( 'picturegame-submittedby' )->escaped() . "</h1>
 					<div class=\"submitted-by-image\">
-						<a href=\"{$user_title->getFullURL()}\">
+						<a href=\"{$safeUserPage}\">
 							<img src=\"{$wgUploadPath}/avatars/{$avatarID}\" style=\"border:1px solid #d7dee8; width:50px; height:50px;\" alt=\"\" />
 						</a>
 					</div>
 					<div class=\"submitted-by-user\">
-						<a href=\"{$user_title->getFullURL()}\">{$user_name}</a>
+						<a href=\"{$safeUserPage}\">{$safeUserName}</a>
 						<ul>
 							<li>
 								<img src=\"{$wgExtensionAssetsPath}/SocialProfile/images/voteIcon.gif\" border=\"0\" alt=\"\" />
