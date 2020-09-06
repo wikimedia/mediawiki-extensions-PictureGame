@@ -13,7 +13,7 @@ var PictureGame = window.PictureGame = {
 	 *
 	 * @param id Integer:
 	 */
-	unflag: function( id ) {
+	unflag: function ( id ) {
 		jQuery( '.admin-container #' + id ).fadeOut();
 		jQuery.get(
 			mw.config.get( 'wgScript' ),
@@ -24,7 +24,7 @@ var PictureGame = window.PictureGame = {
 				key: __admin_panel_key__,
 				id: id
 			},
-			function( data ) {
+			function ( data ) {
 				OO.ui.alert( data );
 			}
 		);
@@ -36,8 +36,10 @@ var PictureGame = window.PictureGame = {
 	 * @param id Integer
 	 * @param img1 String: MediaWiki image name
 	 * @param img2 String: MediaWiki image name
+	 * @param imageName1
+	 * @param imageName2
 	 */
-	deleteimg: function( id, imageName1, imageName2 ) {
+	deleteimg: function ( id, imageName1, imageName2 ) {
 		jQuery( '.admin-container #' + id ).fadeOut();
 		jQuery.get(
 			mw.config.get( 'wgScript' ),
@@ -50,7 +52,7 @@ var PictureGame = window.PictureGame = {
 				img1: imageName1,
 				img2: imageName2
 			},
-			function( data ) {
+			function ( data ) {
 				OO.ui.alert( data );
 			}
 		);
@@ -61,7 +63,7 @@ var PictureGame = window.PictureGame = {
 	 *
 	 * @param id Integer:
 	 */
-	unprotect: function( id ) {
+	unprotect: function ( id ) {
 		jQuery( '.admin-container #' + id ).fadeOut();
 		jQuery.get(
 			mw.config.get( 'wgScript' ),
@@ -72,17 +74,17 @@ var PictureGame = window.PictureGame = {
 				key: __admin_panel_key__,
 				id: id
 			},
-			function( data ) {
+			function ( data ) {
 				alert( data );
 			}
 		);
 	},
 
 	/* Shows the upload frame */
-	loadUploadFrame: function( filename, img ) {
+	loadUploadFrame: function ( filename, img ) {
 		PictureGame.currImg = img;
 
-		if( img == 1 ) {
+		if ( img == 1 ) {
 			document.getElementById( 'edit-image-text' ).innerHTML =
 				'<h2> ' + mw.msg( 'picturegame-js-editing-imgone' ) + ' </h2>';
 		} else {
@@ -97,7 +99,7 @@ var PictureGame = window.PictureGame = {
 		document.getElementById( 'edit-image-frame' ).style.visibility = 'visible';
 	},
 
-	uploadError: function( message ) {
+	uploadError: function ( message ) {
 		document.getElementById( 'loadingImg' ).style.display = 'none';
 		document.getElementById( 'loadingImg' ).style.visibility = 'hidden';
 		alert( message );
@@ -107,9 +109,9 @@ var PictureGame = window.PictureGame = {
 	},
 
 	/* Called when the upload starts */
-	completeImageUpload: function() {
-		var frame = document.getElementById( 'edit-image-frame' );
-		var loadingImg = document.getElementById( 'loadingImg' );
+	completeImageUpload: function () {
+		var frame = document.getElementById( 'edit-image-frame' ),
+			loadingImg = document.getElementById( 'loadingImg' );
 		if ( frame ) {
 			frame.style.display = 'none';
 			frame.style.visibility = 'hidden';
@@ -129,11 +131,11 @@ var PictureGame = window.PictureGame = {
 	 * @param imgName String: the MediaWiki image name
 	 * @param imgDesc String: the MediaWiki image description [unused]
 	 */
-	uploadComplete: function( imgSrc, imgName, imgDesc ) {
+	uploadComplete: function ( imgSrc, imgName, imgDesc ) {
 		document.getElementById( 'loadingImg' ).style.display = 'none';
 		document.getElementById( 'loadingImg' ).style.visibility = 'hidden';
 
-		if( PictureGame.currImg == 1 ) {
+		if ( PictureGame.currImg == 1 ) {
 			document.getElementById( 'image-one-tag' ).innerHTML = imgSrc;
 		} else {
 			document.getElementById( 'image-two-tag' ).innerHTML = imgSrc;
@@ -142,14 +144,15 @@ var PictureGame = window.PictureGame = {
 
 	/**
 	 * Flags an image set
+	 *
 	 * @see https://phabricator.wikimedia.org/T156304
 	 * @see https://phabricator.wikimedia.org/T155451
 	 */
-	flagImg: function() {
+	flagImg: function () {
 		var options = {
 			actions: [
 				{ label: mw.msg( 'cancel' ) },
-				{ label: mw.msg( 'picturegame-reportimages' ), action: 'accept', flags: ['destructive', 'primary'] },
+				{ label: mw.msg( 'picturegame-reportimages' ), action: 'accept', flags: [ 'destructive', 'primary' ] }
 			],
 			textInput: { placeholder: mw.msg( 'picturegame-adminpanelreason' ) }
 		};
@@ -164,7 +167,7 @@ var PictureGame = window.PictureGame = {
 						id: document.getElementById( 'id' ).value,
 						comment: reason
 					},
-					function( data ) {
+					function ( data ) {
 						document.getElementById( 'serverMessages' ).innerHTML =
 						'<strong>' + data + '</strong>';
 					}
@@ -173,26 +176,26 @@ var PictureGame = window.PictureGame = {
 		} );
 	},
 
-	doHover: function( divID ) {
-		if( divID == 'imageOne' ) {
+	doHover: function ( divID ) {
+		if ( divID == 'imageOne' ) {
 			document.getElementById( divID ).style.backgroundColor = '#4B9AF6';
 		} else {
 			document.getElementById( divID ).style.backgroundColor = '#FF1800';
 		}
 	},
 
-	endHover: function( divID ) {
+	endHover: function ( divID ) {
 		document.getElementById( divID ).style.backgroundColor = '';
 	},
 
-	editPanel: function() {
+	editPanel: function () {
 		document.location = '?title=Special:PictureGameHome&picGameAction=editPanel&id=' +
 			document.getElementById( 'id' ).value;
 	},
 
-	protectImages: function( msg ) {
+	protectImages: function ( msg ) {
 		var ask = confirm( msg );
-		if( ask ) {
+		if ( ask ) {
 			jQuery.get(
 				mw.config.get( 'wgScript' ),
 				{
@@ -201,7 +204,7 @@ var PictureGame = window.PictureGame = {
 					key: document.getElementById( 'key' ).value,
 					id: document.getElementById( 'id' ).value
 				},
-				function( data ) {
+				function ( data ) {
 					document.getElementById( 'serverMessages' ).innerHTML =
 						'<strong>' + data + '</strong>';
 				}
@@ -209,9 +212,9 @@ var PictureGame = window.PictureGame = {
 		}
 	},
 
-	castVote: function( picID ) {
+	castVote: function ( picID ) {
 		LightBox.init(); // creates #lightboxText & friends
-		if( document.getElementById( 'lightboxText' ) !== null ) {
+		if ( document.getElementById( 'lightboxText' ) !== null ) {
 			// pop up the lightbox
 			var objLink = {};
 			objLink.href = '#';
@@ -244,7 +247,7 @@ var PictureGame = window.PictureGame = {
 					img: picID,
 					nextid: document.getElementById( 'nextid' ).value
 				},
-				function( data ) {
+				function ( data ) {
 					window.location =
 						'?title=Special:PictureGameHome&picGameAction=startGame&lastid=' +
 						document.getElementById( 'id' ).value + '&id=' +
@@ -254,8 +257,8 @@ var PictureGame = window.PictureGame = {
 		}
 	},
 
-	reupload: function( id ) {
-		if( id == 1 ) {
+	reupload: function ( id ) {
+		if ( id == 1 ) {
 			document.getElementById( 'imageOne' ).style.display = 'none';
 			document.getElementById( 'imageOne' ).style.visibility = 'hidden';
 			document.getElementById( 'imageOneLoadingImg' ).style.display = 'block';
@@ -266,7 +269,7 @@ var PictureGame = window.PictureGame = {
 				document.getElementById( 'imageOneLoadingImg' ).style.visibility = 'hidden';
 				document.getElementById( 'imageOneUpload-frame' ).style.display = 'block';
 				document.getElementById( 'imageOneUpload-frame' ).style.visibility = 'visible';
-				this.onload = function( st, doc ) { return; };
+				this.onload = function ( st, doc ) { return; };
 			};
 
 			// passes in the description of the image
@@ -289,7 +292,7 @@ var PictureGame = window.PictureGame = {
 				document.getElementById( 'imageTwoLoadingImg' ).style.visibility = 'hidden';
 				document.getElementById( 'imageTwoUpload-frame' ).style.display = 'block';
 				document.getElementById( 'imageTwoUpload-frame' ).style.visibility = 'visible';
-				this.onload = function( st, doc ) { return; };
+				this.onload = function ( st, doc ) { return; };
 			};
 			// passes in the description of the image
 			/*
@@ -304,8 +307,10 @@ var PictureGame = window.PictureGame = {
 	/**
 	 * Eh, there should be a smarter way of doing this instead of epic code
 	 * duplication, really...
+	 *
+	 * @param message
 	 */
-	imageOne_uploadError: function( message ) {
+	imageOne_uploadError: function ( message ) {
 		document.getElementById( 'imageOneLoadingImg' ).style.display = 'none';
 		document.getElementById( 'imageOneLoadingImg' ).style.visibility = 'hidden';
 
@@ -317,7 +322,7 @@ var PictureGame = window.PictureGame = {
 		document.getElementById( 'imageOneUpload-frame' ).style.visibility = 'visible';
 	},
 
-	imageTwo_uploadError: function( message ) {
+	imageTwo_uploadError: function ( message ) {
 		document.getElementById( 'imageTwoLoadingImg' ).style.display = 'none';
 		document.getElementById( 'imageTwoLoadingImg' ).style.visibility = 'hidden';
 
@@ -328,21 +333,21 @@ var PictureGame = window.PictureGame = {
 		document.getElementById( 'imageTwoUpload-frame' ).style.visibility = 'visible';
 	},
 
-	imageOne_completeImageUpload: function() {
+	imageOne_completeImageUpload: function () {
 		document.getElementById( 'imageOneUpload-frame' ).style.display = 'none';
 		document.getElementById( 'imageOneUpload-frame' ).style.visibility = 'hidden';
 		document.getElementById( 'imageOneLoadingImg' ).style.display = 'block';
 		document.getElementById( 'imageOneLoadingImg' ).style.visibility = 'visible';
 	},
 
-	imageTwo_completeImageUpload: function() {
+	imageTwo_completeImageUpload: function () {
 		document.getElementById( 'imageTwoUpload-frame' ).style.display = 'none';
 		document.getElementById( 'imageTwoUpload-frame' ).style.visibility = 'hidden';
 		document.getElementById( 'imageTwoLoadingImg' ).style.display = 'block';
 		document.getElementById( 'imageTwoLoadingImg' ).style.visibility = 'visible';
 	},
 
-	imageOne_uploadComplete: function( imgSrc, imgName, imgDesc ) {
+	imageOne_uploadComplete: function ( imgSrc, imgName, imgDesc ) {
 		document.getElementById( 'imageOneLoadingImg' ).style.display = 'none';
 		document.getElementById( 'imageOneLoadingImg' ).style.visibility = 'hidden';
 		document.getElementById( 'imageOneUpload-frame' ).style.display = 'none';
@@ -352,7 +357,7 @@ var PictureGame = window.PictureGame = {
 		jQuery( '#imageOne' ).append(
 			jQuery( '<a>' )
 				.attr( 'href', '#' )
-				.on( 'click', function() { PictureGame.reupload( 1 ); } )
+				.on( 'click', function () { PictureGame.reupload( 1 ); } )
 				.text( window.parent.mw.msg( 'picturegame-js-edit' ) )
 				// Words of wisdom (from /extensions/PollNY/Poll.js):
 				// <Vulpix> oh, yeah, I know what's happening. Since you're appending the element created with $('<a>'), it appends only it, not the wrapped one... You may need to add a .parent() at the end to get the <p> also...
@@ -362,25 +367,24 @@ var PictureGame = window.PictureGame = {
 		);
 
 		document.picGamePlay.picOneURL.value = imgName;
-		//document.picGamePlay.picOneDesc.value = imgDesc;
+		// document.picGamePlay.picOneDesc.value = imgDesc;
 
 		// as per https://www.mediawiki.org/wiki/Special:Code/MediaWiki/68271
 		var imgOne = jQuery( '#imageOne' );
 		imgOne.fadeIn( 2000 );
 
 		// Show the start button only when both images have been uploaded
-		if(
+		if (
 			document.picGamePlay.picTwoURL.value !== '' &&
 			document.picGamePlay.picOneURL.value !== ''
-		)
-		{
+		) {
 			// as per https://www.mediawiki.org/wiki/Special:Code/MediaWiki/68271
 			var button = jQuery( '#startButton' );
 			button.fadeIn( 2000 );
 		}
 	},
 
-	imageTwo_uploadComplete: function( imgSrc, imgName, imgDesc ) {
+	imageTwo_uploadComplete: function ( imgSrc, imgName, imgDesc ) {
 		document.getElementById( 'imageTwoLoadingImg' ).style.display = 'none';
 		document.getElementById( 'imageTwoLoadingImg' ).style.visibility = 'hidden';
 		document.getElementById( 'imageTwoUpload-frame' ).style.display = 'none';
@@ -390,7 +394,7 @@ var PictureGame = window.PictureGame = {
 		jQuery( '#imageTwo' ).append(
 			jQuery( '<a>' )
 				.attr( 'href', '#' )
-				.on( 'click', function() { PictureGame.reupload( 2 ); } )
+				.on( 'click', function () { PictureGame.reupload( 2 ); } )
 				.text( window.parent.mw.msg( 'picturegame-js-edit' ) )
 				// Words of wisdom (from /extensions/PollNY/Poll.js):
 				// <Vulpix> oh, yeah, I know what's happening. Since you're appending the element created with $('<a>'), it appends only it, not the wrapped one... You may need to add a .parent() at the end to get the <p> also...
@@ -400,27 +404,27 @@ var PictureGame = window.PictureGame = {
 		);
 
 		document.picGamePlay.picTwoURL.value = imgName;
-		//document.picGamePlay.picTwoDesc.value = imgDesc;
+		// document.picGamePlay.picTwoDesc.value = imgDesc;
 
 		// as per https://www.mediawiki.org/wiki/Special:Code/MediaWiki/68271
 		var imgTwo = jQuery( '#imageTwo' );
 		imgTwo.fadeIn( 2000 );
 
-		if( document.picGamePlay.picOneURL.value !== '' ) {
+		if ( document.picGamePlay.picOneURL.value !== '' ) {
 			// as per https://www.mediawiki.org/wiki/Special:Code/MediaWiki/68271
 			var button = jQuery( '#startButton' );
 			button.fadeIn( 2000 );
 		}
 	},
 
-	startGame: function() {
-		var isError = false;
-		var gameTitle = document.getElementById( 'picGameTitle' ).value;
-		var imgOneURL = document.getElementById( 'picOneURL' ).value;
-		var imgTwoURL = document.getElementById( 'picTwoURL' ).value;
-		var errorText = '';
+	startGame: function () {
+		var isError = false,
+			gameTitle = document.getElementById( 'picGameTitle' ).value,
+			imgOneURL = document.getElementById( 'picOneURL' ).value,
+			imgTwoURL = document.getElementById( 'picTwoURL' ).value,
+			errorText = '';
 
-		if( gameTitle.length === 0 ) {
+		if ( gameTitle.length === 0 ) {
 			isError = true;
 			document.getElementById( 'picGameTitle' ).style.borderStyle = 'solid';
 			document.getElementById( 'picGameTitle' ).style.borderColor = 'red';
@@ -428,7 +432,7 @@ var PictureGame = window.PictureGame = {
 			errorText = errorText + mw.msg( 'picturegame-js-error-title' ) + '<br />';
 		}
 
-		if( imgOneURL.length === 0 ) {
+		if ( imgOneURL.length === 0 ) {
 			isError = true;
 			document.getElementById( 'imageOneUpload' ).style.borderStyle = 'solid';
 			document.getElementById( 'imageOneUpload' ).style.borderColor = 'red';
@@ -436,7 +440,7 @@ var PictureGame = window.PictureGame = {
 			errorText = errorText + mw.msg( 'picturegame-js-error-upload-imgone' ) + '<br />';
 		}
 
-		if( imgTwoURL.length === 0 ) {
+		if ( imgTwoURL.length === 0 ) {
 			isError = true;
 			document.getElementById( 'imageTwoUpload' ).style.borderStyle = 'solid';
 			document.getElementById( 'imageTwoUpload' ).style.borderColor = 'red';
@@ -444,28 +448,28 @@ var PictureGame = window.PictureGame = {
 			errorText = errorText + mw.msg( 'picturegame-js-error-upload-imgtwo' ) + '<br />';
 		}
 
-		if( !isError ) {
+		if ( !isError ) {
 			document.picGamePlay.submit();
 		} else {
 			document.getElementById( 'picgame-errors' ).innerHTML = errorText;
 		}
 	},
 
-	skipToGame: function() {
+	skipToGame: function () {
 		document.location = 'index.php?title=Special:PictureGameHome&picGameAction=startGame';
 	}
 };
 
-jQuery( function() {
+jQuery( function () {
 	// Handle clicks on "Un-flag" links on the admin panel
-	jQuery( 'div.admin-controls a.picgame-unflag-link' ).on( 'click', function( event ) {
+	jQuery( 'div.admin-controls a.picgame-unflag-link' ).on( 'click', function ( event ) {
 		event.preventDefault();
 		var options = {
-			actions: [
-				{ label: mw.msg( 'cancel' ) },
-				{ label: mw.msg( 'picturegame-adminpanelunflag' ), action: 'accept', flags: ['constructive'] }
-			]
-		}, id = jQuery( this ).parent().parent().attr( 'id' );
+				actions: [
+					{ label: mw.msg( 'cancel' ) },
+					{ label: mw.msg( 'picturegame-adminpanelunflag' ), action: 'accept', flags: [ 'constructive' ] }
+				]
+			}, id = jQuery( this ).parent().parent().attr( 'id' );
 		OO.ui.confirm( mw.msg( 'picturegame-adminpanelunflag-confirm' ), options ).done( function ( confirmed ) {
 			if ( confirmed ) {
 				PictureGame.unflag( id );
@@ -474,14 +478,14 @@ jQuery( function() {
 	} );
 
 	// Handle clicks on "Delete" links on the admin panel
-	jQuery( 'div.admin-controls a.picgame-delete-link' ).on( 'click', function( event ) {
+	jQuery( 'div.admin-controls a.picgame-delete-link' ).on( 'click', function ( event ) {
 		event.preventDefault();
 		var options = {
-			actions: [
-				{ label: mw.msg( 'cancel' ) },
-				{ label: mw.msg( 'picturegame-adminpaneldelete' ), action: 'accept', flags: ['destructive'] }
-			]
-		}, id = jQuery( this ).parent().parent().attr( 'id' );
+				actions: [
+					{ label: mw.msg( 'cancel' ) },
+					{ label: mw.msg( 'picturegame-adminpaneldelete' ), action: 'accept', flags: [ 'destructive' ] }
+				]
+			}, id = jQuery( this ).parent().parent().attr( 'id' );
 		OO.ui.confirm( mw.msg( 'picturegame-adminpaneldelete-confirm' ), options ).done( function ( confirmed ) {
 			if ( confirmed ) {
 				PictureGame.deleteimg(
@@ -494,86 +498,86 @@ jQuery( function() {
 	} );
 
 	// Handle clicks on "Unprotect" links on the admin panel
-	jQuery( 'div.admin-controls a.picgame-unprotect-link' ).on( 'click', function( event ) {
+	jQuery( 'div.admin-controls a.picgame-unprotect-link' ).on( 'click', function ( event ) {
 		event.preventDefault();
 		PictureGame.unprotect( jQuery( this ).parent().parent().attr( 'id' ) );
 	} );
 
 	// Handle clicks on "Protect" links on the admin panel
-	jQuery( 'a.picgame-protect-link' ).on( 'click', function( event ) {
+	jQuery( 'a.picgame-protect-link' ).on( 'click', function ( event ) {
 		event.preventDefault();
 		PictureGame.protectImages( mw.msg( 'picturegame-protectimgconfirm' ) );
 	} );
 
-	jQuery( 'div.edit-button-pic-game a.picgame-edit-link' ).on( 'click', function( event ) {
+	jQuery( 'div.edit-button-pic-game a.picgame-edit-link' ).on( 'click', function ( event ) {
 		event.preventDefault();
 		PictureGame.editPanel();
 	} );
 
 	// Permalink
-	jQuery( 'div#utilityButtons a.picgame-permalink' ).on( 'click', function( event ) {
+	jQuery( 'div#utilityButtons a.picgame-permalink' ).on( 'click', function ( event ) {
 		event.preventDefault();
 		window.parent.document.location = window.location.href.replace( 'startGame', 'renderPermalink' );
 	} );
 
 	// "Flag" link
-	jQuery( 'div#utilityButtons a.picgame-flag-link' ).on( 'click', function( event ) {
+	jQuery( 'div#utilityButtons a.picgame-flag-link' ).on( 'click', function ( event ) {
 		event.preventDefault();
 		PictureGame.flagImg();
 	} );
 
 	// "Skip to game" button
-	jQuery( 'input#skip-button' ).on( 'click', function( event ) {
+	jQuery( 'input#skip-button' ).on( 'click', function ( event ) {
 		event.preventDefault();
 		PictureGame.skipToGame();
 	} );
 
-	jQuery( 'div#edit-image-one p a.picgame-upload-link-1' ).on( 'click', function( event ) {
+	jQuery( 'div#edit-image-one p a.picgame-upload-link-1' ).on( 'click', function ( event ) {
 		event.preventDefault();
 		PictureGame.loadUploadFrame( jQuery( this ).data( 'img-one-name' ), 1 );
 	} );
 
-	jQuery( 'div#edit-image-two p a.picgame-upload-link-2' ).on( 'click', function( event ) {
+	jQuery( 'div#edit-image-two p a.picgame-upload-link-2' ).on( 'click', function ( event ) {
 		event.preventDefault();
 		PictureGame.loadUploadFrame( jQuery( this ).data( 'img-two-name' ), 2 );
 	} );
 
 	// "Create and Play!" button on picture game creation form
-	jQuery( 'div#startButton input' ).on( 'click', function( event ) {
+	jQuery( 'div#startButton input' ).on( 'click', function ( event ) {
 		event.preventDefault();
 		PictureGame.startGame();
 	} );
 
 	// Hovers on the gallery
-	jQuery( 'div.picgame-gallery-thumbnail' ).on({
-		'mouseout': function() {
+	jQuery( 'div.picgame-gallery-thumbnail' ).on( {
+		mouseout: function () {
 			PictureGame.endHover( jQuery( this ).attr( 'id' ) );
 		},
-		'mouseover': function() {
+		mouseover: function () {
 			PictureGame.doHover( jQuery( this ).attr( 'id' ) );
-		},
+		}
 	} );
 
-	jQuery( 'div.imgContainer div#imageOne' ).on({
-		'click': function() {
+	jQuery( 'div.imgContainer div#imageOne' ).on( {
+		click: function () {
 			PictureGame.castVote( 0 );
 		},
-		'mouseout': function() {
+		mouseout: function () {
 			PictureGame.endHover( 'imageOne' );
 		},
-		'mouseover': function() {
+		mouseover: function () {
 			PictureGame.doHover( 'imageOne' );
 		}
 	} );
 
-	jQuery( 'div.imgContainer div#imageTwo' ).on({
-		'click': function() {
+	jQuery( 'div.imgContainer div#imageTwo' ).on( {
+		click: function () {
 			PictureGame.castVote( 1 );
 		},
-		'mouseout': function() {
+		mouseout: function () {
 			PictureGame.endHover( 'imageTwo' );
 		},
-		'mouseover': function() {
+		mouseover: function () {
 			PictureGame.doHover( 'imageTwo' );
 		}
 	} );
