@@ -1,7 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"Jack Phoenix"
+			"Jack Phoenix",
+			"Moj"
 		]
 	},
 	"picturegame-signup": "Rekisteröidy",
@@ -16,9 +17,9 @@
 	"picturegame-backbutton": "Palaa takaisin",
 	"picturegame-previousgame": "Aiempi peli",
 	"picturegame-adminpaneltitle": "Kuvapelin ylläpitäjän paneeli",
+	"picturegame-adminpanelreason": "Syy",
 	"picturegame-adminpanelflagged": "Merkityt kuvat:",
 	"picturegame-adminpanelprotected": "Suojatut kuvat:",
-	"picturegame-adminpanelreinstate": "Palauta kiertoon",
 	"picturegame-adminpaneldelete": "Poista",
 	"picturegame-adminpanelunprotect": "Poista suojaus",
 	"picturegame-adminpanelbacktogame": "&lt; Takaisin kuvapeliin",
@@ -39,7 +40,6 @@
 	"picturegame-protectimgconfirm": "Oletko varma, että haluat suojata nämä kuvat?",
 	"picturegame-buttonupload": "Tallenna",
 	"picturegame-buttonsubmit": "Lähetä",
-	"picturegame-buttoncancel": "Peruuta",
 	"picturegame-buttonplaygame": "Pelaa kuvapeliä",
 	"picturegame-permalinkflagged": "Nämä kuvat ovat merkittyjä, joko sopimattoman sisällön tai tekijänoikeuslain suojaaman materiaalin tähden. Pelataksesi kuvapeliä, napsauta painiketta alapuolella.",
 	"picturegame-sysmsg-unauthorized": "Sinulla ei ole lupaa tehdä tätä.",

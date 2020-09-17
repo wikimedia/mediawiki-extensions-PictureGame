@@ -1,0 +1,23 @@
+{
+	"@metadata": {
+		"authors": [
+			"Gomoko",
+			"Wladek92"
+		]
+	},
+	"picturegame-desc": "Permet de faire [[Special:PictureGameHome|des jeux d’image]]",
+	"picturegame-signup": "S’inscrire",
+	"picturegame-login": "Connexion",
+	"picturegame-submittedby": "Soumis par",
+	"picturegame-reportimages": "Signaler des images",
+	"picturegame-permalink": "Lien permanent",
+	"picturegame-adminpanel": "Panneau d’administration",
+	"picturegame-protectimages": "Protéger les images",
+	"picturegame-error-socialprofile": "L’extension [https://www.mediawiki.org/wiki/Special:MyLanguage/Extension:SocialProfile SocialProfile] n’est pas installée. Veuillez installer cette extension et réessayer.",
+	"picturegame-error-socialprofile-title": "L’extension SocialProfile n’est pas installée.",
+	"picturegame-createeditsecondimage": "Seconde image",
+	"picturegame-editgamegametitle": "Titre",
+	"picturegame-editgameuploadtext": "Téléverser une nouvelle image",
+	"picturegame-sysmsg-badkey": "Erreur fatale : votre clé est mauvaise.",
+	"picturegame-create-threshold-comments": "{{PLURAL:$1|un commentaire|$1 commentaires}}"
+}
