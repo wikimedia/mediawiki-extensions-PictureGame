@@ -4,11 +4,13 @@
 			"Saederup92"
 		]
 	},
+	"picturegame-submittedby": "Indsendt af",
 	"picturegame-adminpaneldelete": "Flest",
 	"picturegame-creategamefiletext": "Fil",
 	"picturegame-createeditsecondimage": "Andet billede",
 	"picturegame-editgamegametitle": "Titel",
 	"picturegame-mostvotes": "Flest stemmer",
 	"picturegame-next": "næste",
-	"picturegame-prev": "forrige"
+	"picturegame-prev": "forrige",
+	"picturegame-js-edit": "Rediger"
 }

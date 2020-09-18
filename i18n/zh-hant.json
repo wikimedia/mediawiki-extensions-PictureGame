@@ -1,0 +1,41 @@
+{
+	"@metadata": {
+		"authors": [
+			"Kly"
+		]
+	},
+	"picturegame-desc": "允許製作[[Special:PictureGameHome|圖像遊戲]]",
+	"picturegame-signup": "註冊",
+	"picturegame-login": "登入",
+	"picturegame-submittedby": "提交由",
+	"picturegame-reportimages": "回報圖片",
+	"picturegame-permalink": "靜態連結",
+	"picturegame-adminpanel": "管理面板",
+	"picturegame-protectimages": "保護圖片",
+	"picturegame-skipbutton": "略過",
+	"picturegame-backbutton": "返回",
+	"picturegame-previousgame": "上一個遊戲",
+	"picturegame-adminpanelreason": "原因",
+	"picturegame-adminpanelflagged": "已標記圖片：",
+	"picturegame-adminpanelprotected": "受保護圖片：",
+	"picturegame-adminpanelunflag": "取消標記",
+	"picturegame-adminpaneldelete": "刪除",
+	"picturegame-adminpanelunprotect": "取消保護",
+	"picturegame-creategamefiletext": "檔案",
+	"picturegame-creategamecreateplay": "建立並遊玩！",
+	"picturegame-editgamegametitle": "標題",
+	"picturegame-editgameuploadtext": "上傳新圖片",
+	"picturegame-buttonupload": "上傳",
+	"picturegame-buttonsubmit": "提交",
+	"picturegame-buttonplaygame": "遊玩圖像遊戲",
+	"picturegame-gallery": "圖庫",
+	"picturegame-gallery-empty": "尚未有圖像遊戲圖片",
+	"picturegame-none": "無",
+	"picturegame-js-edit": "編輯",
+	"picturegame-js-error-title": "請輸入標題！",
+	"picturegame-js-error-upload-imgone": "請上傳圖片一！",
+	"picturegame-js-error-upload-imgtwo": "請上傳圖片二！",
+	"picturegame-js-editing-imgone": "編輯圖片 1",
+	"picturegame-js-editing-imgtwo": "編輯圖片 2",
+	"log-name-picturegame": "圖像遊戲日誌"
+}

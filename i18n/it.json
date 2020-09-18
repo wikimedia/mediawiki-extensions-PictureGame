@@ -1,0 +1,19 @@
+{
+	"@metadata": {
+		"authors": [
+			"Beta16"
+		]
+	},
+	"picturegame-submittedby": "Inviato da",
+	"picturegame-error-socialprofile-title": "L'estensione SocialProfile non è installata.",
+	"picturegame-adminpaneldelete": "Cancella",
+	"picturegame-createeditsecondimage": "Seconda immagine",
+	"picturegame-editgamegametitle": "Titolo",
+	"picturegame-editgameuploadtext": "Carica nuova immagine",
+	"picturegame-buttonupload": "Carica",
+	"picturegame-buttonsubmit": "Invia",
+	"picturegame-create-threshold-edits": "{{PLURAL:$1|una modifica|$1 modifiche}}",
+	"picturegame-create-threshold-comments": "{{PLURAL:$1|un commento|$1 commenti}}",
+	"picturegame-create-threshold-friend-count": "{{PLURAL:$1|un amico|$1 amici}}",
+	"picturegame-js-edit": "Modifica"
+}
