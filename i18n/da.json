@@ -5,6 +5,7 @@
 		]
 	},
 	"picturegame-submittedby": "Indsendt af",
+	"picturegame-reportimages": "Rapporter billeder",
 	"picturegame-adminpaneldelete": "Flest",
 	"picturegame-creategamefiletext": "Fil",
 	"picturegame-createeditsecondimage": "Andet billede",
@@ -12,5 +13,6 @@
 	"picturegame-mostvotes": "Flest stemmer",
 	"picturegame-next": "næste",
 	"picturegame-prev": "forrige",
-	"picturegame-js-edit": "Rediger"
+	"picturegame-js-edit": "Rediger",
+	"picturegame-js-error-title": "Indtast venligst en titel!"
 }
