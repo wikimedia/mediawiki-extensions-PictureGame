@@ -1,6 +1,8 @@
 {
 	"@metadata": {
-		"authors": []
+		"authors": [
+			"Robby"
+		]
 	},
 	"picturegame-desc": "{{desc|name=PictureGame|url=https://www.mediawiki.org/wiki/Extension:PictureGame}}",
 	"picturegame-signup": "Button text shown on Special:PictureGameHome for anonymous users",
@@ -13,7 +15,7 @@
 	"picturegame-error-socialprofile": "Error message shown on Special:PictureGameHome when SocialProfle extension is not installed.",
 	"picturegame-error-socialprofile-title": "Title for <code>quizgame-error-socialprofile</code>.",
 	"picturegame-createlink": "Link text of a link shown only to registered users on Special:PictureGameHome, which prompts them to create a picture game",
-	"picturegame-skipbutton": "Text of a navigation link, clicking on which allows the user to skip the current picture game without voting on it and move onto the next one; this link is not shown if there is no next picture game to move onto",
+	"picturegame-skipbutton": "Text of a navigation link, clicking on which allows the user to skip the current picture game without voting on it and move onto the next one; this link is not shown if there is no next picture game to move onto\n{{identical|Skip}}",
 	"picturegame-backbutton": "Text of a navigation link, clicking on which allows the user to view the previous picture game and its results without voting on the current game; this link is not shown if there is no previous picture game to go back to",
 	"picturegame-previousgame": "Header text, followed by the amount of votes the previous game has gotten in (parentheses)",
 	"picturegame-adminpaneltitle": "Page title for the admin panel, accessible on Special:PictureGameHome for privileged users (those who have the <code>picturegameadmin</code> user right)",
@@ -22,7 +24,7 @@
 	"picturegame-adminpanelprotected": "A hint message shown on the admin panel, which is accessible on Special:PictureGameHome for privileged users (those who have the <code>picturegameadmin</code> user right)",
 	"picturegame-adminpanelunflag": "Link text of a link shown on the admin panel in Special:PictureGameHome for privileged users (those with the <code>picturegameadmin</code> user right); unflagging a picture game returns it to circulation, allowing users to play (vote in) that particulat picture game",
 	"picturegame-adminpanelunflag-confirm": "Confirmation message shown in the un-flag dialog.",
-	"picturegame-adminpaneldelete": "Link text of a link shown on the admin panel in Special:PictureGameHome for privileged users (those with the <code>picturegameadmin</code> user right)",
+	"picturegame-adminpaneldelete": "Link text of a link shown on the admin panel in Special:PictureGameHome for privileged users (those with the <code>picturegameadmin</code> user right)\n{{identical|Delete}}",
 	"picturegame-adminpaneldelete-confirm": "Confirmation message shown in the delete dialog.",
 	"picturegame-adminpanelunprotect": "Link text shown on the admin panel on Special:PictureGameHome and only to users who have the <code>picturegameadmin</code> user right",
 	"picturegame-adminpanelbacktogame": "Navigation link shown on the admin panel Special:PictureGameHome and only to users who have the <code>picturegameadmin</code> user right",
@@ -32,7 +34,7 @@
 	"picturegame-creategameplayinstead": "Button text for a button shown on Special:PictureGameHome if the user has already voted in a few picture games",
 	"picturegame-creategamegametitle": "Page title of Special:PictureGameHome when creating a new picture game",
 	"picturegame-creategamecaptiontext": "A label message on Special:PictureGameHome when creating a new picture game",
-	"picturegame-creategamefiletext": "A label message on Special:PictureGameHome when creating a new picture game",
+	"picturegame-creategamefiletext": "A label message on Special:PictureGameHome when creating a new picture game\n{{identical|File}}",
 	"picturegame-creategamecreateplay": "A button message on Special:PictureGameHome when creating a new picture game",
 	"picturegame-createeditfirstimage": "A header message on Special:PictureGameHome when creating a new picture game",
 	"picturegame-createeditsecondimage": "A header message on Special:PictureGameHome when creating a new picture game",
@@ -41,7 +43,7 @@
 	"picturegame-editgameuploadtext": "Link text on the editing form when editing a pre-existing picture game; clicking on this link brings up the uploading form, which allows the user to replace the picture(s) in the game with a new picture/pictures",
 	"picturegame-flagimgconfirm": "Confirmation message shown in the report dialog.",
 	"picturegame-protectimgconfirm": "A confirmation message shown when a privileged user (admin or someone else who has the <code>picturegameadmin</code> user right) wants to protect a picture game's images",
-	"picturegame-buttonupload": "Button text for the upload button shown on the upload forms on Special:PictureGameHome",
+	"picturegame-buttonupload": "Button text for the upload button shown on the upload forms on Special:PictureGameHome\n{{identical|Upload}}",
 	"picturegame-buttonsubmit": "Button text for the main submission button shown on Special:PictureGameHome",
 	"picturegame-buttonplaygame": "A button text",
 	"picturegame-permalinkflagged": "Informational text on the picture game admin panel explaining to the viewing (admin) user why the listed picture games (if any) are flagged",
@@ -80,7 +82,7 @@
 	"picturegame-create-threshold-quiz-correct": "Refer to the documentation of {{msg-mw|picturegame-create-threshold-reason}}.\nSee also:\n* {{msg-mw|user-profile-create-threshold-quiz-correct}} (the same message, but in [[mw:Extension:SocialProfile|SocialProfile]])",
 	"picturegame-create-threshold-quiz-points": "Refer to the documentation of {{msg-mw|picturegame-create-threshold-reason}}.\nSee also:\n* {{msg-mw|user-profile-create-threshold-quiz-points}} (the same message, but in [[mw:Extension:SocialProfile|SocialProfile]])",
 	"picturegame-next": "Navigation link text",
-	"picturegame-prev": "Navigation link text",
+	"picturegame-prev": "Navigation link text\n{{identical|prev}}",
 	"picturegame-sorted-most-heat": "A table header; \"heat\" is defined as ((the amount of votes the first image has / the amount of votes the first image has + the amount of votes the second image has) - (the amount of votes the second image has / (the amount of votes the first image has + the amount of votes the second image has))) and the resulting number is run through MySQL/MariaDB's [https://mariadb.com/kb/en/abs/ <code>ABS()</code>] function to get an absolute (non-negative) number",
 	"picturegame-sorted-most-votes": "A table header",
 	"picturegame-sorted-least-heat": "A table header; \"heat\" is defined as ((the amount of votes the first image has / the amount of votes the first image has + the amount of votes the second image has) - (the amount of votes the second image has / (the amount of votes the first image has + the amount of votes the second image has))) and the resulting number is run through MySQL/MariaDB's [https://mariadb.com/kb/en/abs/ <code>ABS()</code>] function to get an absolute (non-negative) number",
