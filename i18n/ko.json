@@ -1,0 +1,38 @@
+{
+	"@metadata": {
+		"authors": [
+			"Ykhwong"
+		]
+	},
+	"picturegame-signup": "가입하기",
+	"picturegame-login": "로그인",
+	"picturegame-submittedby": "제출자",
+	"picturegame-permalink": "고유링크",
+	"picturegame-protectimages": "이미지 보호",
+	"picturegame-error-socialprofile": "[https://www.mediawiki.org/wiki/Special:MyLanguage/Extension:SocialProfile SocialProfile 확장 기능]이 설치되어 있지 않습니다. 이 확장 기능을 설치한 다음 다시 시도해 주십시오.",
+	"picturegame-error-socialprofile-title": "SocialProfile 확장 기능이 설치되어 있지 않습니다.",
+	"picturegame-skipbutton": "건너뛰기",
+	"picturegame-backbutton": "돌아가기",
+	"picturegame-previousgame": "이전 게임",
+	"picturegame-adminpanelreason": "이유",
+	"picturegame-adminpanelprotected": "보호된 이미지:",
+	"picturegame-adminpaneldelete": "삭제",
+	"picturegame-adminpanelunprotect": "보호 해제",
+	"picturegame-creategamecaptiontext": "캡션",
+	"picturegame-creategamefiletext": "파일",
+	"picturegame-editgame-editing-title": "$1 편집하기",
+	"picturegame-editgamegametitle": "제목",
+	"picturegame-editgameuploadtext": "새 이미지 업로드",
+	"picturegame-protectimgconfirm": "이 이미지들을 보호하시겠습니까?",
+	"picturegame-buttonupload": "업로드",
+	"picturegame-buttonsubmit": "제출",
+	"picturegame-sysmsg-unauthorized": "해당 작업을 수행할 권한이 없습니다.",
+	"picturegame-sysmsg-badkey": "치명적인 오류: 키가 잘못되었습니다.",
+	"picturegame-sysmsg-protect": "이미지가 보호되었습니다!",
+	"picturegame-next": "다음",
+	"picturegame-prev": "이전",
+	"picturegame-gallery": "갤러리",
+	"picturegame-none": "없음",
+	"picturegame-js-edit": "편집",
+	"picturegame-js-error-title": "제목을 입력해 주십시오!"
+}

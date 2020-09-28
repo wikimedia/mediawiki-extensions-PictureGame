@@ -1,7 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"Edwingudfriend"
+			"Edwingudfriend",
+			"Jack Phoenix"
 		]
 	},
 	"picturegame-signup": "Jisajili",
@@ -26,7 +27,7 @@
 	"picturegame-adminpaneldelete": "Futa",
 	"picturegame-adminpaneldelete-confirm": "Je! Una uhakika unataka kufuta mchezo huu wa picha?",
 	"picturegame-adminpanelunprotect": "Sio salama",
-	"picturegame-adminpanelbacktogame": "& lt; Rudi kwenye Mchezo wa Picha",
+	"picturegame-adminpanelbacktogame": "&lt; Rudi kwenye Mchezo wa Picha",
 	"picturegame-creategametitle": "Unda Mchezo wa Picha",
 	"picturegame-creategamenotloggedin": "Lazima uingie ili kuunda mchezo wa picha.",
 	"picturegame-creategamewelcome": "Pakia picha mbili, ongeza maelezo mafupi, halafu nenda ukadiri picha za kila mtu. Ni rahisi sana.",
@@ -60,13 +61,13 @@
 	"picturegame-mostheat": "Joto zaidi",
 	"picturegame-mostvotes": "Kura nyingi",
 	"picturegame-nomoretitle": "Hakuna Michezo ya Picha!",
-	"picturegame-no-more": "Hakuna michezo mpya ya picha ya kucheza. <br /> Usisikitike, [{{fullurl: Special: PictureGameHome | picGameAction = startCreate}} unda yako mwenyewe] au [[Special: RandomPoll | piga kura!]]",
+	"picturegame-no-more": "Hakuna michezo mpya ya picha ya kucheza. <br /> Usisikitike, [{{fullurl:Special:PictureGameHome|picGameAction=startCreate}} unda yako mwenyewe] au [[Special:RandomPoll|piga kura!]]",
 	"picturegame-create-threshold-title": "Unda Mchezo wa Picha",
-	"picturegame-create-threshold-reason": "Samahani, huwezi kuunda mchezo wa picha hadi uwe na angalau $ 1",
-	"picturegame-create-threshold-votes": "{{PLURAL: $ 1 | kura moja | Kura $ 1}}",
-	"picturegame-create-threshold-comment-score-minus": "{{PLURAL: $ 1 | maoni moja yaliyopuuzwa | $ 1 alipuuza maoni}}",
-	"picturegame-create-threshold-recruits": "{{PLURAL: $ 1 | kuajiri mmoja | Kuajiri $ 1}}",
-	"picturegame-create-threshold-poll-votes": "{{PLURAL: $ 1 | kura moja ya kura | Kura $ 1 za kura}}",
+	"picturegame-create-threshold-reason": "Samahani, huwezi kuunda mchezo wa picha hadi uwe na angalau $1",
+	"picturegame-create-threshold-votes": "{{PLURAL:$1|kura moja|Kura $1}}",
+	"picturegame-create-threshold-comment-score-minus": "{{PLURAL:$1|maoni moja yaliyopuuzwa|$1 alipuuza maoni}}",
+	"picturegame-create-threshold-recruits": "{{PLURAL:$1|kuajiri mmoja|Kuajiri $1}}",
+	"picturegame-create-threshold-poll-votes": "{{PLURAL:$1|kura moja ya kura|Kura $1 za kura}}",
 	"picturegame-next": "linalofuata",
 	"picturegame-prev": "Iliyopita",
 	"picturegame-sorted-most-heat": "Michezo ya Picha Iliyopangwa na Joto Zaidi",
@@ -75,7 +76,7 @@
 	"picturegame-sorted-least-votes": "Michezo ya Picha Iliyopangwa kwa Kura nyingi",
 	"picturegame-gallery": "Picha",
 	"picturegame-gallery-empty": "Bado hakuna picha za mchezo wa picha bado.",
-	"picturegame-empty-no-more": "Hakuna michezo ya picha zaidi ya kucheza. Unaweza [{{fullurl: Special: PictureGameHome | picGameAction = startCreate}} unda mchezo mpya wa picha!]",
+	"picturegame-empty-no-more": "Hakuna michezo ya picha zaidi ya kucheza. Unaweza [{{fullurl:Special:PictureGameHome|picGameAction=startCreate}} unda mchezo mpya wa picha!]",
 	"picturegame-images-category": "Picha za picha",
 	"picturegame-none": "Hakuna",
 	"picturegame-js-edit": "Hariri",
@@ -86,6 +87,6 @@
 	"action-picturegameadmin": "simamia michezo ya picha",
 	"right-picturegameadmin": "Simamia michezo ya picha",
 	"log-name-picturegame": "Picha ya mchezo kumbukumbu",
-	"logentry-picturegame-unflag": "$ 1 {{GENDER: $ 2 | unflagged}} mchezo wa picha [[Special: PictureGameHome / $ 4 | # $ 4]]",
-	"logentry-picturegame-unprotect": "$ 1 {{JINSI: $ 2 | bila kinga}} picha za mchezo wa picha [[Maalum: PictureGameHome / $ 4 | # $ 4]]"
+	"logentry-picturegame-unflag": "$1 {{GENDER:$2|unflagged}} mchezo wa picha [[Special:PictureGameHome/$4|#$4]]",
+	"logentry-picturegame-unprotect": "$1 {{GENDER:$2|bila kinga}} picha za mchezo wa picha [[Special:PictureGameHome/$4|#$4]]"
 }
