@@ -29,6 +29,7 @@
 	"picturegame-sysmsg-unauthorized": "Dir sidd net autoriséiert fir dat ze maachen.",
 	"picturegame-sysmsg-protect": "D'Biller goufe gespaart!",
 	"picturegame-most": "Meescht",
+	"picturegame-mostvotes": "Meescht Stëmmen",
 	"picturegame-create-threshold-edits": "{{PLURAL:$1|eng Ännerung|$1 Ännerungen}}",
 	"picturegame-create-threshold-votes": "({{PLURAL:$1|eng Stëmm|$1 Stëmmen}})",
 	"picturegame-prev": "vireg",
