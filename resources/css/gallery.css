@@ -71,6 +71,10 @@
 	cursor: pointer;
 }
 
+.picgame-gallery-thumbnail:hover {
+	background-color: #ff1800;
+}
+
 .picgame-gallery-navigation h1 {
 	margin: 10px 0 10px 0 !important;
 	font-size: 13px;

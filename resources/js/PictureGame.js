@@ -176,18 +176,6 @@ var PictureGame = window.PictureGame = {
 		} );
 	},
 
-	doHover: function ( divID ) {
-		if ( divID == 'imageOne' ) {
-			document.getElementById( divID ).style.backgroundColor = '#4B9AF6';
-		} else {
-			document.getElementById( divID ).style.backgroundColor = '#FF1800';
-		}
-	},
-
-	endHover: function ( divID ) {
-		document.getElementById( divID ).style.backgroundColor = '';
-	},
-
 	editPanel: function () {
 		document.location = '?title=Special:PictureGameHome&picGameAction=editPanel&id=' +
 			document.getElementById( 'id' ).value;
@@ -548,37 +536,16 @@ jQuery( function () {
 		PictureGame.startGame();
 	} );
 
-	// Hovers on the gallery
-	jQuery( 'div.picgame-gallery-thumbnail' ).on( {
-		mouseout: function () {
-			PictureGame.endHover( jQuery( this ).attr( 'id' ) );
-		},
-		mouseover: function () {
-			PictureGame.doHover( jQuery( this ).attr( 'id' ) );
-		}
-	} );
-
+	// Handlers for registering the vote upon clicking an image
 	jQuery( 'div.imgContainer div#imageOne' ).on( {
 		click: function () {
 			PictureGame.castVote( 0 );
-		},
-		mouseout: function () {
-			PictureGame.endHover( 'imageOne' );
-		},
-		mouseover: function () {
-			PictureGame.doHover( 'imageOne' );
 		}
 	} );
 
 	jQuery( 'div.imgContainer div#imageTwo' ).on( {
 		click: function () {
 			PictureGame.castVote( 1 );
-		},
-		mouseout: function () {
-			PictureGame.endHover( 'imageTwo' );
-		},
-		mouseover: function () {
-			PictureGame.doHover( 'imageTwo' );
 		}
 	} );
 } );

@@ -81,6 +81,14 @@ body {
 	padding: 4px 0;
 }
 
+.imageOne:hover {
+	background-color: #4b9af6;
+}
+
+.imageTwo:hover {
+	background-color: #ff1800;
+}
+
 .utilityButtons {
 	clear: both;
 	font-size: 12px;
