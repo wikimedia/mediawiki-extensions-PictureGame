@@ -103,6 +103,7 @@
 	"action-picturegameadmin": "administrar jogos de imagem",
 	"right-picturegameadmin": "Administrar jogos de imagem",
 	"log-name-picturegame": "Registros do jogo de imagens",
+	"log-description-picturegame": "Este é um registro de todas as ações do [[Special:PictureGameHome|jogo de imagem]] (criações, edições, sinalizações, exclusões).",
 	"logentry-picturegame-create": "$1 {{GENDER:$2|criou}} jogo de imagem [[Special:PictureGameHome/$4|#$4]]",
 	"logentry-picturegame-delete": "$1 {{GENDER:$2|eliminou}} a imagem do jogo $4.",
 	"logentry-picturegame-edit": "$1 {{GENDER:$2|editou}} jogo de imagem [[Special:PictureGameHome/$4|#$4]]",
