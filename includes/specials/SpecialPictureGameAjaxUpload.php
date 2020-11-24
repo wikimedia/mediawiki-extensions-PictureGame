@@ -27,7 +27,12 @@ class SpecialPictureGameAjaxUpload extends SpecialUpload {
 	 * @param $request WebRequest: Data posted.
 	 */
 	public function __construct() {
-		SpecialPage::__construct( 'PictureGameAjaxUpload', 'upload', false );
+		parent::__construct();
+		$this->mName = 'PictureGameAjaxUpload';
+	}
+
+	public function isListed() {
+		return false;
 	}
 
 	/**
