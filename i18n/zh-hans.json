@@ -1,0 +1,30 @@
+{
+	"@metadata": {
+		"authors": [
+			")8"
+		]
+	},
+	"picturegame-signup": "注册",
+	"picturegame-login": "登录",
+	"picturegame-submittedby": "提交者",
+	"picturegame-permalink": "固定链接",
+	"picturegame-error-socialprofile": "[https://www.mediawiki.org/wiki/Special:MyLanguage/Extension:SocialProfile SocialProfile扩展]尚未安装。请安装该扩展并重试。",
+	"picturegame-error-socialprofile-title": "SocialProfile扩展未安装。",
+	"picturegame-skipbutton": "跳过",
+	"picturegame-backbutton": "返回",
+	"picturegame-adminpaneldelete": "删除",
+	"picturegame-adminpanelunprotect": "取消保护",
+	"picturegame-creategamecaptiontext": "说明文字",
+	"picturegame-creategamefiletext": "文件",
+	"picturegame-editgame-editing-title": "正在编辑$1",
+	"picturegame-editgamegametitle": "标题",
+	"picturegame-buttonupload": "上传",
+	"picturegame-buttonsubmit": "提交",
+	"picturegame-least": "最少",
+	"picturegame-next": "下一个",
+	"picturegame-prev": "上一个",
+	"picturegame-gallery": "图库",
+	"picturegame-none": "无",
+	"picturegame-js-edit": "编辑",
+	"picturegame-js-error-title": "请输入标题！"
+}
