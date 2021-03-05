@@ -23,14 +23,15 @@ class SpecialPictureGameAjaxUpload extends SpecialUpload {
 	/**
 	 * Constructor: initialise object
 	 * Get data POSTed through the form and assign them to the object
-	 *
-	 * @param $request WebRequest: Data posted.
 	 */
 	public function __construct() {
 		parent::__construct();
 		$this->mName = 'PictureGameAjaxUpload';
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function isListed() {
 		return false;
 	}
@@ -55,7 +56,7 @@ class SpecialPictureGameAjaxUpload extends SpecialUpload {
 				|| $request->getCheck( 'wpUploadIgnoreWarning' ) );
 
 		// Guess the desired name from the filename if not provided
-		$this->mDesiredDestName   = $request->getText( 'wpDestFile' );
+		$this->mDesiredDestName = $request->getText( 'wpDestFile' );
 		if ( !$this->mDesiredDestName && $request->getFileName( 'wpUploadFile' ) !== null ) {
 			$this->mDesiredDestName = $request->getFileName( 'wpUploadFile' );
 		}
@@ -63,14 +64,14 @@ class SpecialPictureGameAjaxUpload extends SpecialUpload {
 		$this->mLicense           = $request->getText( 'wpLicense' );
 
 		$this->mDestWarningAck    = $request->getText( 'wpDestFileWarningAck' );
-		$this->mIgnoreWarning     = true;//$request->getCheck( 'wpIgnoreWarning' ) || $request->getCheck( 'wpUploadIgnoreWarning' );
+		$this->mIgnoreWarning     = true;// $request->getCheck( 'wpIgnoreWarning' ) || $request->getCheck( 'wpUploadIgnoreWarning' );
 		$this->mWatchthis         = $request->getBool( 'wpWatchthis' ) && $this->getUser()->isLoggedIn();
 		$this->mCopyrightStatus   = $request->getText( 'wpUploadCopyStatus' );
 		$this->mCopyrightSource   = $request->getText( 'wpUploadSource' );
 
 		$this->mForReUpload       = $request->getBool( 'wpForReUpload' ); // updating a file
 		$this->mCancelUpload      = $request->getCheck( 'wpCancelUpload' )
-		                         || $request->getCheck( 'wpReUpload' ); // b/w compat
+								 || $request->getCheck( 'wpReUpload' ); // b/w compat
 
 		// If it was posted check for the token (no remote POST'ing with user credentials)
 		$token = $request->getVal( 'wpEditToken' );
@@ -89,6 +90,8 @@ class SpecialPictureGameAjaxUpload extends SpecialUpload {
 	 *
 	 * What was changed here: the setArticleBodyOnly() line below was added,
 	 * and some bits of code were entirely removed.
+	 *
+	 * @param array $par
 	 */
 	public function execute( $par ) {
 		// Disable the skin etc.
@@ -144,8 +147,9 @@ class SpecialPictureGameAjaxUpload extends SpecialUpload {
 	/**
 	 * Get a PictureGameAjaxUploadForm instance with title and text properly set.
 	 *
-	 * @param $message String: HTML string to add to the form
-	 * @param $sessionKey String: session key in case this is a stashed upload
+	 * @param string $message HTML string to add to the form
+	 * @param string $sessionKey Session key in case this is a stashed upload
+	 * @param bool $hideIgnoreWarning
 	 * @return PictureGameAjaxUploadForm
 	 */
 	protected function getUploadForm( $message = '', $sessionKey = '', $hideIgnoreWarning = false ) {
@@ -181,7 +185,7 @@ class SpecialPictureGameAjaxUpload extends SpecialUpload {
 	 * essentially means that UploadBase::VERIFICATION_ERROR and
 	 * UploadBase::EMPTY_FILE should not be passed here.
 	 *
-	 * @param $message String: HTML message to be passed to mainUploadForm
+	 * @param string $message HTML message to be passed to mainUploadForm
 	 */
 	protected function showRecoverableUploadError( $message ) {
 		$sessionKey = $this->mUpload->stashSession();
@@ -196,7 +200,7 @@ class SpecialPictureGameAjaxUpload extends SpecialUpload {
 	/**
 	 * Show the upload form with error message, but do not stash the file.
 	 *
-	 * @param $message String: error message to show
+	 * @param string $message Error message to show
 	 */
 	protected function showUploadError( $message ) {
 		$prefix = self::getCallbackPrefix( $this->getRequest() );
@@ -264,12 +268,12 @@ class SpecialPictureGameAjaxUpload extends SpecialUpload {
 		// Get the page text if this is not a reupload
 		//if( !$this->mForReUpload ) {
 			$pageText = self::getInitialPageText(
-				$categoryText, //$this->mComment,
+				$categoryText, // $this->mComment,
 				$this->mLicense,
 				$this->mCopyrightStatus,
 				$this->mCopyrightSource
 			);
-		//} else {
+		// } else {
 		//	$pageText = false;
 		//}
 
@@ -293,7 +297,7 @@ class SpecialPictureGameAjaxUpload extends SpecialUpload {
 		// The old version below, which initially used $this->mDesiredDestName
 		// instead of that getTitle() caused plenty o' fatals...the new version
 		// seems to be OK...I think.
-		//$img = MediaWikiServices::getInstance()->getRepoGroup()->findFile( $this->mUpload->getTitle() );
+		// $img = MediaWikiServices::getInstance()->getRepoGroup()->findFile( $this->mUpload->getTitle() );
 		$img = $this->mLocalFile;
 
 		if ( !$img ) {

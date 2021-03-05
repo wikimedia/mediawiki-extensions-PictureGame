@@ -5,7 +5,11 @@
  */
 class PictureGameUpload extends UploadFromFile {
 	/**
-	 * Create a form of UploadBase depending on wpSourceType and initializes it
+	 * Create a form of UploadBase depending on wpSourceType and initializes it.
+	 *
+	 * @param WebRequest &$request
+	 * @param string|null $type
+	 * @return self
 	 */
 	public static function createFromRequest( &$request, $type = null ) {
 		$handler = new self;
@@ -14,7 +18,7 @@ class PictureGameUpload extends UploadFromFile {
 	}
 
 	/**
-	 * @param $request WebRequest
+	 * @param WebRequest &$request
 	 */
 	function initializeFromRequest( &$request ) {
 		$upload = $request->getUpload( 'wpUploadFile' );
