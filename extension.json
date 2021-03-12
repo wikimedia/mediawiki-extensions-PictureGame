@@ -18,7 +18,7 @@
 		"CreatePictureGameThresholds": []
 	},
 	"SpecialPages": {
-		"PictureGameHome": "PictureGameHome",
+		"PictureGameHome": "SpecialPictureGameHome",
 		"PictureGameAjaxUpload": "SpecialPictureGameAjaxUpload"
 	},
 	"MessagesDirs": {
@@ -30,11 +30,11 @@
 		"PictureGameAlias": "includes/PictureGame.alias.php"
 	},
 	"AutoloadClasses": {
-		"PictureGameHome": "includes/specials/SpecialPictureGameHome.php",
 		"PictureGameHooks": "includes/PictureGameHooks.php",
 		"SpecialPictureGameAjaxUpload": "includes/specials/SpecialPictureGameAjaxUpload.php",
-		"PictureGameAjaxUploadForm": "includes/upload/PictureGameAjaxUploadForm.class.php",
-		"PictureGameUpload": "includes/upload/PictureGameUpload.class.php"
+		"SpecialPictureGameHome": "includes/specials/SpecialPictureGameHome.php",
+		"PictureGameAjaxUploadForm": "includes/upload/PictureGameAjaxUploadForm.php",
+		"PictureGameUpload": "includes/upload/PictureGameUpload.php"
 	},
 	"Hooks": {
 		"SkinTemplateNavigation::Universal": "PictureGameHooks::onSkinTemplateNavigationUniversal",

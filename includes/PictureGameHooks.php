@@ -10,8 +10,8 @@ class PictureGameHooks {
 	/**
 	 * Custom content actions for picture game
 	 *
-	 * @param SkinTemplate $skinTemplate
-	 * @param array $links
+	 * @param SkinTemplate &$skinTemplate
+	 * @param array &$links
 	 */
 	public static function onSkinTemplateNavigationUniversal( &$skinTemplate, &$links ) {
 		global $wgPictureGameID;
@@ -30,8 +30,7 @@ class PictureGameHooks {
 			$action != 'startCreate' &&
 			$user->isAllowed( 'picturegameadmin' ) &&
 			$title->isSpecial( 'PictureGameHome' ) && !empty( $wgPictureGameID )
-		)
-		{
+		) {
 			$links['views']['edit'] = [
 				'class' => ( $action == 'editItem' ) ? 'selected' : false,
 				'text' => $skinTemplate->msg( 'edit' )->plain(),
@@ -63,8 +62,8 @@ class PictureGameHooks {
 	 * 1) the [[MediaWiki:Picturegamehome]] i18n msg doesn't exist and
 	 * 2) we want to show the picture game title as the page title
 	 *
-	 * @param SkinTemplate $skinTpl
-	 * @param BaseTemplate $template
+	 * @param SkinTemplate &$skinTpl
+	 * @param BaseTemplate &$template
 	 */
 	public static function onSkinTemplateOutputPageBeforeExec( &$skinTpl, &$template ) {
 		$title = $skinTpl->getTitle();

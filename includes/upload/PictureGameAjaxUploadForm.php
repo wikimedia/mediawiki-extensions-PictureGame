@@ -9,6 +9,9 @@ class PictureGameAjaxUploadForm extends UploadForm {
 
 	protected $mSourceIds;
 
+	/**
+	 * @param array $options
+	 */
 	public function __construct( $options = [] ) {
 		$this->mWatch = !empty( $options['watch'] );
 		$this->mForReUpload = !empty( $options['forreupload'] );
@@ -41,6 +44,9 @@ class PictureGameAjaxUploadForm extends UploadForm {
 		}
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	function displayForm( $submitResult ) {
 		parent::displayForm( $submitResult );
 		if ( method_exists( $this->getOutput(), 'allowClickjacking' ) ) {
@@ -55,8 +61,8 @@ class PictureGameAjaxUploadForm extends UploadForm {
 	 * $wgOut->addInlineScript in that addUploadJS() function doesn't work,
 	 * either
 	 *
-	 * @param $html String: HTML contents to wrap.
-	 * @return String: wrapped HTML.
+	 * @param string $html HTML contents to wrap.
+	 * @return string wrapped HTML.
 	 */
 	function wrapForm( $html ) {
 		# Include a <fieldset> wrapper for style, if requested.
