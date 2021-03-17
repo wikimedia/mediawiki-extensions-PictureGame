@@ -2,10 +2,41 @@
 	"@metadata": {
 		"authors": [
 			"Ferdinand0101",
+			"Gebu",
 			"Johannes.me"
 		]
 	},
+	"picturegame-signup": "Registrieren",
+	"picturegame-login": "Anmelden",
+	"picturegame-submittedby": "Erstellt von",
+	"picturegame-reportimages": "Bilder melden",
+	"picturegame-protectimages": "Bilder schützen",
+	"picturegame-createlink": "Erstelle ein Bildspiel",
 	"picturegame-skipbutton": "Überspringen",
+	"picturegame-adminpanelreason": "Grund",
+	"picturegame-adminpanelprotected": "Geschützte Bilder:",
 	"picturegame-adminpanelunflag": "Flagge entfernen",
-	"picturegame-adminpaneldelete": "Löschen"
+	"picturegame-adminpaneldelete": "Löschen",
+	"picturegame-adminpanelunprotect": "Schutz aufheben",
+	"picturegame-creategametitle": "Erstelle ein Bildspiel",
+	"picturegame-creategamegametitle": "Titel des Bildspiels",
+	"picturegame-creategamefiletext": "Datei",
+	"picturegame-createeditfirstimage": "Erstes Bild",
+	"picturegame-createeditsecondimage": "Zweites Bild",
+	"picturegame-editgamegametitle": "Titel",
+	"picturegame-editgameuploadtext": "Neues Bild hochladen",
+	"picturegame-flagimgconfirm": "Erkläre bitte, warum du diese Bilder meldest.",
+	"picturegame-buttonupload": "Hochladen",
+	"picturegame-buttonplaygame": "Das Bildspiel spielen",
+	"picturegame-sysmsg-successfuldelete": "Du hast dieses Bildspiel erfolgreich gelöscht!",
+	"picturegame-sysmsg-flag": "Das Bild wurde gemeldet!",
+	"picturegame-sysmsg-unprotect": "Der Schutz für dieses Bild wurde aufgehoben!",
+	"picturegame-sysmsg-protect": "Das Bild wurde geschützt!",
+	"picturegame-leastvotes": "Letzte Stimmen",
+	"picturegame-mostvotes": "Meiste Stimmen",
+	"picturegame-create-threshold-title": "Bildspiel erstellen",
+	"picturegame-sorted-most-votes": "Bildspiele, sortiert nach den meisten Stimmen",
+	"picturegame-gallery": "Galerie",
+	"picturegame-js-edit": "Bearbeiten",
+	"picturegame-js-error-title": "Bitte einen Titel eingeben!"
 }
