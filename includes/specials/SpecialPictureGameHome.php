@@ -100,49 +100,49 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 				$this->displayGallery();
 				break;
 			case 'editPanel':
-				if ( $user->isLoggedIn() && $user->isAllowed( 'picturegameadmin' ) ) {
+				if ( $user->isRegistered() && $user->isAllowed( 'picturegameadmin' ) ) {
 					$this->editPanel();
 				} else {
 					$this->showHomePage();
 				}
 				break;
 			case 'completeEdit':
-				if ( $user->isLoggedIn() && $user->isAllowed( 'picturegameadmin' ) ) {
+				if ( $user->isRegistered() && $user->isAllowed( 'picturegameadmin' ) ) {
 					$this->completeEdit();
 				} else {
 					$this->showHomePage();
 				}
 				break;
 			case 'adminPanel':
-				if ( $user->isLoggedIn() && $user->isAllowed( 'picturegameadmin' ) ) {
+				if ( $user->isRegistered() && $user->isAllowed( 'picturegameadmin' ) ) {
 					$this->adminPanel();
 				} else {
 					$this->showHomePage();
 				}
 				break;
 			case 'adminPanelUnflag':
-				if ( $user->isLoggedIn() && $user->isAllowed( 'picturegameadmin' ) ) {
+				if ( $user->isRegistered() && $user->isAllowed( 'picturegameadmin' ) ) {
 					$this->adminPanelUnflag();
 				} else {
 					$this->showHomePage();
 				}
 				break;
 			case 'adminPanelDelete':
-				if ( $user->isLoggedIn() && $user->isAllowed( 'picturegameadmin' ) ) {
+				if ( $user->isRegistered() && $user->isAllowed( 'picturegameadmin' ) ) {
 					$this->adminPanelDelete();
 				} else {
 					$this->showHomePage();
 				}
 				break;
 			case 'protectImages':
-				if ( $user->isLoggedIn() && $user->isAllowed( 'picturegameadmin' ) ) {
+				if ( $user->isRegistered() && $user->isAllowed( 'picturegameadmin' ) ) {
 					$this->protectImages();
 				} else {
 					echo $this->msg( 'picturegame-sysmsg-unauthorized' )->escaped();
 				}
 				break;
 			case 'unprotectImages':
-				if ( $user->isLoggedIn() && $user->isAllowed( 'picturegameadmin' ) ) {
+				if ( $user->isRegistered() && $user->isAllowed( 'picturegameadmin' ) ) {
 					$this->unprotectImages();
 				} else {
 					$this->showHomePage();
@@ -180,7 +180,7 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 
 		if (
 			$key != md5( $now . $this->SALT ) ||
-			( !$user->isLoggedIn() || !$user->isAllowed( 'picturegameadmin' ) )
+			( !$user->isRegistered() || !$user->isAllowed( 'picturegameadmin' ) )
 		) {
 			// echo $this->msg( 'picturegame-sysmsg-badkey' )->text();
 			//return;
@@ -253,7 +253,7 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 
 		if (
 			$key != md5( $now . $this->SALT ) ||
-			( !$user->isLoggedIn() || !$user->isAllowed( 'picturegameadmin' ) )
+			( !$user->isRegistered() || !$user->isAllowed( 'picturegameadmin' ) )
 		) {
 			echo $this->msg( 'picturegame-sysmsg-badkey' )->escaped();
 			return;
@@ -1471,7 +1471,7 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 
 		$createLink = '';
 		// Only registered users can create new picture games
-		if ( $user->isLoggedIn() ) {
+		if ( $user->isRegistered() ) {
 			$createLink = '
 			<div class="create-link">
 				<a href="' . htmlspecialchars( $this->getPageTitle()->getFullURL( 'picGameAction=startCreate' ) ) . '">
@@ -1481,7 +1481,7 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 			</div>';
 		}
 		$editLink = $flagLink = '';
-		if ( $user->isLoggedIn() ) {
+		if ( $user->isRegistered() ) {
 			if ( $user->isAllowed( 'picturegameadmin' ) && $wgUseEditButtonFloat == true ) {
 				$editLink .= '<div class="edit-menu-pic-game">
 					<div class="edit-button-pic-game">
@@ -1790,7 +1790,7 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 
 		// You need to be logged in to create a new picture game (because
 		// usually only registered users can upload files)
-		if ( !$user->isLoggedIn() ) {
+		if ( !$user->isRegistered() ) {
 			$out->setPageTitle( $this->msg( 'picturegame-creategametitle' ) );
 			$output = $this->msg( 'picturegame-creategamenotloggedin' )->escaped();
 			$output .= "<p>
