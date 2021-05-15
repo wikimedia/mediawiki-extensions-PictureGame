@@ -38,7 +38,6 @@
 	},
 	"Hooks": {
 		"SkinTemplateNavigation::Universal": "PictureGameHooks::onSkinTemplateNavigationUniversal",
-		"SkinTemplateOutputPageBeforeExec": "PictureGameHooks::onSkinTemplateOutputPageBeforeExec",
 		"LoadExtensionSchemaUpdates": "PictureGameHooks::onLoadExtensionSchemaUpdates"
 	},
 	"LogTypes": [

@@ -70,6 +70,11 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 		// Special:WhatLinksHere on their toolboxes, etc.
 		$this->setHeaders();
 
+		// Clear the real (displayed usually as the <h1> element by most skins) page title because:
+		// 1) the [[MediaWiki:Picturegamehome]] i18n msg doesn't exist and
+		// 2) we want to show the picture game title as the page title
+		$out->setPageTitle( '' );
+
 		// Salt as you like
 		// FIXME replace with MediaWiki's edit token system.
 		$this->SALT = MWCryptHash::hmac( $user->getName(), $wgSecretKey, false );
