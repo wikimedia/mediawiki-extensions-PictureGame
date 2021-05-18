@@ -33,4 +33,9 @@ class PictureGameUpload extends UploadFromFile {
 
 		$this->initialize( $desiredDestName, $upload );
 	}
+
+	/** @inheritDoc */
+	public function doStashFile( User $user = null ) {
+		return parent::doStashFile( $user );
+	}
 }

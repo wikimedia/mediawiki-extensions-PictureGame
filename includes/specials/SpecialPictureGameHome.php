@@ -205,12 +205,7 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 			$img_one = Title::makeTitle( NS_FILE, $image1 );
 			$reason = 'Picture Game image 1 Delete';
 			$wikipage = WikiPage::factory( $img_one );
-			if ( version_compare( MW_VERSION, '1.35', '<' ) ) {
-				$status = $wikipage->doDeleteArticleReal( $reason );
-			} else {
-				// Different signature in 1.35 and above
-				$status = $wikipage->doDeleteArticleReal( $reason, $user );
-			}
+			$status = $wikipage->doDeleteArticleReal( $reason, $user );
 			$oneResult = $status->isOK();
 		}
 
@@ -218,12 +213,7 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 			$img_two = Title::makeTitle( NS_FILE, $image2 );
 			$reason = 'Picture Game image 2 Delete';
 			$wikipage = WikiPage::factory( $img_two );
-			if ( version_compare( MW_VERSION, '1.35', '<' ) ) {
-				$status = $wikipage->doDeleteArticleReal( $reason );
-			} else {
-				// Different signature in 1.35 and above
-				$status = $wikipage->doDeleteArticleReal( $reason, $user );
-			}
+			$status = $wikipage->doDeleteArticleReal( $reason, $user );
 			$twoResult = $status->isOK();
 		}
 
@@ -344,7 +334,7 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 			return;
 		}
 
-		$imgID = $row->id;
+		$imgID = (int)$row->id;
 		$actor = User::newFromActorId( $row->actor );
 		$user_name = $lang->truncateForVisual( $actor->getName(), 20 );
 
@@ -367,7 +357,8 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 		}
 		$imgOne = '<img width="' . $imgOneWidth . '" alt="" src="' .
 			$thumb_one_url . '?' . time() . '"/>';
-		$imgOneName = $row->img1;
+		$imgOneNameSafe = htmlspecialchars( $row->img1, ENT_QUOTES );
+		$imgOneCaptionSafe = htmlspecialchars( $row->img1_caption, ENT_QUOTES );
 
 		$img_two = $repoGroup->findFile( $row->img2 );
 		$imgTwoWidth = 0;
@@ -381,7 +372,8 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 		}
 		$imgTwo = '<img width="' . $imgTwoWidth . '" alt="" src="' .
 			$thumb_two_url . '?' . time() . '"/>';
-		$imgTwoName = $row->img2;
+		$imgTwoNameSafe = htmlspecialchars( $row->img2, ENT_QUOTES );
+		$imgTwoCaptionSafe = htmlspecialchars( $row->img2_caption, ENT_QUOTES );
 
 		$output = '';
 
@@ -416,6 +408,9 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 		$formattedCommentCount = htmlspecialchars( $lang->formatNum( $stats_data['comments'] ) );
 		$safeTitleText = htmlspecialchars( $title_text, ENT_QUOTES );
 		$safeUserName = htmlspecialchars( $user_name, ENT_QUOTES );
+		// this escaping is kinda unnecessary but phan doesn't realize that md5() _is_ basically
+		// an escaping function of sorts...
+		$key = htmlspecialchars( md5( $imgID . $this->SALT ), ENT_QUOTES );
 
 		$output .= '<div id="edit-container" class="edit-container">
 			<form id="picGameVote" name="picGameVote" method="post" action="' .
@@ -452,7 +447,7 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 
 				<h1>" . $this->msg( 'picturegame-editgamegametitle' )->escaped() . "</h1>
 				<p><input name=\"newTitle\" id=\"newTitle\" type=\"text\" value=\"{$safeTitleText}\" size=\"40\"/></p>
-					<input id=\"key\" name=\"key\" type=\"hidden\" value=\"" . md5( $imgID . $this->SALT ) . "\" />
+					<input id=\"key\" name=\"key\" type=\"hidden\" value=\"" . $key . "\" />
 					<input id=\"id\" name=\"id\" type=\"hidden\" value=\"{$imgID}\" />
 
 			</div>
@@ -460,17 +455,17 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 				<div id=\"edit-images\" class=\"edit-images\">
 					<div id=\"edit-image-one\" class=\"edit-image-one\">
 						<h1>" . $this->msg( 'picturegame-createeditfirstimage' )->escaped() . "</h1>
-						<p><input name=\"imgOneCaption\" id=\"imgOneCaption\" type=\"text\" value=\"{$img1_caption_text}\" /></p>
+						<p><input name=\"imgOneCaption\" id=\"imgOneCaption\" type=\"text\" value=\"{$imgOneCaptionSafe}\" /></p>
 						<p id=\"image-one-tag\">{$imgOne}</p>
-						<p><a class=\"picgame-upload-link-1\" href=\"#\" data-img-one-name=\"{$imgOneName}\">" .
+						<p><a class=\"picgame-upload-link-1\" href=\"#\" data-img-one-name=\"{$imgOneNameSafe}\">" .
 							$this->msg( 'picturegame-editgameuploadtext' )->escaped() . '</a></p>
 					</div>
 
 					<div id="edit-image-two" class="edit-image-one">
 						<h1>' . $this->msg( 'picturegame-createeditsecondimage' )->escaped() . "</h1>
-						<p><input name=\"imgTwoCaption\" id=\"imgTwoCaption\" type=\"text\" value=\"{$img2_caption_text}\" /></p>
+						<p><input name=\"imgTwoCaption\" id=\"imgTwoCaption\" type=\"text\" value=\"{$imgTwoCaptionSafe}\" /></p>
 						<p id=\"image-two-tag\">{$imgTwo}</p>
-						<p><a class=\"picgame-upload-link-2\" href=\"#\" data-img-two-name=\"{$imgTwoName}\">" .
+						<p><a class=\"picgame-upload-link-2\" href=\"#\" data-img-two-name=\"{$imgTwoNameSafe}\">" .
 							$this->msg( 'picturegame-editgameuploadtext' )->escaped() . "</a></p>
 					</div>
 
@@ -683,7 +678,7 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 
 		$id = $request->getInt( 'id' );
 		$key = $request->getVal( 'key' );
-		$comment = $request->getVal( 'comment' ) ? $request->getVal( 'comment' ) : ''; // reason for flagging
+		$comment = $request->getVal( 'comment' ) ?: ''; // reason for flagging
 		if ( $key != md5( $id . $this->SALT ) ) {
 			echo $this->msg( 'picturegame-sysmsg-badkey' )->escaped();
 			return;
@@ -929,6 +924,7 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 		$limit = $per_page;
 
 		$limitvalue = 0;
+		// @phan-suppress-next-line PhanSuspiciousValueComparison
 		if ( $limit > 0 && $page ) {
 			$limitvalue = $page * $limit - ( $limit );
 		}
@@ -1038,7 +1034,7 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 				} else {
 					$output .= $linkRenderer->makeLink(
 						$thisTitle,
-						$i,
+						(string)$i,
 						[],
 						[
 							'picGameAction' => 'gallery',
@@ -1093,6 +1089,7 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 			return;
 		}
 
+		// @phan-suppress-next-line PhanTypeMismatchArgumentInternal
 		if ( strlen( $id ) > 0 && strlen( $img ) > 0 ) {
 			$dbw = wfGetDB( DB_MASTER );
 
@@ -1205,7 +1202,7 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 				[ 'LIMIT' => 1 ]
 			);
 			$row = $dbr->fetchObject( $res );
-			$imgID = isset( $row->id ) ? $row->id : 0;
+			$imgID = isset( $row->id ) ? (int)$row->id : 0;
 		} else {
 			$res = $dbr->select(
 				'picturegame_images',
@@ -1281,13 +1278,14 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 				[ 'LIMIT' => 1 ]
 			);
 			$nextrow = $dbr->fetchObject( $nextres );
-			$next_id = ( isset( $nextrow->id ) ? $nextrow->id : 0 );
+			$next_id = ( isset( $nextrow->id ) ? (int)$nextrow->id : 0 );
 
 			if ( $next_id ) {
 				$img_one = $repoGroup->findFile( $nextrow->img1 );
 				if ( is_object( $img_one ) ) {
 					$preload_thumb = $img_one->transform( [ 'width' => 256 ] );
 				}
+				$preload_one_tag = '';
 				if ( is_object( $preload_thumb ) ) {
 					$preload_one_tag = $preload_thumb->toHtml();
 				}
@@ -1296,6 +1294,7 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 				if ( is_object( $img_two ) ) {
 					$preload_thumb = $img_two->transform( [ 'width' => 256 ] );
 				}
+				$preload_two_tag = '';
 				if ( is_object( $preload_thumb ) ) {
 					$preload_two_tag = $preload_thumb->toHtml();
 				}
@@ -1304,6 +1303,7 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 			}
 		}
 
+		// @phan-suppress-next-line PhanImpossibleTypeComparison phan doesn't like the "is row null" check
 		if ( ( $imgID < 0 ) || !is_numeric( $imgID ) || $row === null ) {
 			$out->setPageTitle( $this->msg( 'picturegame-nomoretitle' )->plain() );
 
@@ -1319,8 +1319,8 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 		// snag the images to vote on and grab some thumbnails
 		// modify this query so that if the current user has voted on this
 		// image pair don't show it again
-		$imgOneCount = $row->img0_votes;
-		$imgTwoCount = $row->img1_votes;
+		$imgOneCount = (int)$row->img0_votes;
+		$imgTwoCount = (int)$row->img1_votes;
 
 		$user_name = $lang->truncateForVisual( $actor->getName(), 20 );
 
@@ -1463,11 +1463,12 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 		// set the page title
 		// $out->setPageTitle( $title_text );
 
+		$pt = $this->getPageTitle();
 		// figure out if the user is an admin / the creator
 		$editlinks = '';
 		if ( $user->isAllowed( 'picturegameadmin' ) ) {
 			// If the user can edit, throw in some links
-			$editlinks = ' - <a href="' . htmlspecialchars( $this->getPageTitle()->getFullURL(
+			$editlinks = ' - <a href="' . htmlspecialchars( $pt->getFullURL(
 				'picGameAction=adminPanel' ) ) . '"> ' .
 				$this->msg( 'picturegame-adminpanel' )->escaped() .
 			'</a> - <a class="picgame-protect-link" href="javascript:void(0);"> '
@@ -1479,19 +1480,27 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 		if ( $user->isRegistered() ) {
 			$createLink = '
 			<div class="create-link">
-				<a href="' . htmlspecialchars( $this->getPageTitle()->getFullURL( 'picGameAction=startCreate' ) ) . '">
+				<a href="' . htmlspecialchars( $pt->getFullURL( 'picGameAction=startCreate' ) ) . '">
 					<img src="' . $wgExtensionAssetsPath . '/SocialProfile/images/addIcon.gif" border="0" alt="" />'
 					. $this->msg( 'picturegame-createlink' )->escaped() .
 				'</a>
 			</div>';
 		}
+
 		$editLink = $flagLink = '';
 		if ( $user->isRegistered() ) {
+			// @todo FIXME: this loop is essentially dead code, even back in the day this silly
+			// global was used only by a handful of extensions and I don't see what could've
+			// possibly set it, but I guess one of the skins did back in  late 2006 or early
+			// 2007, and then someone refactored it away but forgot to update the callers.
+			// --ashley, 29 October 2020
 			if ( $user->isAllowed( 'picturegameadmin' ) && $wgUseEditButtonFloat == true ) {
 				$editLink .= '<div class="edit-menu-pic-game">
 					<div class="edit-button-pic-game">
 						<img src="' . $wgExtensionAssetsPath . '/SocialProfile/images/editIcon.gif" alt="" />
-						<a class="picgame-edit-link" href="#">' . $this->msg( 'edit' )->escaped() . '</a>
+						<a class="picgame-edit-link" href="' .
+							htmlspecialchars( $pt->getFullURL( [ 'picGameAction' => 'editPanel', 'id' => $imgID ] ), ENT_QUOTES ) . '">' .
+							$this->msg( 'edit' )->escaped() . '</a>
 					</div>
 				</div>';
 			}
@@ -1508,13 +1517,20 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 
 		$out->setHTMLTitle( $this->msg( 'pagetitle', $title )->text() );
 
-		$next_id = ( isset( $next_id ) ? $next_id : 0 );
+		$next_id = $next_id ?? 0;
 
-		$formattedVoteCount = $lang->formatNum( $stats_data['votes'] );
-		$formattedEditCount = $lang->formatNum( $stats_data['edits'] );
-		$formattedCommentCount = $lang->formatNum( $stats_data['comments'] );
+		$formattedVoteCount = htmlspecialchars( $lang->formatNum( $stats_data['votes'] ) );
+		$formattedEditCount = htmlspecialchars( $lang->formatNum( $stats_data['edits'] ) );
+		$formattedCommentCount = htmlspecialchars( $lang->formatNum( $stats_data['comments'] ) );
 		$safeUserPage = htmlspecialchars( $user_title->getFullURL(), ENT_QUOTES );
 		$safeUserName = htmlspecialchars( $user_name, ENT_QUOTES );
+		$permalinkURL = htmlspecialchars( $pt->getFullURL( [
+			'picGameAction' => 'renderPermalink',
+			'id' => $imgID
+		] ), ENT_QUOTES );
+		// this escaping is kinda unnecessary but phan doesn't realize that md5() _is_ basically
+		// an escaping function of sorts...
+		$key = htmlspecialchars( md5( $imgID . $this->SALT ), ENT_QUOTES );
 
 		$output .= "
 		<script type=\"text/javascript\">var next_id = \"{$next_id}\";</script>
@@ -1543,13 +1559,13 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 						<ul>
 							<li id=\"backButton\" style=\"display:" . ( $lastID > 0 ? 'block' : 'none' ) . "\">
 								<a href=\"javascript:window.parent.document.location='" .
-									htmlspecialchars( $this->getPageTitle()->getFullURL( 'picGameAction=renderPermalink' ) ) .
+									htmlspecialchars( $pt->getFullURL( 'picGameAction=renderPermalink' ) ) .
 									"&id=' + document.getElementById('lastid').value\">"
 									. $this->msg( 'picturegame-backbutton' )->escaped() .
 								"</a>
 							</li>
 							<li id=\"skipButton\" style=\"display:" . ( $next_id > 0 ? 'block' : 'none' ) . "\">
-								<a href=\"" . htmlspecialchars( $this->getPageTitle()->getFullURL( 'picGameAction=startGame' ) ) . '">'
+								<a href=\"" . htmlspecialchars( $pt->getFullURL( 'picGameAction=startGame' ) ) . '">'
 									. $this->msg( 'picturegame-skipbutton' )->escaped() .
 								'</a>
 							</li>
@@ -1557,8 +1573,8 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 					</div>
 
 					<form id="picGameVote" name="picGameVote" method="post" action="' .
-						htmlspecialchars( $this->getPageTitle()->getFullURL( 'picGameAction=castVote' ) ) . "\">
-						<input id=\"key\" name=\"key\" type=\"hidden\" value=\"" . md5( $imgID . $this->SALT ) . "\" />
+						htmlspecialchars( $pt->getFullURL( 'picGameAction=castVote' ) ) . "\">
+						<input id=\"key\" name=\"key\" type=\"hidden\" value=\"" . $key . "\" />
 						<input id=\"id\" name=\"id\" type=\"hidden\" value=\"" . $imgID . "\" />
 						<input id=\"lastid\" name=\"lastid\" type=\"hidden\" value=\"" . $lastID . "\" />
 						<input id=\"nextid\" name=\"nextid\" type=\"hidden\" value=\"" . $next_id . "\" />
@@ -1614,7 +1630,7 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 					</div>
 				</div>
 				<div class=\"utilityButtons\" id=\"utilityButtons\">" . $flagLink .
-					"<a class=\"picgame-permalink\" href=\"#\">"
+					"<a class=\"picgame-permalink\" href=\"{$permalinkURL}\">"
 						. $this->msg( 'picturegame-permalink' )->escaped() .
 					'</a>'
 				. $editlinks . "
@@ -1650,13 +1666,12 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 		$request = $this->getRequest();
 		$user = $this->getUser();
 
-		// @todo FIXME: as per Tim: https://www.mediawiki.org/wiki/Special:Code/MediaWiki/59183#c4709
-		$title = addslashes( $request->getVal( 'picGameTitle' ) );
+		$title = $request->getVal( 'picGameTitle' );
 
-		$img1 = addslashes( $request->getVal( 'picOneURL' ) );
-		$img2 = addslashes( $request->getVal( 'picTwoURL' ) );
-		$img1_caption = addslashes( $request->getVal( 'picOneDesc' ) );
-		$img2_caption = addslashes( $request->getVal( 'picTwoDesc' ) );
+		$img1 = $request->getVal( 'picOneURL' );
+		$img2 = $request->getVal( 'picTwoURL' );
+		$img1_caption = $request->getVal( 'picOneDesc' );
+		$img2_caption = $request->getVal( 'picTwoDesc' );
 
 		$key = $request->getVal( 'key' );
 		$chain = $request->getVal( 'chain' );
@@ -1895,6 +1910,7 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 
 		$canSkip = false;
 		if ( !empty( $excluded ) ) {
+			// @phan-suppress-next-line SecurityCheck-SQLInjection False positive, no injection can occur
 			$myCount = (int)$dbr->selectField(
 				'picturegame_images',
 				'COUNT(*) AS mycount',
@@ -1913,6 +1929,10 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 
 		// used for the key
 		$now = time();
+
+		// this escaping is kinda unnecessary but phan doesn't realize that md5() _is_ basically
+		// an escaping function of sorts...
+		$key = htmlspecialchars( md5( $now . $this->SALT ), ENT_QUOTES );
 
 		$out->setHTMLTitle( $this->msg( 'pagetitle', $this->msg( 'picturegame-creategametitle' )->text() )->text() );
 		$out->setPageTitle( $this->msg( 'picturegame-creategametitle' )->text() );
@@ -1946,7 +1966,7 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 						/*<input name=\"picOneDesc\" id=\"picOneDesc\" type=\"hidden\" value=\"\" />
 						<input name=\"picTwoDesc\" id=\"picTwoDesc\" type=\"hidden\" value=\"\" />*/
 		$uploadObj = SpecialPage::getTitleFor( 'PictureGameAjaxUpload' );
-		$output .= '<input name="key" type="hidden" value="' . md5( $now . $this->SALT ) . '" />
+		$output .= '<input name="key" type="hidden" value="' . $key . '" />
 						<input name="chain" type="hidden" value="' . $now . '" />
 					</form>
 				</div>

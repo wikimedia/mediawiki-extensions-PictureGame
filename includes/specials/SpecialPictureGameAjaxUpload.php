@@ -18,6 +18,7 @@
  * @date 22 July 2013
  * @note Based on 1.16 core SpecialUpload.php (GPL-licensed) by Bryan et al.
  * @see http://bugzilla.shoutwiki.com/show_bug.cgi?id=22
+ * @property PictureGameUpload $mUpload
  */
 class SpecialPictureGameAjaxUpload extends SpecialUpload {
 	/**
@@ -75,14 +76,7 @@ class SpecialPictureGameAjaxUpload extends SpecialUpload {
 
 		// If it was posted check for the token (no remote POST'ing with user credentials)
 		$token = $request->getVal( 'wpEditToken' );
-		if ( $this->mSourceType == 'file' && $token == null ) {
-			// Skip token check for file uploads as that can't be faked via JS...
-			// Some client-side tools don't expect to need to send wpEditToken
-			// with their submissions, as that's new in 1.16.
-			$this->mTokenOk = true;
-		} else {
-			$this->mTokenOk = $this->getUser()->matchEditToken( $token );
-		}
+		$this->mTokenOk = $this->getUser()->matchEditToken( $token );
 	}
 
 	/**
@@ -91,7 +85,7 @@ class SpecialPictureGameAjaxUpload extends SpecialUpload {
 	 * What was changed here: the setArticleBodyOnly() line below was added,
 	 * and some bits of code were entirely removed.
 	 *
-	 * @param array $par
+	 * @param string|null $par Parameter passed to the special page, if any [unused]
 	 */
 	public function execute( $par ) {
 		// Disable the skin etc.
@@ -161,7 +155,7 @@ class SpecialPictureGameAjaxUpload extends SpecialUpload {
 			'hideignorewarning' => $hideIgnoreWarning,
 			'destwarningack' => (bool)$this->mDestWarningAck,
 			'destfile' => $this->mDesiredDestName,
-		] );
+		], $this->getContext() );
 		$form->setTitle( $this->getPageTitle() );
 
 		# Check the token, but only if necessary
@@ -188,7 +182,7 @@ class SpecialPictureGameAjaxUpload extends SpecialUpload {
 	 * @param string $message HTML message to be passed to mainUploadForm
 	 */
 	protected function showRecoverableUploadError( $message ) {
-		$sessionKey = $this->mUpload->stashSession();
+		$sessionKey = $this->mUpload->doStashFile()->getFileKey();
 		$message = '<h2>' . $this->msg( 'uploaderror' )->escaped() . "</h2>\n" .
 			'<div class="error">' . $message . "</div>\n";
 
@@ -233,6 +227,7 @@ class SpecialPictureGameAjaxUpload extends SpecialUpload {
 		// Fetch the file if required
 		$status = $this->mUpload->fetchFile();
 		if ( !$status->isOK() ) {
+			// @phan-suppress-next-line SecurityCheck-DoubleEscaped I'm quite (but not 100%) sure that this is a false positive
 			$this->showUploadError( $this->getOutput()->parseAsInterface( $status->getWikiText() ) );
 			return;
 		}
@@ -282,6 +277,7 @@ class SpecialPictureGameAjaxUpload extends SpecialUpload {
 		);
 
 		if ( !$status->isGood() ) {
+			// @phan-suppress-next-line SecurityCheck-DoubleEscaped I'm quite (but not 100%) sure that this is a false positive
 			$this->showUploadError( $this->getOutput()->parseAsInterface( $status->getWikiText() ) );
 			return;
 		}
@@ -311,6 +307,7 @@ class SpecialPictureGameAjaxUpload extends SpecialUpload {
 
 		$thumb = $img->transform( [ 'width' => $thumbWidth ] );
 		$img_tag = $thumb->toHtml();
+		// @phan-suppress-next-line SecurityCheck-DoubleEscaped I'm quite (but not 100%) sure that this is a false positive
 		$slashedImgTag = Xml::encodeJSVar( $img_tag );
 
 		$prefix = self::getCallbackPrefix( $this->getRequest() );
