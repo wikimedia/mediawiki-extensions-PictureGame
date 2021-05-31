@@ -1,7 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"Hanna Tardos"
+			"Hanna Tardos",
+			"Tacsipacsi"
 		]
 	},
 	"picturegame-desc": "Engedély [[Special:PictureGameHome|képjátékok]] létrehozására",
@@ -103,10 +104,10 @@
 	"right-picturegameadmin": "Képjátékok adminisztrálása",
 	"log-name-picturegame": "Képjáték napló",
 	"log-description-picturegame": "Ez a [[Special:PictureGameHome|képjáték]] akciónaplója (létrehozások, szerkesztések, jelölések, törlések).",
-	"logentry-picturegame-create": "$1 létrehozott [[Special:PictureGameHome/$4|#$4]] képjátékot",
-	"logentry-picturegame-delete": "$1 törölte a #$4 képjátékot",
-	"logentry-picturegame-edit": "$1 szerkesztést hajtott végre a [[Special:PictureGameHome/$4|#$4]] képjátékon",
-	"logentry-picturegame-flag": "$1 megjelölte a [[Special:PictureGameHome/$4|#$4]] képjátékot",
-	"logentry-picturegame-protect": "$1 levédte a [[Special:PictureGameHome/$4|#$4]] képjáték képeit",
+	"logentry-picturegame-create": "$1 {{GENDER:$2|létrehozta}} a(z) [[Special:PictureGameHome/$4|#$4]] képjátékot",
+	"logentry-picturegame-delete": "$1 {{GENDER:$2|törölte}} a(z) #$4 képjátékot",
+	"logentry-picturegame-edit": "$1 szerkesztést {{GENDER:$2|hajtott végre}} a(z) [[Special:PictureGameHome/$4|#$4]] képjátékon",
+	"logentry-picturegame-flag": "$1 {{GENDER:$2|megjelölte}} a(z) [[Special:PictureGameHome/$4|#$4]] képjátékot",
+	"logentry-picturegame-protect": "$1 {{GENDER:$2|levédte}} a(z) [[Special:PictureGameHome/$4|#$4]] képjáték képeit",
 	"logentry-picturegame-unprotect": "$1 feloldotta a képeket a [[Special:PictureGameHome/$4|#$4]] képjátékhoz"
 }
