@@ -62,8 +62,9 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 		}
 
 		// Blocked through Special:Block? No access for you either!
-		if ( $user->isBlocked() ) {
-			throw new UserBlockedError( $user->getBlock() );
+		$block = $user->getBlock();
+		if ( $block ) {
+			throw new UserBlockedError( $block );
 		}
 
 		// Set the correct robot policies, ensure that skins don't render a link to
@@ -154,11 +155,8 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 				}
 				break;
 			case 'startCreate':
-				if ( $user->isBlocked() ) {
-					throw new UserBlockedError( $user->getBlock() );
-				} else {
-					$this->showHomePage();
-				}
+				// User's block status check is done above, on L65-68
+				$this->showHomePage();
 				break;
 			default:
 				$this->renderPictureGame();
