@@ -12,7 +12,6 @@
 		"camelcase": "warn",
 		"eqeqeq": "warn",
 		"no-undef": "warn",
-		"vars-on-top": "warn",
 		"no-alert": "warn",
 		"no-shadow": "warn",
 		"no-unused-vars": "warn",
