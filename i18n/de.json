@@ -3,16 +3,19 @@
 		"authors": [
 			"Ferdinand0101",
 			"Gebu",
-			"Johannes.me"
+			"Johannes.me",
+			"Zabe"
 		]
 	},
 	"picturegame-signup": "Registrieren",
 	"picturegame-login": "Anmelden",
 	"picturegame-submittedby": "Erstellt von",
 	"picturegame-reportimages": "Bilder melden",
+	"picturegame-permalink": "Permanentlink",
 	"picturegame-protectimages": "Bilder schützen",
 	"picturegame-createlink": "Erstelle ein Bildspiel",
 	"picturegame-skipbutton": "Überspringen",
+	"picturegame-backbutton": "Zurück",
 	"picturegame-adminpanelreason": "Grund",
 	"picturegame-adminpanelprotected": "Geschützte Bilder:",
 	"picturegame-adminpanelunflag": "Flagge entfernen",
@@ -27,6 +30,7 @@
 	"picturegame-editgameuploadtext": "Neues Bild hochladen",
 	"picturegame-flagimgconfirm": "Erkläre bitte, warum du diese Bilder meldest.",
 	"picturegame-buttonupload": "Hochladen",
+	"picturegame-buttonsubmit": "Übermitteln",
 	"picturegame-buttonplaygame": "Das Bildspiel spielen",
 	"picturegame-sysmsg-successfuldelete": "Du hast dieses Bildspiel erfolgreich gelöscht!",
 	"picturegame-sysmsg-flag": "Das Bild wurde gemeldet!",
@@ -37,6 +41,7 @@
 	"picturegame-create-threshold-title": "Bildspiel erstellen",
 	"picturegame-sorted-most-votes": "Bildspiele, sortiert nach den meisten Stimmen",
 	"picturegame-gallery": "Galerie",
+	"picturegame-none": "keine",
 	"picturegame-js-edit": "Bearbeiten",
 	"picturegame-js-error-title": "Bitte einen Titel eingeben!"
 }
