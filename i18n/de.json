@@ -4,6 +4,7 @@
 			"Ferdinand0101",
 			"Gebu",
 			"Johannes.me",
+			"Umlaut",
 			"Zabe"
 		]
 	},
@@ -23,9 +24,12 @@
 	"picturegame-adminpanelunprotect": "Schutz aufheben",
 	"picturegame-creategametitle": "Erstelle ein Bildspiel",
 	"picturegame-creategamegametitle": "Titel des Bildspiels",
+	"picturegame-creategamecaptiontext": "Überschrift",
 	"picturegame-creategamefiletext": "Datei",
+	"picturegame-creategamecreateplay": "Erstellen und spielen!",
 	"picturegame-createeditfirstimage": "Erstes Bild",
 	"picturegame-createeditsecondimage": "Zweites Bild",
+	"picturegame-editgame-editing-title": "Bearbeiten von $1",
 	"picturegame-editgamegametitle": "Titel",
 	"picturegame-editgameuploadtext": "Neues Bild hochladen",
 	"picturegame-flagimgconfirm": "Erkläre bitte, warum du diese Bilder meldest.",
