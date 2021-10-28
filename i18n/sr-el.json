@@ -1,0 +1,31 @@
+{
+	"@metadata": {
+		"authors": []
+	},
+	"picturegame-signup": "Otvori nalog",
+	"picturegame-login": "Prijavi me",
+	"picturegame-adminpanel": "Administrativni panel",
+	"picturegame-skipbutton": "Preskoči",
+	"picturegame-backbutton": "Nazad",
+	"picturegame-previousgame": "Prethodna igra",
+	"picturegame-adminpanelreason": "Razlog",
+	"picturegame-adminpanelflagged": "Označene slike:",
+	"picturegame-adminpanelprotected": "Zaštićene slike",
+	"picturegame-adminpaneldelete": "Izbriši",
+	"picturegame-creategamecaptiontext": "Natpis",
+	"picturegame-creategamefiletext": "Datoteka",
+	"picturegame-createeditfirstimage": "Prva slika",
+	"picturegame-createeditsecondimage": "Druga slika",
+	"picturegame-editgamegametitle": "Naslov",
+	"picturegame-editgameuploadtext": "Otpremi novu sliku",
+	"picturegame-flagimgconfirm": "Objasnite zašto prijavljujete ove slike.",
+	"picturegame-protectimgconfirm": "Da li ste sigurni da želite da zaštitite ove slike?",
+	"picturegame-buttonupload": "Otpremi",
+	"picturegame-buttonsubmit": "Prosledi",
+	"picturegame-gallery": "Galerija",
+	"picturegame-js-error-title": "Unesite naslov!",
+	"picturegame-js-error-upload-imgone": "Otpremite prvu sliku!",
+	"picturegame-js-error-upload-imgtwo": "Otpremite drugu sliku!",
+	"picturegame-js-editing-imgone": "Menjanje slike 1",
+	"picturegame-js-editing-imgtwo": "Menjanje slike 2"
+}
