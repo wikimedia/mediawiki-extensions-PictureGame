@@ -1,0 +1,27 @@
+{
+	"@metadata": {
+		"authors": [
+			"ಮಲ್ನಾಡಾಚ್ ಕೊಂಕ್ಣೊ"
+		]
+	},
+	"picturegame-login": "ಲಾಗ್ ಇನ್",
+	"picturegame-backbutton": "ಹಿಂದೆ ಹೋಗಿ",
+	"picturegame-previousgame": "ಹಿಂದಿನ ಆಟ",
+	"picturegame-adminpanelreason": "ಕಾರಣ",
+	"picturegame-adminpanelprotected": "ಸಂರಕ್ಷಿತ ಚಿತ್ರಗಳು:",
+	"picturegame-adminpaneldelete": "ಅಳಿಸು",
+	"picturegame-creategamecaptiontext": "ತಲೆಬರಹ",
+	"picturegame-creategamefiletext": "ಕಡತ",
+	"picturegame-createeditfirstimage": "ಮೊದಲನೇ ಚಿತ್ರ",
+	"picturegame-createeditsecondimage": "ಎರಡನೇ ಚಿತ್ರ",
+	"picturegame-editgamegametitle": "ಶೀರ್ಷಿಕೆ",
+	"picturegame-buttonsubmit": "ಸಲ್ಲಿಸಿ",
+	"picturegame-create-threshold-edits": "{{PLURAL:$1|ಒಂದು ಸಂಪಾದನೆ|$1 ಸಂಪಾದನೆಗಳು}}",
+	"picturegame-create-threshold-votes": "{{PLURAL:$1|ಒಂದು ಮತ|$1 ಮತಗಳು}}",
+	"picturegame-create-threshold-comments": "{{PLURAL:$1|ಒಂದು ಟಿಪ್ಪಣಿ|$1 ಟಿಪ್ಪಣಿಗಳು}}",
+	"picturegame-next": "ಮುಂದಿನ",
+	"picturegame-prev": "ಹಿಂದಿನ",
+	"picturegame-gallery": "ಗ್ಯಾಲರಿ",
+	"picturegame-nothing-to-edit": "ಇಲ್ಲಿ ಸಂಪಾದಿಸಲು ಎನೂ ಇಲ್ಲ.",
+	"picturegame-js-edit": "ಸಂಪಾದಿಸಿ"
+}

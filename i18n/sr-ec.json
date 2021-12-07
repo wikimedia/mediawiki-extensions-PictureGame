@@ -1,0 +1,33 @@
+{
+	"@metadata": {
+		"authors": [
+			"Kizule"
+		]
+	},
+	"picturegame-signup": "Отвори налог",
+	"picturegame-login": "Пријави ме",
+	"picturegame-adminpanel": "Административни панел",
+	"picturegame-skipbutton": "Прескочи",
+	"picturegame-backbutton": "Назад",
+	"picturegame-previousgame": "Претходна игра",
+	"picturegame-adminpanelreason": "Разлог",
+	"picturegame-adminpanelflagged": "Означене слике:",
+	"picturegame-adminpanelprotected": "Заштићене слике",
+	"picturegame-adminpaneldelete": "Избриши",
+	"picturegame-creategamecaptiontext": "Натпис",
+	"picturegame-creategamefiletext": "Датотека",
+	"picturegame-createeditfirstimage": "Прва слика",
+	"picturegame-createeditsecondimage": "Друга слика",
+	"picturegame-editgamegametitle": "Наслов",
+	"picturegame-editgameuploadtext": "Отпреми нову слику",
+	"picturegame-flagimgconfirm": "Објасните зашто пријављујете ове слике.",
+	"picturegame-protectimgconfirm": "Да ли сте сигурни да желите да заштитите ове слике?",
+	"picturegame-buttonupload": "Отпреми",
+	"picturegame-buttonsubmit": "Проследи",
+	"picturegame-gallery": "Галерија",
+	"picturegame-js-error-title": "Унесите наслов!",
+	"picturegame-js-error-upload-imgone": "Отпремите прву слику!",
+	"picturegame-js-error-upload-imgtwo": "Отпремите другу слику!",
+	"picturegame-js-editing-imgone": "Мењање слике 1",
+	"picturegame-js-editing-imgtwo": "Мењање слике 2"
+}

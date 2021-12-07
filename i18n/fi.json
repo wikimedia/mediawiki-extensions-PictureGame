@@ -66,6 +66,7 @@
 	"picturegame-create-threshold-edits": "{{PLURAL:$1|yksi muokkaus|$1 muokkausta}}",
 	"picturegame-create-threshold-votes": "{{PLURAL:$1|yksi annettu ääni|$1 annettua ääntä}}",
 	"picturegame-create-threshold-comments": "{{PLURAL:$1|yksi kommentti|$1 kommenttia}}",
+	"picturegame-create-threshold-comment-score-plus": "{{PLURAL:$1|yksi ylöspeukutus|$1 ylöspeukutusta}}",
 	"picturegame-create-threshold-recruits": "{{PLURAL:$1|yksi värvätty käyttäjä|$1 värvättyä käyttäjää}}",
 	"picturegame-create-threshold-friend-count": "{{PLURAL:$1|yksi ystävä|$1 ystävää}}",
 	"picturegame-create-threshold-foe-count": "{{PLURAL:$1|yksi vihollinen|$1 vihollista}}",
