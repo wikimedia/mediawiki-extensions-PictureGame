@@ -1,0 +1,40 @@
+{
+	"@metadata": {
+		"authors": [
+			"Robby"
+		]
+	},
+	"picturegame-login": "Aloggen",
+	"picturegame-reportimages": "Biller mellen",
+	"picturegame-permalink": "Permanentlink",
+	"picturegame-protectimages": "Biller Spären",
+	"picturegame-error-socialprofile-title": "SocialProfile Erweiderung ass net installéiert.",
+	"picturegame-skipbutton": "Iwwersprangen",
+	"picturegame-backbutton": "Gitt zréck",
+	"picturegame-previousgame": "Viregt Spill",
+	"picturegame-adminpanelreason": "Grond",
+	"picturegame-adminpanelflagged": "Markéiert Biller:",
+	"picturegame-adminpanelprotected": "Gespaart Biller:",
+	"picturegame-adminpaneldelete": "Läschen",
+	"picturegame-creategamecaptiontext": "Beschreiwung",
+	"picturegame-creategamefiletext": "Fichier",
+	"picturegame-createeditfirstimage": "Éischt Bild",
+	"picturegame-createeditsecondimage": "Zweet Bild",
+	"picturegame-editgame-editing-title": "Ännert $1",
+	"picturegame-editgamegametitle": "Titel",
+	"picturegame-editgameuploadtext": "Neit Bild eroplueden",
+	"picturegame-buttonupload": "Eroplueden",
+	"picturegame-buttonsubmit": "Schécken",
+	"picturegame-buttonplaygame": "D'Bild-Spill spillen",
+	"picturegame-sysmsg-unauthorized": "Dir sidd net autoriséiert fir dat ze maachen.",
+	"picturegame-sysmsg-protect": "D'Biller goufe gespaart!",
+	"picturegame-most": "Meescht",
+	"picturegame-mostvotes": "Meescht Stëmmen",
+	"picturegame-prev": "vireg",
+	"picturegame-gallery": "Galerie",
+	"picturegame-none": "keen",
+	"picturegame-js-edit": "Änneren",
+	"picturegame-js-error-title": "Gitt wgl. en Titel un!",
+	"picturegame-js-error-upload-imgtwo": "Lued wgl. d'Bild zwee erop!",
+	"picturegame-js-editing-imgtwo": "Ännert Bild 2"
+}

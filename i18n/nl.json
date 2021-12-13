@@ -2,7 +2,8 @@
 	"@metadata": {
 		"authors": [
 			"Mark van Alphen",
-			"Mitchel Corstjens"
+			"Mitchel Corstjens",
+			"Mainframe98"
 		]
 	},
 	"picturegame-signup": "Word lid",
@@ -17,9 +18,9 @@
 	"picturegame-backbutton": "Ga terug",
 	"picturegame-previousgame": "Vorige spel",
 	"picturegame-adminpaneltitle": "Afbeelding spel beheerder paneel",
+	"picturegame-adminpanelreason": "Reden",
 	"picturegame-adminpanelflagged": "Gemarkeerde afbeeldingen:",
 	"picturegame-adminpanelprotected": "Beveiligde afbeeldingen:",
-	"picturegame-adminpanelreinstate": "Opnieuw",
 	"picturegame-adminpaneldelete": "Verwijder",
 	"picturegame-adminpanelunprotect": "Beveiliging opheffen",
 	"picturegame-adminpanelbacktogame": "&lt; Terug naar afbeelding spel",
@@ -41,7 +42,6 @@
 	"picturegame-protectimgconfirm": "Weet je zeker dat je deze afbeeldingen wil beveiligen?",
 	"picturegame-buttonupload": "Upload",
 	"picturegame-buttonsubmit": "Sla op",
-	"picturegame-buttoncancel": "Annuleer",
 	"picturegame-buttonplaygame": "Speel het afbeelding spel",
 	"picturegame-permalinkflagged": "Deze afbeeldingen zijn gemarkeerd, in verband met ongepaste inhoud of copyright schending. Om het afbeelding spel te spelen, klik op onderstaande knop.",
 	"picturegame-sysmsg-unauthorized": "Je bent niet geautoriseerd om dat te doen.",

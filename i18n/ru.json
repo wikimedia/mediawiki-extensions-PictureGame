@@ -1,0 +1,19 @@
+{
+	"@metadata": {
+		"authors": [
+			"Kareyac"
+		]
+	},
+	"picturegame-login": "Войти",
+	"picturegame-permalink": "Постоянная ссылка",
+	"picturegame-skipbutton": "Пропустить",
+	"picturegame-backbutton": "Назад",
+	"picturegame-adminpanelreason": "Причина",
+	"picturegame-adminpaneldelete": "Удалить",
+	"picturegame-creategamefiletext": "Файл",
+	"picturegame-editgame-editing-title": "Редактирование $1",
+	"picturegame-next": "след.",
+	"picturegame-prev": "пред.",
+	"picturegame-gallery": "Галерея",
+	"picturegame-js-edit": "Править"
+}

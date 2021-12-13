@@ -1,7 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"Jack Phoenix"
+			"Jack Phoenix",
+			"Moj"
 		]
 	},
 	"picturegame-signup": "Rekisteröidy",
@@ -16,10 +17,13 @@
 	"picturegame-backbutton": "Palaa takaisin",
 	"picturegame-previousgame": "Aiempi peli",
 	"picturegame-adminpaneltitle": "Kuvapelin ylläpitäjän paneeli",
+	"picturegame-adminpanelreason": "Syy",
 	"picturegame-adminpanelflagged": "Merkityt kuvat:",
 	"picturegame-adminpanelprotected": "Suojatut kuvat:",
-	"picturegame-adminpanelreinstate": "Palauta kiertoon",
+	"picturegame-adminpanelunflag": "Poista merkintä",
+	"picturegame-adminpanelunflag-confirm": "Haluatko varmasti poistaa merkinnän tältä kuvapeliltä?",
 	"picturegame-adminpaneldelete": "Poista",
+	"picturegame-adminpaneldelete-confirm": "Haluatko varmasti poistaa tämän kuvapelin?",
 	"picturegame-adminpanelunprotect": "Poista suojaus",
 	"picturegame-adminpanelbacktogame": "&lt; Takaisin kuvapeliin",
 	"picturegame-creategametitle": "Luo kuvapeli",
@@ -40,7 +44,6 @@
 	"picturegame-protectimgconfirm": "Oletko varma, että haluat suojata nämä kuvat?",
 	"picturegame-buttonupload": "Tallenna",
 	"picturegame-buttonsubmit": "Lähetä",
-	"picturegame-buttoncancel": "Peruuta",
 	"picturegame-buttonplaygame": "Pelaa kuvapeliä",
 	"picturegame-permalinkflagged": "Nämä kuvat ovat merkittyjä, joko sopimattoman sisällön tai tekijänoikeuslain suojaaman materiaalin tähden. Pelataksesi kuvapeliä, napsauta painiketta alapuolella.",
 	"picturegame-sysmsg-unauthorized": "Sinulla ei ole lupaa tehdä tätä.",
@@ -79,5 +82,15 @@
 	"picturegame-js-error-upload-imgtwo": "Tallenna toinen kuva!",
 	"picturegame-js-editing-imgone": "Muokataan ensimmäistä kuvaa",
 	"picturegame-js-editing-imgtwo": "Muokataan toista kuvaa",
-	"right-picturegameadmin": "Ylläpitää kuvapelejä"
+	"action-picturegameadmin": "hallinnoida kuvapelejä",
+	"right-picturegameadmin": "Ylläpitää kuvapelejä",
+	"log-name-picturegame": "Kuvapeliloki",
+	"log-description-picturegame": "Tämä on loki kaikista toiminnoista, jotka liittyvät [[Special:PictureGameHome|kuvapeleihin]] (luonnit, muokkaukset, merkinnät, poistamiset).",
+	"logentry-picturegame-create": "$1 {{GENDER:$2|loi}} kuvapelin [[Special:PictureGameHome/$4|#$4]]",
+	"logentry-picturegame-delete": "$1 {{GENDER:$2|poisti}} kuvapelin #$4",
+	"logentry-picturegame-edit": "$1 {{GENDER:$2|muokkasi}} kuvapeliä [[Special:PictureGameHome/$4|#$4]]",
+	"logentry-picturegame-flag": "$1 {{GENDER:$2|merkitsi}} kuvapelin [[Special:PictureGameHome/$4|#$4]] huomiota vaativaksi",
+	"logentry-picturegame-protect": "$1 {{GENDER:$2|suojasi}} kuvapelin [[Special:PictureGameHome/$4|#$4]] kuvat",
+	"logentry-picturegame-unflag": "$1 {{GENDER:$2|poisti merkinnän}} kuvapeliltä [[Special:PictureGameHome/$4|#$4]]",
+	"logentry-picturegame-unprotect": "$1 {{GENDER:$2|poisti suojauksen}} kuvapelin [[Special:PictureGameHome/$4|#$4]] kuvilta"
 }

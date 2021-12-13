@@ -1,0 +1,19 @@
+{
+	"@metadata": {
+		"authors": [
+			"Ajeje Brazorf"
+		]
+	},
+	"picturegame-login": "Trasi",
+	"picturegame-previousgame": "Jocu pricidenti",
+	"picturegame-adminpanelreason": "Mutivu",
+	"picturegame-adminpaneldelete": "Cancella",
+	"picturegame-creategamefiletext": "File",
+	"picturegame-createeditfirstimage": "Prima mmàggini",
+	"picturegame-editgame-editing-title": "Canciamentu di $1",
+	"picturegame-editgamegametitle": "Tìtulu",
+	"picturegame-js-edit": "Cancia",
+	"picturegame-js-error-title": "Pi favuri nzirisci nu tìtulu!",
+	"picturegame-js-editing-imgone": "Canciamentu dâ mmàggini 1",
+	"picturegame-js-editing-imgtwo": "Canciamentu dâ mmàggini 2"
+}

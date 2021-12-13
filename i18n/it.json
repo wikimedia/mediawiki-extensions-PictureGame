@@ -1,0 +1,16 @@
+{
+	"@metadata": {
+		"authors": [
+			"Beta16"
+		]
+	},
+	"picturegame-submittedby": "Inviato da",
+	"picturegame-error-socialprofile-title": "L'estensione SocialProfile non è installata.",
+	"picturegame-adminpaneldelete": "Cancella",
+	"picturegame-createeditsecondimage": "Seconda immagine",
+	"picturegame-editgamegametitle": "Titolo",
+	"picturegame-editgameuploadtext": "Carica nuova immagine",
+	"picturegame-buttonupload": "Carica",
+	"picturegame-buttonsubmit": "Invia",
+	"picturegame-js-edit": "Modifica"
+}

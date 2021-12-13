@@ -1,0 +1,25 @@
+{
+	"@metadata": {
+		"authors": [
+			"Fitoschido"
+		]
+	},
+	"picturegame-login": "Acceder",
+	"picturegame-submittedby": "Enviado por",
+	"picturegame-reportimages": "Denunciar imágenes",
+	"picturegame-error-socialprofile-title": "No se instaló la extensión SocialProfile.",
+	"picturegame-backbutton": "Volver",
+	"picturegame-previousgame": "Juego anterior",
+	"picturegame-adminpaneldelete": "Eliminar",
+	"picturegame-creategamecaptiontext": "Leyenda",
+	"picturegame-creategamecreateplay": "Crear y jugar",
+	"picturegame-editgameuploadtext": "Cargar imagen nueva",
+	"picturegame-protectimgconfirm": "¿Confirmas que quieres proteger estas imágenes?",
+	"picturegame-sysmsg-unauthorized": "No tienes autorización para hacerlo.",
+	"picturegame-sysmsg-unprotect": "Las imágenes se han desprotegido.",
+	"picturegame-next": "sig.",
+	"picturegame-prev": "ant.",
+	"picturegame-gallery": "Galería",
+	"picturegame-none": "ninguno",
+	"picturegame-js-edit": "Editar"
+}

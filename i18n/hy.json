@@ -1,0 +1,22 @@
+{
+	"@metadata": {
+		"authors": [
+			"Kareyac"
+		]
+	},
+	"picturegame-login": "Մտնել",
+	"picturegame-protectimages": "Պաշտպանել պատկերներ",
+	"picturegame-skipbutton": "Բաց թողնել",
+	"picturegame-backbutton": "Հետ գնալ",
+	"picturegame-previousgame": "Նախորդ խաղ",
+	"picturegame-adminpaneldelete": "Հեռացնել",
+	"picturegame-creategamefiletext": "Նիշք",
+	"picturegame-createeditfirstimage": "Առաջին պատկեր",
+	"picturegame-createeditsecondimage": "Երկրորդ պատկեր",
+	"picturegame-editgame-editing-title": "Խմբագրվում է՝ $1",
+	"picturegame-buttonupload": "Վերբեռնել",
+	"picturegame-next": "հաջորդ",
+	"picturegame-prev": "նախ",
+	"picturegame-gallery": "Պատկերասրահ",
+	"picturegame-js-edit": "Խմբագրել"
+}
