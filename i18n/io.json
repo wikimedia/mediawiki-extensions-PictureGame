@@ -1,8 +1,10 @@
 {
 	"@metadata": {
 		"authors": [
-			"JSantos"
+			"JSantos",
+			"Joao Xavier"
 		]
 	},
-	"picturegame-creategamefiletext": "Arkivo"
+	"picturegame-creategamefiletext": "Arkivo",
+	"picturegame-buttonupload": "Sendar"
 }
