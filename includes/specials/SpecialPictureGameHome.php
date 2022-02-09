@@ -319,14 +319,13 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 		$id = $request->getInt( 'id' );
 
 		$dbw = wfGetDB( DB_PRIMARY );
-		$res = $dbw->select(
+		$row = $dbw->selectRow(
 			'picturegame_images',
 			'*',
 			[ 'id' => $id ],
 			__METHOD__
 		);
 
-		$row = $dbw->fetchObject( $res );
 		if ( empty( $row ) ) {
 			$out->addHTML( $this->msg( 'picturegame-nothing-to-edit' )->escaped() );
 			return;
@@ -543,7 +542,7 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 
 		// If we have nothing, indicate that in the UI instead of showing...
 		// well, nothing
-		if ( $dbw->numRows( $res ) <= 0 ) {
+		if ( $res->numRows() <= 0 ) {
 			$output .= $this->msg( 'picturegame-none' )->escaped();
 		}
 		$repoGroup = MediaWikiServices::getInstance()->getRepoGroup();
@@ -617,7 +616,7 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 
 		// If we have nothing, indicate that in the UI instead of showing...
 		// well, nothing
-		if ( $dbw->numRows( $res ) <= 0 ) {
+		if ( $res->numRows() <= 0 ) {
 			$output .= $this->msg( 'picturegame-none' )->escaped();
 		}
 
@@ -1098,8 +1097,7 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 			$dbw = wfGetDB( DB_PRIMARY );
 
 			// check if the user has voted on this already
-			// @todo FIXME: in both cases we can just use selectField(), I think
-			$res = $dbw->select(
+			$row = $dbw->selectRow(
 				'picturegame_votes',
 				[ 'COUNT(*) AS mycount' ],
 				[
@@ -1108,18 +1106,16 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 				],
 				__METHOD__
 			);
-			$row = $dbw->fetchObject( $res );
 
 			// if they haven't, then check if the id exists and then insert the
 			// vote
 			if ( $row->mycount == 0 ) {
-				$res = $dbw->select(
+				$row = $dbw->selectRow(
 					'picturegame_images',
 					[ 'COUNT(*) AS mycount' ],
 					[ 'id' => $id ],
 					__METHOD__
 				);
-				$row = $dbw->fetchObject( $res );
 
 				if ( $row->mycount == 1 ) {
 					$dbw->insert(
@@ -1198,17 +1194,15 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 			if ( !empty( $picIds ) ) {
 				$whereConds[] = 'id NOT IN (' . implode( ',', $picIds ) . ')';
 			}
-			$res = $dbr->select(
+			$row = $dbr->selectRow(
 				'picturegame_images',
 				'*',
 				$whereConds,
-				__METHOD__,
-				[ 'LIMIT' => 1 ]
+				__METHOD__
 			);
-			$row = $dbr->fetchObject( $res );
 			$imgID = isset( $row->id ) ? (int)$row->id : 0;
 		} else {
-			$res = $dbr->select(
+			$row = $dbr->selectRow(
 				'picturegame_images',
 				'*',
 				[
@@ -1219,7 +1213,6 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 				],
 				__METHOD__
 			);
-			$row = $dbr->fetchObject( $res );
 		}
 
 		// Early return here in case if we have *nothing* in the database to
@@ -1274,15 +1267,13 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 				$whereConds[] = 'id NOT IN (' . implode( ',', $excludedImgIds ) . ')';
 			}
 
-			$nextres = $dbr->select(
+			$nextrow = $dbr->selectRow(
 				'picturegame_images',
 				'*',
 				$whereConds,
-				__METHOD__,
-				[ 'LIMIT' => 1 ]
+				__METHOD__
 			);
-			$nextrow = $dbr->fetchObject( $nextres );
-			$next_id = ( isset( $nextrow->id ) ? (int)$nextrow->id : 0 );
+			$next_id = $nextrow ? (int)$nextrow->id : 0;
 
 			if ( $next_id ) {
 				$img_one = $repoGroup->findFile( $nextrow->img1 );
@@ -1406,7 +1397,7 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 
 		$isShowVotes = false;
 		if ( $lastID > 0 ) {
-			$res = $dbr->select(
+			$row = $dbr->selectRow(
 				'picturegame_images',
 				'*',
 				[
@@ -1415,7 +1406,6 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 				],
 				__METHOD__
 			);
-			$row = $dbr->fetchObject( $res );
 
 			if ( $row ) {
 				$img_one = $repoGroup->findFile( $row->img1 );
@@ -1686,7 +1676,7 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 
 		// make sure no one is trying to do bad things
 		if ( $key == md5( $chain . $this->SALT ) ) {
-			$res = $dbr->select(
+			$row = $dbr->selectRow(
 				'picturegame_images',
 				'COUNT(*) AS mycount',
 				// Resulting SQL looks like ...WHERE (img1 = $img1 OR img2 = $img1) AND
@@ -1698,18 +1688,9 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 				__METHOD__,
 				[ 'GROUP BY' => 'id' ]
 			);
-			$row = $dbr->fetchObject( $res );
 
 			// if these image pairs don't exist, insert them
-			// @note The second condition is a weird fix for utter PictureGame b0rkage
-			// in June 2020; upon creating a picture game, $id would remain -1 and the
-			// code inside this if() loop was never hit, thus the DB tables never got
-			// any info about the uploaded images or the associated game title etc.
-			// Why? I honestly have no idea, but this seems to fix it...
-			if (
-				isset( $row ) && isset( $row->mycount ) && $row->mycount == 0 ||
-				$dbr->numRows( $res ) === 0
-			) {
+			if ( !$row || $row->mycount == 0 ) {
 				$dbr->insert(
 					'picturegame_images',
 					[
