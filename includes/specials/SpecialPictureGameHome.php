@@ -404,7 +404,6 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 		$formattedEditCount = htmlspecialchars( $lang->formatNum( $stats_data['edits'] ) );
 		$formattedCommentCount = htmlspecialchars( $lang->formatNum( $stats_data['comments'] ) );
 		$safeTitleText = htmlspecialchars( $title_text, ENT_QUOTES );
-		// @phan-suppress-next-line SecurityCheck-DoubleEscaped T290624
 		$safeUserName = htmlspecialchars( $user_name, ENT_QUOTES );
 		// this escaping is kinda unnecessary but phan doesn't realize that md5() _is_ basically
 		// an escaping function of sorts...
@@ -561,9 +560,7 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 				$img_two_tag = $thumb_two->toHtml();
 			}
 
-			// @phan-suppress-next-line SecurityCheck-DoubleEscaped T290624
 			$img_one_description = htmlspecialchars( $lang->truncateForVisual( $row->img1, 12 ) );
-			// @phan-suppress-next-line SecurityCheck-DoubleEscaped T290624
 			$img_two_description = htmlspecialchars( $lang->truncateForVisual( $row->img2, 12 ) );
 			$img1Name = htmlspecialchars( $row->img1 );
 			$img2Name = htmlspecialchars( $row->img2 );
@@ -634,9 +631,7 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 				$img_two_tag = $thumb_two->toHtml();
 			}
 
-			// @phan-suppress-next-line SecurityCheck-DoubleEscaped T290624
 			$img_one_description = htmlspecialchars( $lang->truncateForVisual( $row->img1, 12 ) );
-			// @phan-suppress-next-line SecurityCheck-DoubleEscaped T290624
 			$img_two_description = htmlspecialchars( $lang->truncateForVisual( $row->img2, 12 ) );
 
 			$img1Name = htmlspecialchars( $row->img1 );
@@ -954,7 +949,6 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 		foreach ( $res as $row ) {
 			$gameid = (int)$row->id;
 
-			// @phan-suppress-next-line SecurityCheck-DoubleEscaped T290624
 			$title_text = htmlspecialchars( $lang->truncateForVisual( $row->title, 23 ) );
 
 			$imgOneCount = (int)$row->img0_votes;
@@ -1517,7 +1511,6 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 		$formattedEditCount = htmlspecialchars( $lang->formatNum( $stats_data['edits'] ) );
 		$formattedCommentCount = htmlspecialchars( $lang->formatNum( $stats_data['comments'] ) );
 		$safeUserPage = htmlspecialchars( $user_title->getFullURL(), ENT_QUOTES );
-		// @phan-suppress-next-line SecurityCheck-DoubleEscaped T290624
 		$safeUserName = htmlspecialchars( $user_name, ENT_QUOTES );
 		$permalinkURL = htmlspecialchars( $pt->getFullURL( [
 			'picGameAction' => 'renderPermalink',
