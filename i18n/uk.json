@@ -1,7 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"DDPAT"
+			"DDPAT",
+			"Ice bulldog"
 		]
 	},
 	"picturegame-desc": "Дозволяє створювати [[Special:PictureGameHome|картинні ігри]]",
