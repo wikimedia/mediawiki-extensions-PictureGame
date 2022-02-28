@@ -1,8 +1,12 @@
 {
 	"@metadata": {
 		"authors": [
-			"Yupik"
+			"Yupik",
+			"Seipinne"
 		]
 	},
-	"picturegame-creategamefiletext": "Tiätuvuárkká"
+	"picturegame-adminpanelreason": "Suijâ",
+	"picturegame-creategamefiletext": "Tiätuvuárkká",
+	"picturegame-createeditfirstimage": "Vuosmuš kove",
+	"picturegame-createeditsecondimage": "Nubbe kove"
 }
