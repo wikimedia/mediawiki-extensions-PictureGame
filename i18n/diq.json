@@ -1,12 +1,14 @@
 {
 	"@metadata": {
 		"authors": [
-			"1917 Ekim Devrimi"
+			"1917 Ekim Devrimi",
+			"Mirzali"
 		]
 	},
 	"picturegame-permalink": "Gıreyo daimi",
 	"picturegame-adminpanel": "Panela Admini",
 	"picturegame-protectimages": "Resim bışeveknê",
 	"picturegame-adminpanelreason": "Sebeb",
+	"picturegame-adminpaneldelete": "Bestere",
 	"picturegame-creategamefiletext": "Dosya"
 }
