@@ -1,4 +1,5 @@
 {
+	"name": "PictureGame",
 	"private": true,
 	"scripts": {
 		"test": "grunt test"
