@@ -1,8 +1,10 @@
 {
 	"@metadata": {
 		"authors": [
-			"Jeeputer"
+			"Jeeputer",
+			"Mohammad ebz"
 		]
 	},
-	"picturegame-prev": "قبلی"
+	"picturegame-prev": "قبلی",
+	"picturegame-js-edit": "ویرایش"
 }
