@@ -277,6 +277,8 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 		$key = addslashes( $request->getVal( 'key' ) );
 
 		$title = $request->getVal( 'newTitle' );
+		$image1 = $request->getVal( 'img1' );
+		$image2 = $request->getVal( 'img2' );
 		$imgOneCaption = $request->getVal( 'imgOneCaption' );
 		$imgTwoCaption = $request->getVal( 'imgTwoCaption' );
 
@@ -290,6 +292,8 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 			'picturegame_images',
 			[
 				'title' => $title,
+				'img1' => $image1,
+				'img2' => $image2,
 				'img1_caption' => $imgOneCaption,
 				'img2_caption' => $imgTwoCaption
 			],
@@ -456,6 +460,7 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 						<p id=\"image-one-tag\">{$imgOne}</p>
 						<p><a class=\"picgame-upload-link-1\" href=\"#\" data-img-one-name=\"{$imgOneNameSafe}\">" .
 							$this->msg( 'picturegame-editgameuploadtext' )->escaped() . '</a></p>
+						<input id="img1" name="img1" type="hidden" value="' . $imgOneNameSafe . '" />
 					</div>
 
 					<div id="edit-image-two" class="edit-image-one">
@@ -464,6 +469,7 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 						<p id=\"image-two-tag\">{$imgTwo}</p>
 						<p><a class=\"picgame-upload-link-2\" href=\"#\" data-img-two-name=\"{$imgTwoNameSafe}\">" .
 							$this->msg( 'picturegame-editgameuploadtext' )->escaped() . "</a></p>
+						<input id=\"img2\" name=\"img2\" type=\"hidden\" value=\"{$imgTwoNameSafe}\" />
 					</div>
 
 					<div id=\"loadingImg\" class=\"loadingImg\" style=\"display:none\">
