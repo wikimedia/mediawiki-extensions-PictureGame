@@ -297,9 +297,9 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 			__METHOD__
 		);
 
-		// @todo FIXME: also log $title, $imgOneCaption, $imgTwoCaption (tho latter are basically
+		// @todo FIXME: also log $imgOneCaption & $imgTwoCaption (even though are basically
 		// always empty b/c they are not exposed in the UI)
-		$this->addLogEntry( 'edit', $id );
+		$this->addLogEntry( 'edit', $id, '', $title );
 
 		/* When it's done, redirect to a permalink of these images */
 		$out->setArticleBodyOnly( true );
@@ -1698,15 +1698,14 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 					__METHOD__
 				);
 
-				// @todo FIXME: also log at least $title
-				$this->addLogEntry( 'create', $id );
-
-				$id = $dbr->selectField(
+				$id = (int)$dbr->selectField(
 					'picturegame_images',
 					'MAX(id) AS maxid',
 					[],
 					__METHOD__
 				);
+
+				$this->addLogEntry( 'create', $id, '', $title );
 
 				// Increase social statistics
 				$stats = new UserStatsTrack( $user->getId(), $user->getName() );
@@ -1714,6 +1713,8 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 
 				// Purge object cache
 				$cache = MediaWikiServices::getInstance()->getMainWANObjectCache();
+				// @note Keep this cache key in sync with whatever is used on
+				// /extensions/SocialProfile/UserProfile/includes/UserProfilePage.php
 				$key = $cache->makeKey( 'user', 'profile', 'picgame', $user->getId() );
 				$cache->delete( $key );
 			}
@@ -1995,17 +1996,22 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 	 * @param string $action Log action, i.e. flag, unflag, create, delete, ...
 	 * @param int $id Picture game ID
 	 * @param string $reason Reason for flagging (only when $action = 'flag')
+	 * @param string $title Picture game title (only when $action is either 'create' or 'edit')
 	 */
-	private function addLogEntry( $action, $id, $reason = '' ) {
+	private function addLogEntry( $action, $id, $reason = '', $title = '' ) {
 		$logEntry = new ManualLogEntry( 'picturegame', $action );
 		$logEntry->setPerformer( $this->getUser() );
 		$logEntry->setTarget( $this->getPageTitle() );
 		if ( isset( $reason ) && $reason ) {
 			$logEntry->setComment( $reason );
 		}
-		$logEntry->setParameters( [
+		$params = [
 			'4::id' => $id
-		] );
+		];
+		if ( isset( $title ) && $title !== '' ) {
+			$params['5::title'] = $title;
+		}
+		$logEntry->setParameters( $params );
 		$logId = $logEntry->insert();
 		$logEntry->publish( $logId );
 	}
