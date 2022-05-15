@@ -11,7 +11,7 @@ var PictureGame = window.PictureGame = {
 	/**
 	 * Unflags an image
 	 *
-	 * @param id Integer:
+	 * @param {Number} id
 	 */
 	unflag: function ( id ) {
 		jQuery( '.admin-container #' + id ).fadeOut();
@@ -33,11 +33,9 @@ var PictureGame = window.PictureGame = {
 	/**
 	 * Deletes the images
 	 *
-	 * @param id Integer
-	 * @param img1 String: MediaWiki image name
-	 * @param img2 String: MediaWiki image name
-	 * @param imageName1
-	 * @param imageName2
+	 * @param {Number} id
+	 * @param {String} imageName1 MediaWiki image name
+	 * @param {String} imageName2 MediaWiki image name
 	 */
 	deleteimg: function ( id, imageName1, imageName2 ) {
 		jQuery( '.admin-container #' + id ).fadeOut();
@@ -61,7 +59,7 @@ var PictureGame = window.PictureGame = {
 	/**
 	 * Unprotects an image
 	 *
-	 * @param id Integer:
+	 * @param {Number} id
 	 */
 	unprotect: function ( id ) {
 		jQuery( '.admin-container #' + id ).fadeOut();
@@ -127,9 +125,9 @@ var PictureGame = window.PictureGame = {
 	 * imageOne_uploadComplete or imageTwo_uploadComplete are called (assuming
 	 * that wpCallbackPrefix=imageOne_ or wpCallbackPrefix=imageTwo_)
 	 *
-	 * @param imgSrc String: the HTML for the image thumbnail
-	 * @param imgName String: the MediaWiki image name
-	 * @param imgDesc String: the MediaWiki image description [unused]
+	 * @param {String} imgSrc The HTML for the image thumbnail
+	 * @param {String} imgName The MediaWiki image name
+	 * @param {String} imgDesc The MediaWiki image description [unused]
 	 */
 	uploadComplete: function ( imgSrc, imgName, imgDesc ) {
 		document.getElementById( 'loadingImg' ).style.display = 'none';
@@ -296,7 +294,7 @@ var PictureGame = window.PictureGame = {
 	 * Eh, there should be a smarter way of doing this instead of epic code
 	 * duplication, really...
 	 *
-	 * @param message
+	 * @param {String} message
 	 */
 	imageOne_uploadError: function ( message ) {
 		document.getElementById( 'imageOneLoadingImg' ).style.display = 'none';
@@ -520,6 +518,7 @@ jQuery( function () {
 		PictureGame.skipToGame();
 	} );
 
+	// Image editing links when editing a pic game
 	jQuery( 'div#edit-image-one p a.picgame-upload-link-1' ).on( 'click', function ( event ) {
 		event.preventDefault();
 		PictureGame.loadUploadFrame( jQuery( this ).data( 'img-one-name' ), 1 );
