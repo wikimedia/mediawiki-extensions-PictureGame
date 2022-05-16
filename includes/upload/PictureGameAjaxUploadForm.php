@@ -87,6 +87,8 @@ class PictureGameAjaxUploadForm extends UploadForm {
 			'name' => 'upload' // added
 		];
 
+		$prefix = SpecialPictureGameAjaxUpload::getCallbackPrefix( $this->getRequest() );
+
 		// fucking newlines...
 		return "<script type=\"text/javascript\">
 	function submitForm() {
@@ -94,15 +96,15 @@ class PictureGameAjaxUploadForm extends UploadForm {
 		if( valueToCheck != '' ) {
 			if ( typeof PictureGame !== 'object' ) {
 				window.parent.mw.loader.using( 'ext.pictureGame', function() {
-					window.parent.PictureGame.completeImageUpload();
+					window.parent.PictureGame.completeImageUpload( '{$prefix}' );
 				} );
 			} else {
-				window.parent.PictureGame.completeImageUpload();
+				window.parent.PictureGame.completeImageUpload( '{$prefix}' );
 			}
 			return true;
 		} else {
 			// textError method is gone and I can't find it anywhere...
-			alert( '" . str_replace( "\n", ' ', $this->msg( 'emptyfile' )->plain() ) . "' );
+			alert( '" . str_replace( "\n", ' ', $this->msg( 'emptyfile' )->escaped() ) . "' );
 			return false;
 		}
 	}

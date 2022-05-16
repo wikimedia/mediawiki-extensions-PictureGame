@@ -97,23 +97,77 @@ var PictureGame = window.PictureGame = {
 		document.getElementById( 'edit-image-frame' ).style.visibility = 'visible';
 	},
 
-	uploadError: function ( message ) {
-		document.getElementById( 'loadingImg' ).style.display = 'none';
-		document.getElementById( 'loadingImg' ).style.visibility = 'hidden';
-		alert( message );
-		document.getElementById( 'edit-image-frame' ).style.display = 'block';
-		document.getElementById( 'edit-image-frame' ).style.visibility = 'visible';
-		document.getElementById( 'upload-frame' ).src = document.getElementById( 'upload-frame' ).src;
+	/**
+	 * Display an error message, either as an alert() or merely inside an element.
+	 *
+	 * @param {String} message Message to be shown to the user
+	 * @param {String} prefix Either "imageOne_", "imageTwo_" or not set; affects what IDs this method uses
+	 */
+	uploadError: function ( message, prefix ) {
+		var editFrameId, frameId, loaderId;
+
+		if ( !prefix ) {
+			loaderId = 'loadingImg';
+			editFrameId = 'edit-image-frame';
+			frameId = 'upload-frame';
+		} else {
+			// Strip out the dangling underscore to form proper IDs
+			// (proper as in what the code expects, that is)
+			prefix = prefix.replace( '_', '' );
+
+			// imageOneLoadingImg, imageTwoLoadingImg
+			loaderId = prefix + 'LoadingImg';
+			// imageOneUpload-frame, imageTwoUpload-frame
+			editFrameId = prefix + 'Upload-frame';
+			// This is apparently intentionally the same as editFrameId in this case. Fascinating!
+			frameId = editFrameId;
+		}
+
+		document.getElementById( loaderId ).style.display = 'none';
+		document.getElementById( loaderId ).style.visibility = 'hidden';
+
+		if ( !prefix ) {
+			alert( message );
+		} else {
+			// imageOneUploadError, imageTwoUploadError
+			document.getElementById( prefix + 'UploadError' ).innerHTML = '<h1>' + message + '</h1>';
+		}
+
+		document.getElementById( editFrameId ).style.display = 'block';
+		document.getElementById( editFrameId ).style.visibility = 'visible';
+		document.getElementById( frameId ).src = document.getElementById( frameId ).src;
 	},
 
-	/* Called when the upload starts */
-	completeImageUpload: function () {
-		var frame = document.getElementById( 'edit-image-frame' ),
-			loadingImg = document.getElementById( 'loadingImg' );
+	/**
+	 * Called when the upload starts.
+	 *
+	 * @param {String} prefix "imageOne_", "imageTwo_" or not set
+	 */
+	completeImageUpload: function ( prefix ) {
+		var frame, frameId, loadingId, loadingImg;
+
+		if ( !prefix ) {
+			frameId = 'edit-image-frame';
+			loadingId = 'loadingImg';
+		} else {
+			// Strip out the dangling underscore to form proper IDs
+			// (proper as in what the code expects, that is)
+			prefix = prefix.replace( '_', '' );
+
+			// imageOneUpload-frame, imageTwoUpload-frame
+			frameId = prefix + 'Upload-frame';
+			// imageOneLoadingImg, imageTwoLoadingImg
+			loadingId = prefix + 'LoadingImg';
+		}
+
+		frame = document.getElementById( frameId );
+		loadingImg = document.getElementById( loadingId );
+
 		if ( frame ) {
 			frame.style.display = 'none';
 			frame.style.visibility = 'hidden';
 		}
+
 		if ( loadingImg ) {
 			loadingImg.style.display = 'block';
 			loadingImg.style.visibility = 'visible';
@@ -288,49 +342,6 @@ var PictureGame = window.PictureGame = {
 				document.getElementById( 'picTwoDesc' ).value;
 			*/
 		}
-	},
-
-	/**
-	 * Eh, there should be a smarter way of doing this instead of epic code
-	 * duplication, really...
-	 *
-	 * @param {String} message
-	 */
-	imageOne_uploadError: function ( message ) {
-		document.getElementById( 'imageOneLoadingImg' ).style.display = 'none';
-		document.getElementById( 'imageOneLoadingImg' ).style.visibility = 'hidden';
-
-		document.getElementById( 'imageOneUploadError' ).innerHTML = '<h1>' + message + '</h1>';
-		document.getElementById( 'imageOneUpload-frame' ).src =
-			document.getElementById( 'imageOneUpload-frame' ).src;
-
-		document.getElementById( 'imageOneUpload-frame' ).style.display = 'block';
-		document.getElementById( 'imageOneUpload-frame' ).style.visibility = 'visible';
-	},
-
-	imageTwo_uploadError: function ( message ) {
-		document.getElementById( 'imageTwoLoadingImg' ).style.display = 'none';
-		document.getElementById( 'imageTwoLoadingImg' ).style.visibility = 'hidden';
-
-		document.getElementById( 'imageTwoUploadError' ).innerHTML = '<h1>' + message + '</h1>';
-		document.getElementById( 'imageTwoUpload-frame' ).src =
-			document.getElementById( 'imageTwoUpload-frame' ).src;
-		document.getElementById( 'imageTwoUpload-frame' ).style.display = 'block';
-		document.getElementById( 'imageTwoUpload-frame' ).style.visibility = 'visible';
-	},
-
-	imageOne_completeImageUpload: function () {
-		document.getElementById( 'imageOneUpload-frame' ).style.display = 'none';
-		document.getElementById( 'imageOneUpload-frame' ).style.visibility = 'hidden';
-		document.getElementById( 'imageOneLoadingImg' ).style.display = 'block';
-		document.getElementById( 'imageOneLoadingImg' ).style.visibility = 'visible';
-	},
-
-	imageTwo_completeImageUpload: function () {
-		document.getElementById( 'imageTwoUpload-frame' ).style.display = 'none';
-		document.getElementById( 'imageTwoUpload-frame' ).style.visibility = 'hidden';
-		document.getElementById( 'imageTwoLoadingImg' ).style.display = 'block';
-		document.getElementById( 'imageTwoLoadingImg' ).style.visibility = 'visible';
 	},
 
 	imageOne_uploadComplete: function ( imgSrc, imgName, imgDesc ) {

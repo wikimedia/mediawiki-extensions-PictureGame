@@ -208,10 +208,10 @@ class SpecialPictureGameAjaxUpload extends SpecialUpload {
 				// works...
 				if ( typeof PictureGame !== 'object' ) {
 					window.parent.mw.loader.using( 'ext.pictureGame', function() {
-						window.parent.PictureGame.{$prefix}uploadError( {$message} );
+						window.parent.PictureGame.uploadError( {$message}, '{$prefix}' );
 					} );
 				} else {
-					window.parent.PictureGame.{$prefix}uploadError( {$message} );
+					window.parent.PictureGame.uploadError( {$message}, '{$prefix}' );
 				}
 			/*]]>*/</script>";
 		$this->showUploadForm( $this->getUploadForm( $output ) );
