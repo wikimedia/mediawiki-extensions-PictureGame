@@ -50,6 +50,10 @@
 
 .imageOne, .imageTwo {
 	float: left;
+	/* need this padding so that the OOUI "Use existing image" button does not directly touch
+	 * the preview image; adding it here looks better than adding it to the below rule
+	 */
+	padding-top: 10px;
 	width: 200px;
 }
 

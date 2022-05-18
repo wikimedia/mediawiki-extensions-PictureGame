@@ -90,6 +90,11 @@ var PictureGame = window.PictureGame = {
 				'<h2> ' + mw.msg( 'picturegame-js-editing-imgtwo' ) + ' </h2>';
 		}
 
+		// Show the "use an existing file" button if the element exists
+		if ( document.getElementsByClassName( 'mw-picturegame-image-picker-widget-edit-mode' ).length === 1 ) {
+			document.getElementsByClassName( 'mw-picturegame-image-picker-widget-edit-mode' )[ 0 ].style.display = 'block';
+		}
+
 		document.getElementById( 'upload-frame' ).src = mw.config.get( 'wgScript' ) +
 			'?title=Special:PictureGameAjaxUpload&wpOverwriteFile=true&wpDestFile=' +
 			filename;
@@ -538,6 +543,20 @@ jQuery( function () {
 	jQuery( 'div#edit-image-two p a.picgame-upload-link-2' ).on( 'click', function ( event ) {
 		event.preventDefault();
 		PictureGame.loadUploadFrame( jQuery( this ).data( 'img-two-name' ), 2 );
+	} );
+
+	// Monitor changes on the hidden image name inputs
+	// (This is needed to support using a local image for both images at least.)
+	// If they change, check the value of the other field as well, and if both fields
+	// have some content, then show the "Create & Play!" button.
+	jQuery( '#picOneURL, #picTwoURL' ).on( 'change', function () {
+		var ID = jQuery( this ).attr( 'id' );
+		if ( jQuery( this ).val() !== '' ) {
+			var otherID = ( ID === 'picOneURL' ) ? 'picTwoURL' : 'picOneURL';
+			if ( jQuery( '#' + otherID ).val() !== '' ) {
+				jQuery( '#startButton' ).fadeIn( 2000 );
+			}
+		}
 	} );
 
 	// "Create and Play!" button on picture game creation form
