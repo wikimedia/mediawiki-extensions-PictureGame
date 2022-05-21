@@ -11,7 +11,7 @@ var PictureGame = window.PictureGame = {
 	/**
 	 * Unflags an image
 	 *
-	 * @param {Number} id
+	 * @param {number} id
 	 */
 	unflag: function ( id ) {
 		jQuery( '.admin-container #' + id ).fadeOut();
@@ -33,9 +33,9 @@ var PictureGame = window.PictureGame = {
 	/**
 	 * Deletes the images
 	 *
-	 * @param {Number} id
-	 * @param {String} imageName1 MediaWiki image name
-	 * @param {String} imageName2 MediaWiki image name
+	 * @param {number} id
+	 * @param {string} imageName1 MediaWiki image name
+	 * @param {string} imageName2 MediaWiki image name
 	 */
 	deleteimg: function ( id, imageName1, imageName2 ) {
 		jQuery( '.admin-container #' + id ).fadeOut();
@@ -59,7 +59,7 @@ var PictureGame = window.PictureGame = {
 	/**
 	 * Unprotects an image
 	 *
-	 * @param {Number} id
+	 * @param {number} id
 	 */
 	unprotect: function ( id ) {
 		jQuery( '.admin-container #' + id ).fadeOut();
@@ -100,8 +100,8 @@ var PictureGame = window.PictureGame = {
 	/**
 	 * Display an error message, either as an alert() or merely inside an element.
 	 *
-	 * @param {String} message Message to be shown to the user
-	 * @param {String} prefix Either "imageOne_", "imageTwo_" or not set; affects what IDs this method uses
+	 * @param {string} message Message to be shown to the user
+	 * @param {string} prefix Either "imageOne_", "imageTwo_" or not set; affects what IDs this method uses
 	 */
 	uploadError: function ( message, prefix ) {
 		var editFrameId, frameId, loaderId;
@@ -141,7 +141,7 @@ var PictureGame = window.PictureGame = {
 	/**
 	 * Called when the upload starts.
 	 *
-	 * @param {String} prefix "imageOne_", "imageTwo_" or not set
+	 * @param {string} prefix "imageOne_", "imageTwo_" or not set
 	 */
 	completeImageUpload: function ( prefix ) {
 		var frame, frameId, loadingId, loadingImg;
@@ -179,9 +179,9 @@ var PictureGame = window.PictureGame = {
 	 * imageOne_uploadComplete or imageTwo_uploadComplete are called (assuming
 	 * that wpCallbackPrefix=imageOne_ or wpCallbackPrefix=imageTwo_)
 	 *
-	 * @param {String} imgSrc The HTML for the image thumbnail
-	 * @param {String} imgName The MediaWiki image name
-	 * @param {String} imgDesc The MediaWiki image description [unused]
+	 * @param {string} imgSrc The HTML for the image thumbnail
+	 * @param {string} imgName The MediaWiki image name
+	 * @param {string} imgDesc The MediaWiki image description [unused]
 	 */
 	uploadComplete: function ( imgSrc, imgName, imgDesc ) {
 		document.getElementById( 'loadingImg' ).style.display = 'none';
