@@ -1,6 +1,6 @@
 {
 	"name": "PictureGame",
-	"version": "4.3.0",
+	"version": "4.4.0",
 	"author": [
 		"Aaron Wright",
 		"Ashish Datta",
@@ -77,6 +77,26 @@
 				"oojs-ui-core",
 				"oojs-ui-windows",
 				"oojs-ui-widgets"
+			]
+		},
+		"ext.pictureGame.file-selector": {
+			"scripts": "resources/js/file-selector.js",
+			"dependencies": [
+				"oojs-ui",
+				"oojs-ui.styles.icons-media",
+				"mediawiki.widgets",
+				"mediawiki.widgets.UserInputWidget",
+				"mediawiki.widgets.MediaSearch",
+				"mediawiki.api",
+				"mediawiki.user"
+			],
+			"messages": [
+				"cancel",
+				"picturegame-js-edit",
+				"picturegame-js-change-image",
+				"picturegame-image-picker",
+				"picturegame-image-picker-launch-button",
+				"picturegame-image-picker-select"
 			]
 		},
 		"ext.pictureGame.adminPanel": {

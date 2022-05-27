@@ -378,6 +378,7 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 
 		$output = '';
 
+		$out->addModules( [ 'ext.pictureGame.file-selector' ] );
 		$out->addModuleStyles( 'ext.pictureGame.editPanel' );
 
 		$out->setPageTitle( $this->msg( 'picturegame-editgame-editing-title', $title_text )->text() );
@@ -1660,12 +1661,27 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 		$request = $this->getRequest();
 		$user = $this->getUser();
 
+		// @todo FIXME: NoJS TODO - implement validation from JS startGame() function
+		// here (to ensure that there is a title and both images)
 		$title = $request->getVal( 'picGameTitle' );
 
 		$img1 = $request->getVal( 'picOneURL' );
 		$img2 = $request->getVal( 'picTwoURL' );
+
+		// Apparently the DB schema does not allow these two to be NULL.
+		// However, they *are* NULL with the current local image picker, so...
+		// let's give 'em a non-NULL value to avoid that DB error.
+		// One day I shall fix the caption feature for good, but it ain't today.
+		// (Actually I believe there's not that much to be fixed, really, it oughta
+		// be merely a matter of uncommenting some code...)
 		$img1_caption = $request->getVal( 'picOneDesc' );
+		if ( !$img1_caption ) {
+			$img1_caption = '';
+		}
 		$img2_caption = $request->getVal( 'picTwoDesc' );
+		if ( !$img2_caption ) {
+			$img2_caption = '';
+		}
 
 		$key = $request->getVal( 'key' );
 		$chain = $request->getVal( 'chain' );
@@ -1675,6 +1691,11 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 
 		// make sure no one is trying to do bad things
 		if ( $key == md5( $chain . $this->SALT ) ) {
+			/* This existence check made sense when only local uploads were supported,
+			but now (May 2022) we finally support using existing images, so having this
+			check here...makes it impossible to create picture games that use two already
+			existing images! Thus taking it out now.
+
 			$row = $dbr->selectRow(
 				'picturegame_images',
 				'COUNT(*) AS mycount',
@@ -1687,9 +1708,10 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 				__METHOD__,
 				[ 'GROUP BY' => 'id' ]
 			);
+			*/
 
 			// if these image pairs don't exist, insert them
-			if ( !$row || $row->mycount == 0 ) {
+			// if ( !$row || $row->mycount == 0 ) {
 				$dbr->insert(
 					'picturegame_images',
 					[
@@ -1704,6 +1726,7 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 					__METHOD__
 				);
 
+				// @todo FIXME/CHECKME: why not just $id = $dbr->insertId();?
 				$id = (int)$dbr->selectField(
 					'picturegame_images',
 					'MAX(id) AS maxid',
@@ -1723,7 +1746,7 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 				// /extensions/SocialProfile/UserProfile/includes/UserProfilePage.php
 				$key = $cache->makeKey( 'user', 'profile', 'picgame', $user->getId() );
 				$cache->delete( $key );
-			}
+			// }
 		}
 
 		header( "Location: ?title=Special:PictureGameHome&picGameAction=startGame&id={$id}" );
@@ -1922,6 +1945,9 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 
 		$out->setHTMLTitle( $this->msg( 'pagetitle', $this->msg( 'picturegame-creategametitle' )->text() )->text() );
 		$out->setPageTitle( $this->msg( 'picturegame-creategametitle' )->text() );
+
+		$out->addModules( [ 'ext.pictureGame.file-selector' ] );
+
 		$out->addModuleStyles( 'ext.pictureGame.startGame' );
 
 		$output = "\t\t" . '<div class="pick-game-welcome-message">';

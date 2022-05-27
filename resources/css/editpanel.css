@@ -1,3 +1,10 @@
+.mw-picturegame-image-picker-widget-edit-mode {
+	/* Hide this initially, the JS will take care of showing it if and when the user
+	 * presses on the appropriate link(s)
+	 */
+	display: none;
+}
+
 .edit-image-frame iframe {
 	border: none;
 	height: auto;
