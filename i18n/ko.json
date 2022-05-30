@@ -33,6 +33,10 @@
 	"picturegame-prev": "이전",
 	"picturegame-gallery": "갤러리",
 	"picturegame-none": "없음",
+	"picturegame-image-picker-launch-button": "기존 이미지 사용",
+	"picturegame-image-picker": "이미지 선택기",
+	"picturegame-image-picker-select": "선택",
+	"picturegame-js-change-image": "이미지 바꾸기",
 	"picturegame-js-edit": "편집",
 	"picturegame-js-error-title": "제목을 입력해 주십시오!"
 }

@@ -2,6 +2,7 @@
 	"@metadata": {
 		"authors": [
 			"Jack Phoenix",
+			"MITO",
 			"Moj"
 		]
 	},
@@ -87,6 +88,8 @@
 	"picturegame-nothing-to-edit": "Täällä ei ole mitään muokattavaa.",
 	"picturegame-images-category": "Kuvapelit",
 	"picturegame-none": "ei ole",
+	"picturegame-image-picker-select": "Valitse",
+	"picturegame-js-change-image": "Vaihda kuva",
 	"picturegame-js-edit": "Muokkaa",
 	"picturegame-js-error-title": "Anna otsikko!",
 	"picturegame-js-error-upload-imgone": "Tallenna ensimmäinen kuva!",
