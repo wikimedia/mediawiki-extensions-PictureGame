@@ -3,6 +3,7 @@
 		"authors": [
 			"Hedda",
 			"MuratTheTurkish",
+			"SaldırganSincap",
 			"Selcuksntrk"
 		]
 	},
@@ -106,9 +107,9 @@
 	"right-picturegameadmin": "Resim Oyunlarını Yönet",
 	"log-name-picturegame": "Resim oyunu kayıtları",
 	"log-description-picturegame": "Bu, [[Special:PictureGameHome|picture game]] tüm işlemlerin (oluşturma, düzenleme, işaretleme, silme) kayıtlarıdır.",
-	"logentry-picturegame-create": "$1 resim oyununu {{GENDER:$2|oluşturdu}} [[Special:PictureGameHome/$4|#$4]]",
+	"logentry-picturegame-create": "$1, [[Special:PictureGameHome/$4|\"$5\"]] başlığı ile [[Special:PictureGameHome/$4|#$4]] resim oyununu {{GENDER:$2|oluşturdu}}",
 	"logentry-picturegame-delete": "$1 resim oyununu {{GENDER:$2|sildi}} #$4",
-	"logentry-picturegame-edit": "$1 resim oyununu {{GENDER:$2|düzenledi}} [[Special:PictureGameHome/$4|#$4]]",
+	"logentry-picturegame-edit": "$1, [[Special:PictureGameHome/$4|#$4]] resim oyununu {{GENDER:$2|düzenledi}}: \"$5\"",
 	"logentry-picturegame-flag": "$1 resim oyununu {{GENDER:$2|işaretledi}} [[Special:PictureGameHome/$4|#$4]]",
 	"logentry-picturegame-protect": "$1 resim oyununun resimlerini {{GENDER:$2|korudu}} [[Special:PictureGameHome/$4|#$4]]",
 	"logentry-picturegame-unflag": "$1 resim oyunun {{GENDER:$2|işaretini kaldırdı}} [[Special:PictureGameHome/$4|#$4]]",
