@@ -1,9 +1,13 @@
 {
 	"@metadata": {
 		"authors": [
+			"Asma",
 			"محمد أحمد عبد الفتاح"
 		]
 	},
 	"picturegame-createeditfirstimage": "الصورة الأولى",
-	"picturegame-createeditsecondimage": "الصورة الثانية"
+	"picturegame-createeditsecondimage": "الصورة الثانية",
+	"picturegame-image-picker-launch-button": "استخدم صورة موجودة",
+	"picturegame-image-picker-select": "اختر",
+	"picturegame-js-change-image": "تغيير الصورة"
 }
