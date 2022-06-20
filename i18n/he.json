@@ -2,7 +2,8 @@
 	"@metadata": {
 		"authors": [
 			"Ex-Diktator",
-			"Amire80"
+			"Amire80",
+			"Jack Phoenix"
 		]
 	},
 	"picturegame-desc": "מאפשרת ליצור [[Special:PictureGameHome|משחקי תמונות]]",
@@ -13,7 +14,7 @@
 	"picturegame-permalink": "קישור קבוע",
 	"picturegame-adminpanel": "חלונית ניהול",
 	"picturegame-protectimages": "הגנה על תמונות",
-	"picturegame-error-socialprofile": "[SocialProfile ההרחבה SocialProfile אינה מותקנת]. נא להתקין את ההרחבה הזאת ולנסות שוב.",
+	"picturegame-error-socialprofile": "[https://www.mediawiki.org/wiki/Special:MyLanguage/Extension:SocialProfile ההרחבה SocialProfile אינה מותקנת]. נא להתקין את ההרחבה הזאת ולנסות שוב.",
 	"picturegame-error-socialprofile-title": "ההרחבה SocialProfile אינה מותקנת.",
 	"picturegame-createlink": "יצירת משחק תמונות",
 	"picturegame-skipbutton": "לדלג",
