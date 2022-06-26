@@ -202,7 +202,12 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 		if ( $image1 ) {
 			$img_one = Title::makeTitle( NS_FILE, $image1 );
 			$reason = 'Picture Game image 1 Delete';
-			$wikipage = WikiPage::factory( $img_one );
+			if ( method_exists( MediaWikiServices::class, 'getWikiPageFactory' ) ) {
+				// MW 1.36+
+				$wikipage = MediaWikiServices::getInstance()->getWikiPageFactory()->newFromTitle( $img_one );
+			} else {
+				$wikipage = WikiPage::factory( $img_one );
+			}
 			$status = $wikipage->doDeleteArticleReal( $reason, $user );
 			$oneResult = $status->isOK();
 		}
@@ -210,7 +215,12 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 		if ( $image2 ) {
 			$img_two = Title::makeTitle( NS_FILE, $image2 );
 			$reason = 'Picture Game image 2 Delete';
-			$wikipage = WikiPage::factory( $img_two );
+			if ( method_exists( MediaWikiServices::class, 'getWikiPageFactory' ) ) {
+				// MW 1.36+
+				$wikipage = MediaWikiServices::getInstance()->getWikiPageFactory()->newFromTitle( $img_two );
+			} else {
+				$wikipage = WikiPage::factory( $img_two );
+			}
 			$status = $wikipage->doDeleteArticleReal( $reason, $user );
 			$twoResult = $status->isOK();
 		}
