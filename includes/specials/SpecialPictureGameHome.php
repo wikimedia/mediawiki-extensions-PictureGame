@@ -192,19 +192,20 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 		$dbw = wfGetDB( DB_PRIMARY );
 		$dbw->delete( 'picturegame_images', [ 'id' => $id ], __METHOD__ );
 
-		$cache = MediaWikiServices::getInstance()->getMainWANObjectCache();
+		$services = MediaWikiServices::getInstance();
+		$cache = $services->getMainWANObjectCache();
 		$key = $cache->makeKey( 'user', 'profile', 'picgame', $user->getId() );
 		$cache->delete( $key );
 
 		/* Pop the images out of MediaWiki also */
-		// $img_one = MediaWikiServices::getInstance()->getRepoGroup()->findFile( $image1 );
+		// $img_one = $services->getRepoGroup()->findFile( $image1 );
 		$oneResult = $twoResult = false;
 		if ( $image1 ) {
 			$img_one = Title::makeTitle( NS_FILE, $image1 );
 			$reason = 'Picture Game image 1 Delete';
 			if ( method_exists( MediaWikiServices::class, 'getWikiPageFactory' ) ) {
 				// MW 1.36+
-				$wikipage = MediaWikiServices::getInstance()->getWikiPageFactory()->newFromTitle( $img_one );
+				$wikipage = $services->getWikiPageFactory()->newFromTitle( $img_one );
 			} else {
 				$wikipage = WikiPage::factory( $img_one );
 			}
@@ -217,7 +218,7 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 			$reason = 'Picture Game image 2 Delete';
 			if ( method_exists( MediaWikiServices::class, 'getWikiPageFactory' ) ) {
 				// MW 1.36+
-				$wikipage = MediaWikiServices::getInstance()->getWikiPageFactory()->newFromTitle( $img_two );
+				$wikipage = $services->getWikiPageFactory()->newFromTitle( $img_two );
 			} else {
 				$wikipage = WikiPage::factory( $img_two );
 			}
