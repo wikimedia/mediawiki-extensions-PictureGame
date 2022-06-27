@@ -1,9 +1,11 @@
 {
 	"@metadata": {
 		"authors": [
+			"Brettchenweber",
 			"Ferdinand0101",
 			"Gebu",
 			"Johannes.me",
+			"ThisCarthing",
 			"Umlaut",
 			"Zabe"
 		]
@@ -19,6 +21,7 @@
 	"picturegame-createlink": "Erstelle ein Bildspiel",
 	"picturegame-skipbutton": "Überspringen",
 	"picturegame-backbutton": "Zurück",
+	"picturegame-previousgame": "Vorheriges Spiel",
 	"picturegame-adminpanelreason": "Grund",
 	"picturegame-adminpanelprotected": "Geschützte Bilder:",
 	"picturegame-adminpanelunflag": "Flagge entfernen",
@@ -38,6 +41,7 @@
 	"picturegame-buttonupload": "Hochladen",
 	"picturegame-buttonsubmit": "Übermitteln",
 	"picturegame-buttonplaygame": "Das Bildspiel spielen",
+	"picturegame-sysmsg-unauthorized": "Du bist nicht autorisiert, dies zu machen.",
 	"picturegame-sysmsg-successfuldelete": "Du hast dieses Bildspiel erfolgreich gelöscht!",
 	"picturegame-sysmsg-flag": "Das Bild wurde gemeldet!",
 	"picturegame-sysmsg-unprotect": "Der Schutz für dieses Bild wurde aufgehoben!",
@@ -45,9 +49,20 @@
 	"picturegame-leastvotes": "Letzte Stimmen",
 	"picturegame-mostvotes": "Meiste Stimmen",
 	"picturegame-create-threshold-title": "Bildspiel erstellen",
+	"picturegame-create-threshold-reason": "Leider kannst du kein Bildspiel erstellen, bis du mindestens $1 hast.",
+	"picturegame-create-threshold-edits": "{{PLURAL:$1|eine Bearbeitung|$1 Bearbeitungen}}",
+	"picturegame-create-threshold-votes": "{{PLURAL:$1|eine Stimme|$1 Stimmen}}",
+	"picturegame-create-threshold-comments": "{{PLURAL:$1|Ein Kommentar|$1 Kommentare}}",
+	"picturegame-create-threshold-comment-score-plus": "{{PLURAL:$1| Einen Daumen nach oben|$1 Daumen nach oben}}",
+	"picturegame-create-threshold-friend-count": "{{PLURAL:$1|ein Freund|$1 Freunde}}",
+	"picturegame-create-threshold-quiz-points": "{{PLURAL:$1|ein Quizpunkt|$1 Quizpunkte}}",
 	"picturegame-sorted-most-votes": "Bildspiele, sortiert nach den meisten Stimmen",
+	"picturegame-sorted-least-votes": "Bildspiele, sortiert nach den wenigsten Stimmen",
 	"picturegame-gallery": "Galerie",
 	"picturegame-none": "keine",
+	"picturegame-js-change-image": "Bild ändern",
 	"picturegame-js-edit": "Bearbeiten",
-	"picturegame-js-error-title": "Bitte einen Titel eingeben!"
+	"picturegame-js-error-title": "Bitte einen Titel eingeben!",
+	"picturegame-js-error-upload-imgone": "Bitte lade Bild eins hoch!",
+	"picturegame-js-error-upload-imgtwo": "Bitte lade Bild zwei hoch!"
 }
