@@ -1,7 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"Kareyac"
+			"Kareyac",
+			"Pacha Tchernof"
 		]
 	},
 	"picturegame-login": "Войти",
@@ -12,6 +13,7 @@
 	"picturegame-adminpaneldelete": "Удалить",
 	"picturegame-creategamefiletext": "Файл",
 	"picturegame-editgame-editing-title": "Редактирование $1",
+	"picturegame-buttonupload": "Загрузить",
 	"picturegame-next": "след.",
 	"picturegame-prev": "пред.",
 	"picturegame-gallery": "Галерея",
