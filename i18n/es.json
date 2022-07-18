@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"Ciencia Al Poder",
 			"DiegoAmbrocio",
 			"Fitoschido"
 		]
@@ -33,6 +34,7 @@
 	"picturegame-editgame-editing-title": "Edición de $1",
 	"picturegame-editgamegametitle": "Título",
 	"picturegame-editgameuploadtext": "Cargar imagen nueva",
+	"picturegame-flagimgconfirm": "Explica el motivo por el que estás denunciando estas imágenes.",
 	"picturegame-protectimgconfirm": "¿Confirmas que quieres proteger estas imágenes?",
 	"picturegame-buttonupload": "Subir",
 	"picturegame-buttonsubmit": "Enviar",
