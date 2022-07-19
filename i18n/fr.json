@@ -50,7 +50,7 @@
 	"picturegame-buttonsubmit": "Soumettre",
 	"picturegame-buttonplaygame": "Jouer au jeu d’images",
 	"picturegame-permalinkflagged": "Ces images ont été marquées à cause du contenu inapproprié ou d’éléments placés sous droit d’auteur. Pour jouer au jeu d’images, cliquer sur le bouton ci-dessous.",
-	"picturegame-sysmsg-unauthorized": "Vous n’avez pas le droit de faire cela.",
+	"picturegame-sysmsg-unauthorized": "Vous n’êtes pas autorisé{{GENDER:||e}} à faire cela.",
 	"picturegame-sysmsg-badkey": "Erreur fatale : votre clé est erronée.",
 	"picturegame-sysmsg-successfuldelete": "Vous avez bien supprimé ce jeu d’images !",
 	"picturegame-sysmsg-unsuccessfuldelete": "La suppression de $1 de MediaWiki a échoué !",
