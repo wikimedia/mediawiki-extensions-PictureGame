@@ -2,7 +2,8 @@
 	"@metadata": {
 		"authors": [
 			"DDPAT",
-			"Ice bulldog"
+			"Ice bulldog",
+			"Ата"
 		]
 	},
 	"picturegame-desc": "Дозволяє створювати [[Special:PictureGameHome|картинні ігри]]",
@@ -95,6 +96,10 @@
 	"picturegame-nothing-to-edit": "Тут нічого редагувати.",
 	"picturegame-images-category": "Ігри з картинками",
 	"picturegame-none": "немає",
+	"picturegame-image-picker-launch-button": "Використати наявне зображення",
+	"picturegame-image-picker": "Вибирач зображень",
+	"picturegame-image-picker-select": "Вибрати",
+	"picturegame-js-change-image": "Змінити зображення",
 	"picturegame-js-edit": "Редагувати",
 	"picturegame-js-error-title": "Будь ласка, введіть назву!",
 	"picturegame-js-error-upload-imgone": "Будь ласка, завантажте зображення одне!",
@@ -105,9 +110,9 @@
 	"right-picturegameadmin": "Адмініструвати картинні ігри",
 	"log-name-picturegame": "Журнал ігор з картинками",
 	"log-description-picturegame": "Це журнал усіх дій із [[Special:PictureGameHome|картинними іграми]] (створення, редагування, позначення, видалення).",
-	"logentry-picturegame-create": "$1 {{GENDER:$2|створив}} картинну гру [[Special:PictureGameHome/$4|#$4]]",
+	"logentry-picturegame-create": "$1 {{GENDER:$2|створив|створила}} графічну гру [[Special:PictureGameHome/$4|#$4]] під назвою [[Special:PictureGameHome/$4|«$5»]]",
 	"logentry-picturegame-delete": "$1 {{GENDER:$2|видалив}} картинну гру #$4",
-	"logentry-picturegame-edit": "$1 {{GENDER:$2|відредагував}} картинну гру [[Special:PictureGameHome/$4|#$4]]",
+	"logentry-picturegame-edit": "$1 {{GENDER:$2|відредагував|відредагувала}} графічну гру [[Special:PictureGameHome/$4|#$4: «$5»]]",
 	"logentry-picturegame-flag": "$1 {{GENDER:$2|позначив}} картинну гру [[Special:PictureGameHome/$4|#$4]]",
 	"logentry-picturegame-protect": "$1 {{GENDER:$2|захистив}} зображення для картинної гри [[Special:PictureGameHome/$4|#$4]]",
 	"logentry-picturegame-unflag": "$1 {{GENDER:$2|не позначив}} картинну гру [[Special:PictureGameHome/$4|#$4]]",
