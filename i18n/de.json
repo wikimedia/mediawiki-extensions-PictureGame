@@ -38,6 +38,7 @@
 	"picturegame-editgamegametitle": "Titel",
 	"picturegame-editgameuploadtext": "Neues Bild hochladen",
 	"picturegame-flagimgconfirm": "Erkläre bitte, warum du diese Bilder meldest.",
+	"picturegame-protectimgconfirm": "Möchtest du diese Bilder wirklich schützen?",
 	"picturegame-buttonupload": "Hochladen",
 	"picturegame-buttonsubmit": "Übermitteln",
 	"picturegame-buttonplaygame": "Das Bildspiel spielen",
@@ -63,5 +64,7 @@
 	"picturegame-js-edit": "Bearbeiten",
 	"picturegame-js-error-title": "Bitte einen Titel eingeben!",
 	"picturegame-js-error-upload-imgone": "Bitte lade Bild eins hoch!",
-	"picturegame-js-error-upload-imgtwo": "Bitte lade Bild zwei hoch!"
+	"picturegame-js-error-upload-imgtwo": "Bitte lade Bild zwei hoch!",
+	"picturegame-js-editing-imgone": "Bild 1 bearbeiten",
+	"picturegame-js-editing-imgtwo": "Bild 2 bearbeiten"
 }
