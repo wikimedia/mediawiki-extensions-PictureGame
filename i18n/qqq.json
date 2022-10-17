@@ -1,7 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"Robby"
+			"Robby",
+			"McDutchie"
 		]
 	},
 	"picturegame-desc": "{{desc|name=PictureGame|url=https://www.mediawiki.org/wiki/Extension:PictureGame}}",
@@ -22,7 +23,7 @@
 	"picturegame-adminpanelreason": "A label message shown on the admin panel, which is accessible on Special:PictureGameHome for privileged users (those who have the <code>picturegameadmin</code> user right)",
 	"picturegame-adminpanelflagged": "A hint message shown on the admin panel, which is accessible on Special:PictureGameHome for privileged users (those who have the <code>picturegameadmin</code> user right)",
 	"picturegame-adminpanelprotected": "A hint message shown on the admin panel, which is accessible on Special:PictureGameHome for privileged users (those who have the <code>picturegameadmin</code> user right)",
-	"picturegame-adminpanelunflag": "Link text of a link shown on the admin panel in Special:PictureGameHome for privileged users (those with the <code>picturegameadmin</code> user right); unflagging a picture game returns it to circulation, allowing users to play (vote in) that particulat picture game",
+	"picturegame-adminpanelunflag": "Link text of a link shown on the admin panel in Special:PictureGameHome for privileged users (those with the <code>picturegameadmin</code> user right); unflagging a picture game returns it to circulation, allowing users to play (vote in) that particular picture game",
 	"picturegame-adminpanelunflag-confirm": "Confirmation message shown in the un-flag dialog.",
 	"picturegame-adminpaneldelete": "Link text of a link shown on the admin panel in Special:PictureGameHome for privileged users (those with the <code>picturegameadmin</code> user right)\n{{identical|Delete}}",
 	"picturegame-adminpaneldelete-confirm": "Confirmation message shown in the delete dialog.",
@@ -58,12 +59,12 @@
 	"picturegame-sysmsg-unprotect": "Success message eventually shown via JavaScript after an admin has unprotected an image successfully",
 	"picturegame-sysmsg-protect": "Success message eventually shown via JavaScript after an admin has protected an image successfully",
 	"picturegame-least": "A header message",
-	"picturegame-leastheat": "A link text; \"heat\" is defined as ((the amount of votes the first image has / the amount of votes the first image has + the amount of votes the second image has) - (the amount of votes the second image has / (the amount of votes the first image has + the amount of votes the second image has))) and the resulting number is run through MySQL/MariaDB's [https://mariadb.com/kb/en/abs/ <code>ABS()</code>] function to get an absolute (non-negative) number",
+	"picturegame-leastheat": "A link text; \"heat\" is defined as follows. Let ''x'' be the amount of votes the first image has and let ''y'' be the amount of votes the second image has; \"heat\" is defined as ''x'' / (''x'' + ''y'') - ''y'' / (''x'' + ''y'') and the resulting number is run through MySQL/MariaDB's [https://mariadb.com/kb/en/abs/ <code>ABS()</code>] function to get an absolute (non-negative) number.",
 	"picturegame-leastvotes": "A link text",
 	"picturegame-minifeed-nomore": "A hint message for no results",
 	"picturegame-minifeed-nomorecreatelink": "A link text",
 	"picturegame-most": "A header message",
-	"picturegame-mostheat": "A description message; \"heat\" is defined as ((the amount of votes the first image has / the amount of votes the first image has + the amount of votes the second image has) - (the amount of votes the second image has / (the amount of votes the first image has + the amount of votes the second image has))) and the resulting number is run through MySQL/MariaDB's [https://mariadb.com/kb/en/abs/ <code>ABS()</code>] function to get an absolute (non-negative) number",
+	"picturegame-mostheat": "A description message; \"heat\" is defined as follows. Let ''x'' be the amount of votes the first image has and let ''y'' be the amount of votes the second image has; \"heat\" is defined as ''x'' / (''x'' + ''y'') - ''y'' / (''x'' + ''y'') and the resulting number is run through MySQL/MariaDB's [https://mariadb.com/kb/en/abs/ <code>ABS()</code>] function to get an absolute (non-negative) number.",
 	"picturegame-mostvotes": "A link text",
 	"picturegame-nomoretitle": "Error page title, used together with either {{msg-mw|picturegame-no-more}}, {{msg-mw|picturegame-empty-no-more}} or {{msg-mw|picturegame-empty}} as the actual error message, depending on the context",
 	"picturegame-no-more": "Error message used together with {{msg-mw|picturegame-nomoretitle}} as the error title",
@@ -71,9 +72,9 @@
 	"picturegame-create-threshold-reason": "Error message used together with {{msg-mw|picturegame-create-threshold-title}} as the error title; shown when one or more thresholds is configured (via the <code>$wgCreatePictureGameThresholds</code> configuration variable in the wiki's [[mw:Manual:LocalSettings.php|LocalSettings.php]] file), but the user does not meet this threshold or these thresholds and thus is not allowed to create a new picture game.\n$1 is one or more of the following:\n* {{msg-mw|picturegame-create-threshold-edits}}\n* {{msg-mw|picturegame-create-threshold-votes}}\n* {{msg-mw|picturegame-create-threshold-comments}}\n* {{msg-mw|picturegame-create-threshold-comment-score-plus}}\n* {{msg-mw|picturegame-create-threshold-comment-score-minus}}\n* {{msg-mw|picturegame-create-threshold-recruits}}\n* {{msg-mw|picturegame-create-threshold-friend-count}}\n* {{msg-mw|picturegame-create-threshold-foe-count}}\n* {{msg-mw|picturegame-create-threshold-weekly-wins}}\n* {{msg-mw|picturegame-create-threshold-monthly-wins}}\n* {{msg-mw|picturegame-create-threshold-poll-votes}}\n* {{msg-mw|picturegame-create-threshold-picture-game-votes}}\n* {{msg-mw|picturegame-create-threshold-quiz-created}}\n* {{msg-mw|picturegame-create-threshold-quiz-answered}}\n* {{msg-mw|picturegame-create-threshold-quiz-correct}}\n* {{msg-mw|picturegame-create-threshold-quiz-points}}\n* {{msg-mw|picturegame-create-threshold-only-confirmed-email}}",
 	"picturegame-next": "Navigation link text",
 	"picturegame-prev": "Navigation link text\n{{identical|prev}}",
-	"picturegame-sorted-most-heat": "A table header; \"heat\" is defined as ((the amount of votes the first image has / the amount of votes the first image has + the amount of votes the second image has) - (the amount of votes the second image has / (the amount of votes the first image has + the amount of votes the second image has))) and the resulting number is run through MySQL/MariaDB's [https://mariadb.com/kb/en/abs/ <code>ABS()</code>] function to get an absolute (non-negative) number",
+	"picturegame-sorted-most-heat": "A table header; \"heat\" is defined as follows. Let ''x'' be the amount of votes the first image has and let ''y'' be the amount of votes the second image has; \"heat\" is defined as ''x'' / (''x'' + ''y'') - ''y'' / (''x'' + ''y'') and the resulting number is run through MySQL/MariaDB's [https://mariadb.com/kb/en/abs/ <code>ABS()</code>] function to get an absolute (non-negative) number.",
 	"picturegame-sorted-most-votes": "A table header",
-	"picturegame-sorted-least-heat": "A table header; \"heat\" is defined as ((the amount of votes the first image has / the amount of votes the first image has + the amount of votes the second image has) - (the amount of votes the second image has / (the amount of votes the first image has + the amount of votes the second image has))) and the resulting number is run through MySQL/MariaDB's [https://mariadb.com/kb/en/abs/ <code>ABS()</code>] function to get an absolute (non-negative) number",
+	"picturegame-sorted-least-heat": "A table header; \"heat\" is defined as follows. Let ''x'' be the amount of votes the first image has and let ''y'' be the amount of votes the second image has; \"heat\" is defined as ''x'' / (''x'' + ''y'') - ''y'' / (''x'' + ''y'') and the resulting number is run through MySQL/MariaDB's [https://mariadb.com/kb/en/abs/ <code>ABS()</code>] function to get an absolute (non-negative) number.",
 	"picturegame-sorted-least-votes": "A table header",
 	"picturegame-gallery": "Page title for Special:PictureGameHome when viewing the gallery (<code>Special:PictureGameHome?picGameAction=gallery</code>)",
 	"picturegame-gallery-empty": "Informational messages shown on <code>Special:PictureGameHome?picGameAction=gallery</code> when there are no results, i.e. no picture games exist and thus there's nothing to display in the gallery view",
