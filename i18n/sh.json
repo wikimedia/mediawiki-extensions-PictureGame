@@ -1,0 +1,12 @@
+{
+	"@metadata": {
+		"authors": [
+			"Vlad5250"
+		]
+	},
+	"picturegame-signup": "Otvori račun",
+	"picturegame-login": "Prijavi se",
+	"picturegame-permalink": "Trajni link",
+	"picturegame-adminpanel": "Administrativni panel",
+	"picturegame-error-socialprofile-title": "Proširenje SocialProfile nije instalirano."
+}
