@@ -7,7 +7,8 @@
 			"Johannes.me",
 			"ThisCarthing",
 			"Umlaut",
-			"Zabe"
+			"Zabe",
+			"TMg"
 		]
 	},
 	"picturegame-signup": "Registrieren",
@@ -62,6 +63,7 @@
 	"picturegame-gallery": "Galerie",
 	"picturegame-none": "keine",
 	"picturegame-image-picker-launch-button": "Ein bereits vorhandenes Bild verwenden",
+	"picturegame-image-picker-select": "Auswählen",
 	"picturegame-js-change-image": "Bild ändern",
 	"picturegame-js-edit": "Bearbeiten",
 	"picturegame-js-error-title": "Bitte einen Titel eingeben!",
