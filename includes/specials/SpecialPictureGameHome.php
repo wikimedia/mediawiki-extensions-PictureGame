@@ -1514,7 +1514,7 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 				. $this->msg( 'picturegame-reportimages' )->escaped() . " </a> - ";
 		}
 
-		$id = User::idFromName( $user_title->getText() );
+		$id = $actor->getId();
 		$avatar = new wAvatar( $id, 'l' );
 		$avatarID = $avatar->getAvatarImage();
 		$stats = new UserStats( $id, $user_title->getText() );
