@@ -4,9 +4,12 @@
 			"Eleassar"
 		]
 	},
+	"picturegame-desc": "Omogoča ustvarjanje [[Special:PictureGameHome|slikovnih iger]]",
 	"picturegame-error-socialprofile-title": "Razširitev SocialProfile ni nameščena.",
 	"picturegame-skipbutton": "Preskoči",
 	"picturegame-adminpaneldelete": "Izbriši",
+	"picturegame-creategamegametitle": "Naslov slikovne igre",
+	"picturegame-editgamegametitle": "Naslov",
 	"picturegame-buttonupload": "Naloži",
 	"picturegame-gallery": "Galerija",
 	"picturegame-image-picker-select": "Izberi",
