@@ -198,6 +198,7 @@ body {
 }
 
 .submitted-by-user li {
+	list-style: none;
 	float: left;
 	margin: 0 6px 0 0;
 	font-size: 12px;
