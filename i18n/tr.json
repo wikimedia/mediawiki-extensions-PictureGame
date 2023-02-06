@@ -3,6 +3,7 @@
 		"authors": [
 			"Hedda",
 			"MuratTheTurkish",
+			"Rapsar",
 			"SaldırganSincap",
 			"Selcuksntrk"
 		]
@@ -97,7 +98,7 @@
 	"picturegame-nothing-to-edit": "Burada düzenlenecek bir şey yok.",
 	"picturegame-images-category": "Resim Oyunları",
 	"picturegame-none": "hiçbiri",
-	"picturegame-js-edit": "Düzenle",
+	"picturegame-js-edit": "Değiştir",
 	"picturegame-js-error-title": "Lütfen bir ad girin!",
 	"picturegame-js-error-upload-imgone": "Lütfen Resim 1'i yükleyin!",
 	"picturegame-js-error-upload-imgtwo": "Lütfen Resim 2'yi yükleyin!",
