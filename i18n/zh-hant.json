@@ -1,7 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"Kly"
+			"Kly",
+			"Winston Sung"
 		]
 	},
 	"picturegame-desc": "允許製作[[Special:PictureGameHome|圖像遊戲]]",
@@ -9,7 +10,7 @@
 	"picturegame-login": "登入",
 	"picturegame-submittedby": "提交由",
 	"picturegame-reportimages": "回報圖片",
-	"picturegame-permalink": "靜態連結",
+	"picturegame-permalink": "固定連結",
 	"picturegame-adminpanel": "管理面板",
 	"picturegame-protectimages": "保護圖片",
 	"picturegame-skipbutton": "略過",
