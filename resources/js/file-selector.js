@@ -83,7 +83,7 @@
 	/**
 	 * Set the targetID.
 	 *
-	 * @param {object} data
+	 * @param {Object} data
 	 */
 	ImageProcessDialog.prototype.getSetupProcess = function ( data ) {
 		this.targetID = data.targetID;
@@ -219,7 +219,7 @@
 	/**
 	 * Create and append the window manager.
 	 *
-	 * @param {String} #imageOneUpload or #imageTwoUpload when creating a new game,
+	 * @param {string} selector #imageOneUpload or #imageTwoUpload when creating a new game,
 	 *  #image-one-tag or #image-two-tag when editing an existing game
 	 */
 	openImageBrowser = function ( selector ) {
