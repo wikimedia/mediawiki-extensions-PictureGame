@@ -1,0 +1,33 @@
+{
+	"@metadata": {
+		"authors": [
+			"Nokeoo"
+		]
+	},
+	"picturegame-desc": "Leidžia sukurti [[Special:PictureGameHome|paveikslėlių žaidimus]]",
+	"picturegame-signup": "Užsiregistruoti",
+	"picturegame-login": "Prisijungti",
+	"picturegame-submittedby": "Pateikė",
+	"picturegame-reportimages": "Pranešti apie paveikslėlius",
+	"picturegame-permalink": "Nuolatinė nuoroda",
+	"picturegame-adminpanel": "Administratoriaus skydelis",
+	"picturegame-protectimages": "Apsaugoti paveikslėlius",
+	"picturegame-error-socialprofile": "[https://www.mediawiki.org/wiki/Special:MyLanguage/Extension:SocialProfile SocialProfile plėtinys] neįdiegtas. Prašome įdiegti šį plėtinį ir pabandyti dar kartą.",
+	"picturegame-error-socialprofile-title": "SocialProfile plėtinys neįdiegtas.",
+	"picturegame-createlink": "Sukurti paveikslėlių žaidimą",
+	"picturegame-skipbutton": "Praleisti",
+	"picturegame-backbutton": "Atgal",
+	"picturegame-previousgame": "Ankstesnis žaidimas",
+	"picturegame-adminpaneltitle": "Paveikslėlių žaidimo administratoriaus skydelis",
+	"picturegame-adminpanelreason": "Priežastis",
+	"picturegame-adminpanelflagged": "Pažymėti paveikslėliai:",
+	"picturegame-adminpanelprotected": "Apsaugoti paveikslėliai:",
+	"picturegame-adminpanelunflag": "Atžymėti",
+	"picturegame-adminpanelunflag-confirm": "Ar tikrai norite atžymėti šį paveikslėlių žaidimą?",
+	"picturegame-adminpaneldelete": "Ištrinti",
+	"picturegame-adminpaneldelete-confirm": "Ar tikrai norite ištrinti šį paveikslėlių žaidimą?",
+	"picturegame-adminpanelunprotect": "Nebesaugoti",
+	"picturegame-adminpanelbacktogame": "&lt; Atgal į paveikslėlių žaidimą",
+	"picturegame-creategametitle": "Sukurti paveikslėlių žaidimą",
+	"picturegame-creategamenotloggedin": "Norėdami sukurti paveikslėlių žaidimą, turite prisijungti."
+}
