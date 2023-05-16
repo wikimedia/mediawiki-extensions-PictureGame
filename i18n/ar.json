@@ -1,10 +1,29 @@
 {
 	"@metadata": {
 		"authors": [
+			"Alshamiri1",
 			"Asma",
 			"محمد أحمد عبد الفتاح"
 		]
 	},
+	"picturegame-signup": "أنشئ حسابًا",
+	"picturegame-login": "تسجيل الدخول",
+	"picturegame-submittedby": "مقدم من",
+	"picturegame-reportimages": "الإبلاغ عن الصور",
+	"picturegame-permalink": "وصلة دائمة",
+	"picturegame-adminpanel": "لوحة الإدارة",
+	"picturegame-protectimages": "حماية الصور",
+	"picturegame-error-socialprofile": "[https://www.mediawiki.org/wiki/Special:MyLanguage/Extension: ملحق SocialProfile SocialProfile] غير مثبت. الرجاء تثبيت هذا الامتداد وحاول مرة أخرى.",
+	"picturegame-error-socialprofile-title": "لم يتم تثبيت ملحق SocialProfile.",
+	"picturegame-createlink": "قم بإنشاء لعبة صور",
+	"picturegame-skipbutton": "تخطٍّ",
+	"picturegame-backbutton": "رجوع",
+	"picturegame-previousgame": "اللعبة السابقة",
+	"picturegame-adminpaneltitle": "لوحة إدارة لعبة الصورة",
+	"picturegame-adminpanelreason": "السبب",
+	"picturegame-adminpanelflagged": "الصور التي تم الإبلاغ عنها:",
+	"picturegame-adminpanelprotected": "الصور المحمية:",
+	"picturegame-adminpaneldelete": "حذف",
 	"picturegame-createeditfirstimage": "الصورة الأولى",
 	"picturegame-createeditsecondimage": "الصورة الثانية",
 	"picturegame-image-picker-launch-button": "استخدم صورة موجودة",
