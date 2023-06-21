@@ -20,6 +20,7 @@
 	"picturegame-buttonupload": "Naloži",
 	"picturegame-sysmsg-unsuccessfuldelete": "Brisanje $1 iz MediaWikija je spodletelo!",
 	"picturegame-create-threshold-title": "Ustvari slikovno igro",
+	"picturegame-create-threshold-quiz-points": "{{PLURAL:$1|ena točka v kvizu|$1 točki v kvizu|$1 točke v kvizu|$1 točk v kvizu}}",
 	"picturegame-gallery": "Galerija",
 	"picturegame-gallery-empty": "Ni še nobene slikovne igre.",
 	"picturegame-js-edit": "Uredi",
