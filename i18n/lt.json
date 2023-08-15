@@ -66,6 +66,7 @@
 	"picturegame-create-threshold-edits": "{{PLURAL:$1|vieno keitimo|$1 keitimų}}",
 	"picturegame-create-threshold-votes": "{{PLURAL:$1|vieno balso|$1 balsų}}",
 	"picturegame-create-threshold-comments": "{{PLURAL:$1|vieno komentaro|$1 komentarų}}",
+	"picturegame-create-threshold-comment-score-plus": "{{PLURAL:$1|vienas patiktukas|$1 patiktukai}}",
 	"picturegame-create-threshold-comment-score-minus": "{{PLURAL:$1|vieno ignoruoto komentaro|$1 ignoruotų komentarų}}",
 	"picturegame-create-threshold-recruits": "{{PLURAL:$1|vieno pritraukto|$1 pritrauktų}}",
 	"picturegame-create-threshold-friend-count": "{{PLURAL:$1|vieno draugo|$1 draugų}}",
