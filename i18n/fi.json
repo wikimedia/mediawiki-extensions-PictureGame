@@ -2,7 +2,8 @@
 	"@metadata": {
 		"authors": [
 			"Jack Phoenix",
-			"Moj"
+			"Moj",
+			"MITO"
 		]
 	},
 	"picturegame-signup": "Rekisteröidy",
@@ -69,6 +70,10 @@
 	"picturegame-create-threshold-reason": "Pahoittelut, et voi luoda kuvapeliä ennen kuin sinulla on ainakin $1",
 	"picturegame-next": "seur.",
 	"picturegame-prev": "edell.",
+	"picturegame-sorted-most-heat": "Kuumimmat kuvapelit",
+	"picturegame-sorted-most-votes": "Äänestetyimmät kuvapelit",
+	"picturegame-sorted-least-heat": "Vähiten kuumat kuvapelit",
+	"picturegame-sorted-least-votes": "Vähiten äänestetyt kuvapelit",
 	"picturegame-gallery": "Galleria",
 	"picturegame-gallery-empty": "Kuvapelin kuvia ei ole vielä yhtään.",
 	"picturegame-empty": "Tietokannassa ei ole kuvapelejä. Voit [{{fullurl:Special:PictureGameHome|picGameAction=startCreate}} luoda uuden kuvapelin!]",
