@@ -2,7 +2,8 @@
 	"@metadata": {
 		"authors": [
 			"Eduardo Addad de Oliveira",
-			"Eduardoaddad"
+			"Eduardoaddad",
+			"Fúlvio"
 		]
 	},
 	"picturegame-desc": "Permite fazer [[Special:PictureGameHome|jogos de imagem]]",
@@ -95,6 +96,10 @@
 	"picturegame-nothing-to-edit": "Nada para editar aqui.",
 	"picturegame-images-category": "Jogos de imagens",
 	"picturegame-none": "nenhum",
+	"picturegame-image-picker-launch-button": "Usar uma imagem existente",
+	"picturegame-image-picker": "Seletor de imagens",
+	"picturegame-image-picker-select": "Selecionar",
+	"picturegame-js-change-image": "Mudar imagem",
 	"picturegame-js-edit": "Editar",
 	"picturegame-js-error-title": "Insira um título, por favor!",
 	"picturegame-js-error-upload-imgone": "Carregue a imagem um!",
@@ -105,9 +110,9 @@
 	"right-picturegameadmin": "Administrar jogos de imagem",
 	"log-name-picturegame": "Registros do jogo de imagens",
 	"log-description-picturegame": "Este é um registro de todas as ações do [[Special:PictureGameHome|jogo de imagem]] (criações, edições, sinalizações, exclusões).",
-	"logentry-picturegame-create": "$1 {{GENDER:$2|criou}} jogo de imagem [[Special:PictureGameHome/$4|#$4]]",
+	"logentry-picturegame-create": "$1 {{GENDER:$2|criou}} jogo de imagem [[Special:PictureGameHome/$4|#$4]] com o título [[Special:PictureGameHome/$4|\"$5\"]]",
 	"logentry-picturegame-delete": "$1 {{GENDER:$2|eliminou}} a imagem do jogo $4.",
-	"logentry-picturegame-edit": "$1 {{GENDER:$2|editou}} jogo de imagem [[Special:PictureGameHome/$4|#$4]]",
+	"logentry-picturegame-edit": "$1 {{GENDER:$2|editou}} jogo de imagem [[Special:PictureGameHome/$4|#$4: \"$5\"]]",
 	"logentry-picturegame-flag": "$1 {{GENDER:$2|marcou}} jogo de imagem [[Special:PictureGameHome/$4|#$4]]",
 	"logentry-picturegame-protect": "$1 {{GENDER:$2|protegeu}} as imagens para o jogo de imagem [[Special:PictureGameHome/$4|#$4]]",
 	"logentry-picturegame-unflag": "$1 {{GENDER:$2|desmarcou}} jogo de imagem [[Special:PictureGameHome/$4|#$4]]",
