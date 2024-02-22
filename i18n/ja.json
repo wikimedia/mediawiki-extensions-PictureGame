@@ -2,9 +2,11 @@
 	"@metadata": {
 		"authors": [
 			"Ajeje Brazorf",
+			"Chqaz",
 			"MathXplore"
 		]
 	},
+	"picturegame-protectimages": "画像を保護",
 	"picturegame-adminpaneldelete": "削除",
 	"picturegame-image-picker-launch-button": "既存の画像を使う",
 	"picturegame-image-picker-select": "選択",
