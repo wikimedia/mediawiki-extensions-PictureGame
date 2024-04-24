@@ -314,7 +314,9 @@ var PictureGame = window.PictureGame = {
 				document.getElementById( 'imageOneLoadingImg' ).style.visibility = 'hidden';
 				document.getElementById( 'imageOneUpload-frame' ).style.display = 'block';
 				document.getElementById( 'imageOneUpload-frame' ).style.visibility = 'visible';
-				this.onload = function ( st, doc ) { return; };
+				this.onload = function ( st, doc ) {
+					return;
+				};
 			};
 
 			// passes in the description of the image
@@ -337,7 +339,9 @@ var PictureGame = window.PictureGame = {
 				document.getElementById( 'imageTwoLoadingImg' ).style.visibility = 'hidden';
 				document.getElementById( 'imageTwoUpload-frame' ).style.display = 'block';
 				document.getElementById( 'imageTwoUpload-frame' ).style.visibility = 'visible';
-				this.onload = function ( st, doc ) { return; };
+				this.onload = function ( st, doc ) {
+					return;
+				};
 			};
 			// passes in the description of the image
 			/*
@@ -359,7 +363,9 @@ var PictureGame = window.PictureGame = {
 		jQuery( '#imageOne' ).append(
 			jQuery( '<a>' )
 				.attr( 'href', '#' )
-				.on( 'click', function () { PictureGame.reupload( 1 ); } )
+				.on( 'click', function () {
+					PictureGame.reupload( 1 );
+				} )
 				.text( window.parent.mw.msg( 'picturegame-js-edit' ) )
 				// Words of wisdom (from /extensions/PollNY/Poll.js):
 				// <Vulpix> oh, yeah, I know what's happening. Since you're appending the element created with $('<a>'), it appends only it, not the wrapped one... You may need to add a .parent() at the end to get the <p> also...
@@ -396,7 +402,9 @@ var PictureGame = window.PictureGame = {
 		jQuery( '#imageTwo' ).append(
 			jQuery( '<a>' )
 				.attr( 'href', '#' )
-				.on( 'click', function () { PictureGame.reupload( 2 ); } )
+				.on( 'click', function () {
+					PictureGame.reupload( 2 );
+				} )
 				.text( window.parent.mw.msg( 'picturegame-js-edit' ) )
 				// Words of wisdom (from /extensions/PollNY/Poll.js):
 				// <Vulpix> oh, yeah, I know what's happening. Since you're appending the element created with $('<a>'), it appends only it, not the wrapped one... You may need to add a .parent() at the end to get the <p> also...
