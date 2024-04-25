@@ -228,7 +228,6 @@ class SpecialPictureGameAjaxUpload extends SpecialUpload {
 		// Fetch the file if required
 		$status = $this->mUpload->fetchFile();
 		if ( !$status->isOK() ) {
-			// @phan-suppress-next-line SecurityCheck-DoubleEscaped I'm quite (but not 100%) sure that this is a false positive
 			$this->showUploadError( $this->getOutput()->parseAsInterface( $status->getWikiText() ) );
 			return;
 		}
@@ -278,7 +277,6 @@ class SpecialPictureGameAjaxUpload extends SpecialUpload {
 		);
 
 		if ( !$status->isGood() ) {
-			// @phan-suppress-next-line SecurityCheck-DoubleEscaped I'm quite (but not 100%) sure that this is a false positive
 			$this->showUploadError( $this->getOutput()->parseAsInterface( $status->getWikiText() ) );
 			return;
 		}

@@ -29,7 +29,7 @@ class PictureGameHooks {
 		if (
 			$action != 'startCreate' &&
 			$user->isAllowed( 'picturegameadmin' ) &&
-			$title->isSpecial( 'PictureGameHome' ) && !empty( $wgPictureGameID )
+			$title->isSpecial( 'PictureGameHome' ) && $wgPictureGameID
 		) {
 			$links['views']['edit'] = [
 				'class' => ( $action == 'editItem' ) ? 'selected' : false,

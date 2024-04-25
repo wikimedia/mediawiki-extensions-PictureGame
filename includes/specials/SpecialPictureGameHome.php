@@ -341,7 +341,7 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 			__METHOD__
 		);
 
-		if ( empty( $row ) ) {
+		if ( !$row ) {
 			$out->addHTML( $this->msg( 'picturegame-nothing-to-edit' )->escaped() );
 			return;
 		}
@@ -1203,7 +1203,7 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 				"img1 <> ''",
 				"img2 <> ''"
 			];
-			if ( !empty( $picIds ) ) {
+			if ( $picIds ) {
 				$whereConds[] = 'id NOT IN (' . implode( ',', $picIds ) . ')';
 			}
 			$row = $dbr->selectRow(
@@ -1229,7 +1229,7 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 
 		// Early return here in case if we have *nothing* in the database to
 		// prevent fatals etc.
-		if ( empty( $row ) ) {
+		if ( !$row ) {
 			$out->setPageTitle( $this->msg( 'picturegame-nomoretitle' )->text() );
 			// Wrap it in plainlinks to hide the external link icon since a
 			// link to this wiki is not really an external link
@@ -1270,7 +1270,7 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 				"img1 <> ''",
 				"img2 <> ''"
 			];
-			if ( !empty( $excludedImgIds ) ) {
+			if ( $excludedImgIds ) {
 				// @todo Can we improve this further? i.e. push $imgID into $excludedImgIds
 				// if this condition is hit and unset( $whereConds[0] ) or somesuch...
 				// 'cause right now the SQL this ends up generating is not only funny but
@@ -1523,7 +1523,7 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 
 		$out->setHTMLTitle( $this->msg( 'pagetitle', $title )->text() );
 
-		$next_id = $next_id ?? 0;
+		$next_id ??= 0;
 
 		$formattedVoteCount = htmlspecialchars( $lang->formatNum( $stats_data['votes'] ) );
 		$formattedEditCount = htmlspecialchars( $lang->formatNum( $stats_data['edits'] ) );
@@ -1929,7 +1929,7 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 		}
 
 		$canSkip = false;
-		if ( !empty( $excluded ) ) {
+		if ( $excluded ) {
 			// @phan-suppress-next-line SecurityCheck-SQLInjection False positive, no injection can occur
 			$myCount = (int)$dbr->selectField(
 				'picturegame_images',
