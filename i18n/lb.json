@@ -1,7 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"Robby"
+			"Robby",
+			"Volvox"
 		]
 	},
 	"picturegame-login": "Aloggen",
@@ -16,7 +17,7 @@
 	"picturegame-adminpanelflagged": "Markéiert Biller:",
 	"picturegame-adminpanelprotected": "Gespaart Biller:",
 	"picturegame-adminpaneldelete": "Läschen",
-	"picturegame-creategamecaptiontext": "Beschreiwung",
+	"picturegame-creategamecaptiontext": "Beschrëftung",
 	"picturegame-creategamefiletext": "Fichier",
 	"picturegame-createeditfirstimage": "Éischt Bild",
 	"picturegame-createeditsecondimage": "Zweet Bild",
