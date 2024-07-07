@@ -171,11 +171,21 @@ class SpecialPictureGameAjaxUpload extends SpecialUpload {
 		# Check the token, but only if necessary
 		if ( !$this->mTokenOk && !$this->mCancelUpload
 				&& ( $this->mUpload && $this->mUploadClicked ) ) {
-			$form->addPreText( $this->msg( 'session_fail_preview' )->parse() );
+			if ( method_exists( $form, 'addPreHtml' ) ) {
+				// MW 1.38+
+				$form->addPreHtml( $this->msg( 'session_fail_preview' )->parse() );
+			} else {
+				$form->addPreText( $this->msg( 'session_fail_preview' )->parse() );
+			}
 		}
 
 		# Add upload error message
-		$form->addPreText( $message );
+		if ( method_exists( $form, 'addPreHtml' ) ) {
+			// MW 1.38+
+			$form->addPreHtml( $message );
+		} else {
+			$form->addPreText( $message );
+		}
 
 		return $form;
 	}
