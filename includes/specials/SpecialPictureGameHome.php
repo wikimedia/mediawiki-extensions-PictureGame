@@ -207,6 +207,7 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 				// MW 1.36+
 				$wikipage = $services->getWikiPageFactory()->newFromTitle( $img_one );
 			} else {
+				// @phan-suppress-next-line PhanUndeclaredStaticMethod
 				$wikipage = WikiPage::factory( $img_one );
 			}
 			$status = $wikipage->doDeleteArticleReal( $reason, $user );
@@ -220,6 +221,7 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 				// MW 1.36+
 				$wikipage = $services->getWikiPageFactory()->newFromTitle( $img_two );
 			} else {
+				// @phan-suppress-next-line PhanUndeclaredStaticMethod
 				$wikipage = WikiPage::factory( $img_two );
 			}
 			$status = $wikipage->doDeleteArticleReal( $reason, $user );
