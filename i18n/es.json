@@ -3,7 +3,8 @@
 		"authors": [
 			"Ciencia Al Poder",
 			"DiegoAmbrocio",
-			"Fitoschido"
+			"Fitoschido",
+			"Jack Phoenix"
 		]
 	},
 	"picturegame-signup": "Registrarse",
@@ -62,6 +63,8 @@
 	"picturegame-gallery": "Galería",
 	"picturegame-images-category": "Juegos de imágenes",
 	"picturegame-none": "ninguno",
+	"picturegame-image-picker-select": "Seleccionar",
+	"picturegame-js-change-image": "Cambiar imagen",
 	"picturegame-js-edit": "Editar",
 	"picturegame-js-error-title": "Por favor, introduzca un título.",
 	"picturegame-js-error-upload-imgone": "¡Por favor, suba la primera imagen!",
