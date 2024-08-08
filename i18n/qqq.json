@@ -2,7 +2,8 @@
 	"@metadata": {
 		"authors": [
 			"McDutchie",
-			"Robby"
+			"Robby",
+			"Jack Phoenix"
 		]
 	},
 	"picturegame-desc": "{{desc|name=PictureGame|url=https://www.mediawiki.org/wiki/Extension:PictureGame}}",
@@ -14,7 +15,7 @@
 	"picturegame-adminpanel": "Link text; this link is shown on Special:PictureGameHome and only to users who have the <code>picturegameadmin</code> user right.",
 	"picturegame-protectimages": "Link text; this link is shown on Special:PictureGameHome and only to users who have the <code>picturegameadmin</code> user right",
 	"picturegame-error-socialprofile": "Error message shown on Special:PictureGameHome when SocialProfle extension is not installed.",
-	"picturegame-error-socialprofile-title": "Title for <code>quizgame-error-socialprofile</code>.",
+	"picturegame-error-socialprofile-title": "Title for <code>picturegame-error-socialprofile</code>.",
 	"picturegame-createlink": "Link text of a link shown only to registered users on Special:PictureGameHome, which prompts them to create a picture game",
 	"picturegame-skipbutton": "Text of a navigation link, clicking on which allows the user to skip the current picture game without voting on it and move onto the next one; this link is not shown if there is no next picture game to move onto\n{{identical|Skip}}",
 	"picturegame-backbutton": "Text of a navigation link, clicking on which allows the user to view the previous picture game and its results without voting on the current game; this link is not shown if there is no previous picture game to go back to",
