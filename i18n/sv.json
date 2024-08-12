@@ -1,7 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"Sabelöga"
+			"Sabelöga",
+			"Jack Phoenix"
 		]
 	},
 	"picturegame-signup": "Registrera",
@@ -41,8 +42,10 @@
 	"picturegame-gallery": "Galleri",
 	"picturegame-nothing-to-edit": "Inget att redigera här.",
 	"picturegame-none": "inga",
+	"picturegame-image-picker-select": "Välj",
 	"picturegame-js-edit": "Redigera",
 	"picturegame-js-error-title": "Skriv in en titel!",
 	"picturegame-js-editing-imgone": "Redigerar bild 1",
-	"picturegame-js-editing-imgtwo": "Redigerar bild 2"
+	"picturegame-js-editing-imgtwo": "Redigerar bild 2",
+	"log-name-picturegame": "Bildspellogg"
 }
