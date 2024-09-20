@@ -141,7 +141,7 @@ class PictureGameAjaxUploadForm extends UploadForm {
 
 		$descriptor = [];
 		$descriptor['UploadFile'] = [
-			'class' => 'UploadSourceField',
+			'class' => UploadSourceField::class,
 			'section' => 'source',
 			'type' => 'file',
 			'id' => 'wpUploadFile',
@@ -154,7 +154,7 @@ class PictureGameAjaxUploadForm extends UploadForm {
 		];
 		if ( $canUploadByUrl ) {
 			$descriptor['UploadFileURL'] = [
-				'class' => 'UploadSourceField',
+				'class' => UploadSourceField::class,
 				'section' => 'source',
 				'id' => 'wpUploadFileURL',
 				'label-message' => 'sourceurl',
