@@ -189,7 +189,7 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 			//return;
 		}
 
-		$dbw = wfGetDB( DB_PRIMARY );
+		$dbw = MediaWikiServices::getInstance()->getDBLoadBalancer()->getConnection( DB_PRIMARY );
 		$dbw->delete( 'picturegame_images', [ 'id' => $id ], __METHOD__ );
 
 		$services = MediaWikiServices::getInstance();
@@ -265,7 +265,7 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 			return;
 		}
 
-		$dbw = wfGetDB( DB_PRIMARY );
+		$dbw = MediaWikiServices::getInstance()->getDBLoadBalancer()->getConnection( DB_PRIMARY );
 		$dbw->update(
 			'picturegame_images',
 			[ 'flag' => self::$FLAG_NONE, 'comment' => '' ],
@@ -300,7 +300,7 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 			return;
 		}
 
-		$dbw = wfGetDB( DB_PRIMARY );
+		$dbw = MediaWikiServices::getInstance()->getDBLoadBalancer()->getConnection( DB_PRIMARY );
 		$dbw->update(
 			'picturegame_images',
 			[
@@ -335,7 +335,7 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 
 		$id = $request->getInt( 'id' );
 
-		$dbw = wfGetDB( DB_PRIMARY );
+		$dbw = MediaWikiServices::getInstance()->getDBLoadBalancer()->getConnection( DB_PRIMARY );
 		$row = $dbw->selectRow(
 			'picturegame_images',
 			'*',
@@ -547,7 +547,7 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 		<div id="admin-container" class="admin-container">
 			<p><strong>' . $this->msg( 'picturegame-adminpanelflagged' )->escaped() . '</strong></p>';
 
-		$dbw = wfGetDB( DB_PRIMARY );
+		$dbw = MediaWikiServices::getInstance()->getDBLoadBalancer()->getConnection( DB_PRIMARY );
 		$res = $dbw->select(
 			'picturegame_images',
 			[ 'id', 'img1', 'img2', 'comment' ],
@@ -619,7 +619,7 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 		$output .= '</div>
 		<div id="admin-container" class="admin-container">
 			<p><strong>' . $this->msg( 'picturegame-adminpanelprotected' )->escaped() . '</strong></p>';
-		$dbw = wfGetDB( DB_PRIMARY );
+		$dbw = MediaWikiServices::getInstance()->getDBLoadBalancer()->getConnection( DB_PRIMARY );
 		$res = $dbw->select(
 			'picturegame_images',
 			[ 'id', 'img1', 'img2' ],
@@ -701,7 +701,7 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 			return;
 		}
 
-		$dbw = wfGetDB( DB_PRIMARY );
+		$dbw = MediaWikiServices::getInstance()->getDBLoadBalancer()->getConnection( DB_PRIMARY );
 		$dbw->update(
 			'picturegame_images',
 			[ 'flag' => self::$FLAG_FLAGGED, 'comment' => $comment ],
@@ -735,7 +735,7 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 			return;
 		}
 
-		$dbw = wfGetDB( DB_PRIMARY );
+		$dbw = MediaWikiServices::getInstance()->getDBLoadBalancer()->getConnection( DB_PRIMARY );
 		$dbw->update(
 			'picturegame_images',
 			[ 'flag' => self::$FLAG_NONE ],
@@ -766,7 +766,7 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 			return;
 		}
 
-		$dbw = wfGetDB( DB_PRIMARY );
+		$dbw = MediaWikiServices::getInstance()->getDBLoadBalancer()->getConnection( DB_PRIMARY );
 		$dbw->update(
 			'picturegame_images',
 			[ 'flag' => self::$FLAG_PROTECT ],
@@ -921,7 +921,7 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 		$per_row = 3;
 		$x = 1;
 
-		$dbr = wfGetDB( DB_REPLICA );
+		$dbr = MediaWikiServices::getInstance()->getDBLoadBalancer()->getConnection( DB_REPLICA );
 		$total = (int)$dbr->selectField(
 			'picturegame_images',
 			[ 'COUNT(*) AS mycount' ],
@@ -946,7 +946,7 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 			$limitvalue = $page * $limit - ( $limit );
 		}
 
-		$dbw = wfGetDB( DB_PRIMARY );
+		$dbw = MediaWikiServices::getInstance()->getDBLoadBalancer()->getConnection( DB_PRIMARY );
 		$res = $dbw->select(
 			'picturegame_images',
 			'*',
@@ -1108,7 +1108,7 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 
 		// @phan-suppress-next-line PhanTypeMismatchArgumentInternal
 		if ( strlen( $id ) > 0 && strlen( $img ) > 0 ) {
-			$dbw = wfGetDB( DB_PRIMARY );
+			$dbw = MediaWikiServices::getInstance()->getDBLoadBalancer()->getConnection( DB_PRIMARY );
 
 			// check if the user has voted on this already
 			$row = $dbw->selectRow(
@@ -1181,7 +1181,7 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 
 		$totalVotes = 0;
 
-		$dbr = wfGetDB( DB_REPLICA );
+		$dbr = MediaWikiServices::getInstance()->getDBLoadBalancer()->getConnection( DB_REPLICA );
 
 		// if imgID is -1 then we need some random IDs
 		if ( $imgID == -1 ) {
@@ -1700,7 +1700,7 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 		$chain = $request->getVal( 'chain' );
 		$id = -1;
 
-		$dbr = wfGetDB( DB_PRIMARY );
+		$dbr = MediaWikiServices::getInstance()->getDBLoadBalancer()->getConnection( DB_PRIMARY );
 
 		// make sure no one is trying to do bad things
 		if ( $key == md5( $chain . $this->SALT ) ) {
@@ -1778,7 +1778,7 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 		$isPermalink = false;
 		$permalinkError = false;
 
-		$dbr = wfGetDB( DB_PRIMARY );
+		$dbr = MediaWikiServices::getInstance()->getDBLoadBalancer()->getConnection( DB_PRIMARY );
 		if ( $permalinkID > 0 ) {
 			$isPermalink = true;
 
@@ -1916,7 +1916,7 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 				$this->msg( 'picturegame-adminpanel' )->escaped() . ' </a>';
 		}
 
-		$dbr = wfGetDB( DB_PRIMARY );
+		$dbr = MediaWikiServices::getInstance()->getDBLoadBalancer()->getConnection( DB_PRIMARY );
 
 		$excludedIds = $dbr->select(
 			'picturegame_votes',
