@@ -13,7 +13,7 @@ class PictureGameAjaxUploadForm extends UploadForm {
 	 * @param array $options
 	 * @param IContextSource|null $context
 	 */
-	public function __construct( array $options = [], IContextSource $context = null ) {
+	public function __construct( array $options = [], ?IContextSource $context = null ) {
 		if ( $context instanceof IContextSource ) {
 			$this->setContext( $context );
 		}
