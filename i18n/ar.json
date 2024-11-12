@@ -3,7 +3,8 @@
 		"authors": [
 			"Alshamiri1",
 			"Asma",
-			"محمد أحمد عبد الفتاح"
+			"محمد أحمد عبد الفتاح",
+			"Meno25"
 		]
 	},
 	"picturegame-signup": "أنشئ حسابًا",
@@ -62,7 +63,7 @@
 	"picturegame-mostheat": "معظم الحرارة",
 	"picturegame-mostvotes": "معظم الأصوات",
 	"picturegame-nomoretitle": "لا مزيد من ألعاب الصور!",
-	"picturegame-no-more": "لا توجد ألعاب صور جديدة للعب.<br /> ! N! لا تحزن ، [{{fullurl: Special: PictureGameHome | picGameAction = startCreate}} أنشئ خاصتك الخاصة] أو [[Special: RandomPoll | قم بإجراء بعض الاستطلاعات!]]",
+	"picturegame-no-more": "لا توجد ألعاب صور جديدة للعب.<br />\nلا تحزن، [{{fullurl:Special:PictureGameHome|picGameAction=startCreate}} قم بإنشاء صورتك الخاصة] أو [[Special:RandomPoll|قم بإجراء بعض استطلاعات الرأي!]]",
 	"picturegame-create-threshold-title": "قم بإنشاء لعبة صور",
 	"picturegame-create-threshold-reason": "عذرًا ، لا يمكنك إنشاء لعبة صور حتى يكون لديك $1 على الأقل",
 	"picturegame-create-threshold-edits": "{{PLURAL:$1| تحرير واحد | تعديل $1 }}",
@@ -105,7 +106,7 @@
 	"action-picturegameadmin": "إدارة ألعاب الصور",
 	"right-picturegameadmin": "إدارة ألعاب الصور",
 	"log-name-picturegame": "سجل لعبة الصورة",
-	"logentry-picturegame-create": "$1 {{GENDER:$2| تم إنشاؤها}} لعبة صور [[Special: PictureGameHome / $4 | # $4 ]] بعنوان [[Special: PictureGameHome / $4 | \" $5 \"]]",
+	"logentry-picturegame-create": "تم إنشاء لعبة صور $1 {{GENDER:$2|}} [[Special:PictureGameHome/$4|#$4]] بعنوان [[Special:PictureGameHome/$4|\"$5\"]]",
 	"logentry-picturegame-delete": "$1 {{GENDER:$2| حذف}} لعبة الصور # $4",
-	"logentry-picturegame-edit": "$1 {{GENDER:$2| محرر}} لعبة صور [[Special: PictureGameHome / $4 | # $4 : \" $5 \"]]"
+	"logentry-picturegame-edit": "لعبة صور $1 {{GENDER:$2|تم التعديل}} [[Special:PictureGameHome/$4|#$4: \"$5\"]]"
 }
