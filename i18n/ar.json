@@ -7,6 +7,7 @@
 			"Meno25"
 		]
 	},
+	"picturegame-desc": "يسمح بإنشاء [[Special:PictureGameHome|ألعاب الصور]]",
 	"picturegame-signup": "أنشئ حسابًا",
 	"picturegame-login": "تسجيل الدخول",
 	"picturegame-submittedby": "مقدم من",
@@ -24,6 +25,7 @@
 	"picturegame-adminpanelreason": "السبب",
 	"picturegame-adminpanelflagged": "الصور التي تم الإبلاغ عنها:",
 	"picturegame-adminpanelprotected": "الصور المحمية:",
+	"picturegame-adminpanelunflag": "إزالة العلم",
 	"picturegame-adminpanelunflag-confirm": "هل أنت متأكد أنك تريد إلغاء علم لعبة الصور هذه؟",
 	"picturegame-adminpaneldelete": "حذف",
 	"picturegame-adminpaneldelete-confirm": "هل أنت متأكد أنك تريد حذف لعبة الصور هذه؟",
@@ -84,7 +86,9 @@
 	"picturegame-create-threshold-quiz-points": "{{PLURAL:$1| نقطة اختبار واحدة | نقاط اختبار $1 }}",
 	"picturegame-next": "التالي",
 	"picturegame-prev": "السابق",
+	"picturegame-sorted-most-heat": "ألعاب الصور مرتبة حسب الأكثر حرارة",
 	"picturegame-sorted-most-votes": "ألعاب الصور مرتبة حسب معظم الأصوات",
+	"picturegame-sorted-least-heat": "ألعاب الصور مرتبة حسب الأقل حرارة",
 	"picturegame-sorted-least-votes": "ألعاب الصور مرتبة حسب أقل عدد من الأصوات",
 	"picturegame-gallery": "معرض",
 	"picturegame-gallery-empty": "لا توجد صور لعبة الصور حتى الان.",
@@ -106,7 +110,12 @@
 	"action-picturegameadmin": "إدارة ألعاب الصور",
 	"right-picturegameadmin": "إدارة ألعاب الصور",
 	"log-name-picturegame": "سجل لعبة الصورة",
+	"log-description-picturegame": "هذا سجل لجميع إجراءات [[Special:PictureGameHome|لعبة الصور]] (الإنشاءات، التحرير، وضع العلامات، الحذف).",
 	"logentry-picturegame-create": "تم إنشاء لعبة صور $1 {{GENDER:$2|}} [[Special:PictureGameHome/$4|#$4]] بعنوان [[Special:PictureGameHome/$4|\"$5\"]]",
 	"logentry-picturegame-delete": "$1 {{GENDER:$2| حذف}} لعبة الصور # $4",
-	"logentry-picturegame-edit": "لعبة صور $1 {{GENDER:$2|تم التعديل}} [[Special:PictureGameHome/$4|#$4: \"$5\"]]"
+	"logentry-picturegame-edit": "لعبة صور $1 {{GENDER:$2|تم التعديل}} [[Special:PictureGameHome/$4|#$4: \"$5\"]]",
+	"logentry-picturegame-flag": "لعبة صور $1 {{GENDER:$2|تم وضع علامة عليها}} [[Special:PictureGameHome/$4|#$4]]",
+	"logentry-picturegame-protect": "$1 {{GENDER:$2|حمى|حمت}} الصور للعبة الصور [[Special:PictureGameHome/$4|#$4]]",
+	"logentry-picturegame-unflag": "لعبة صور $1 {{GENDER:$2|بدون علامة}} [[Special:PictureGameHome/$4|#$4]]",
+	"logentry-picturegame-unprotect": "$1 {{GENDER:$2|أزال حماية|أزالت حماية}} الصور للعبة الصور [[Special:PictureGameHome/$4|#$4]]"
 }
