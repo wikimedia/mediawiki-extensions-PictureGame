@@ -110,7 +110,12 @@
 	"action-picturegameadmin": "إدارة ألعاب الصور",
 	"right-picturegameadmin": "إدارة ألعاب الصور",
 	"log-name-picturegame": "سجل لعبة الصورة",
+	"log-description-picturegame": "هذا سجل لجميع إجراءات [[Special:PictureGameHome|لعبة الصور]] (الإنشاءات، التحرير، وضع العلامات، الحذف).",
 	"logentry-picturegame-create": "تم إنشاء لعبة صور $1 {{GENDER:$2|}} [[Special:PictureGameHome/$4|#$4]] بعنوان [[Special:PictureGameHome/$4|\"$5\"]]",
 	"logentry-picturegame-delete": "$1 {{GENDER:$2| حذف}} لعبة الصور # $4",
-	"logentry-picturegame-edit": "لعبة صور $1 {{GENDER:$2|تم التعديل}} [[Special:PictureGameHome/$4|#$4: \"$5\"]]"
+	"logentry-picturegame-edit": "لعبة صور $1 {{GENDER:$2|تم التعديل}} [[Special:PictureGameHome/$4|#$4: \"$5\"]]",
+	"logentry-picturegame-flag": "لعبة صور $1 {{GENDER:$2|تم وضع علامة عليها}} [[Special:PictureGameHome/$4|#$4]]",
+	"logentry-picturegame-protect": "$1 {{GENDER:$2|حمى|حمت}} الصور للعبة الصور [[Special:PictureGameHome/$4|#$4]]",
+	"logentry-picturegame-unflag": "لعبة صور $1 {{GENDER:$2|بدون علامة}} [[Special:PictureGameHome/$4|#$4]]",
+	"logentry-picturegame-unprotect": "$1 {{GENDER:$2|أزال حماية|أزالت حماية}} الصور للعبة الصور [[Special:PictureGameHome/$4|#$4]]"
 }
