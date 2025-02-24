@@ -2,7 +2,8 @@
 	"@metadata": {
 		"authors": [
 			"Kareyac",
-			"Pacha Tchernof"
+			"Pacha Tchernof",
+			"Yurina Tatiana"
 		]
 	},
 	"picturegame-login": "Войти",
@@ -14,6 +15,7 @@
 	"picturegame-creategamefiletext": "Файл",
 	"picturegame-editgame-editing-title": "Редактирование $1",
 	"picturegame-buttonupload": "Загрузить",
+	"picturegame-buttonsubmit": "Отправить",
 	"picturegame-next": "след.",
 	"picturegame-prev": "пред.",
 	"picturegame-gallery": "Галерея",
