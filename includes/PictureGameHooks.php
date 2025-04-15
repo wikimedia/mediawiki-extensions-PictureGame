@@ -5,6 +5,9 @@
  *
  * @file
  */
+
+use MediaWiki\SpecialPage\SpecialPage;
+
 class PictureGameHooks {
 
 	/**
@@ -60,7 +63,7 @@ class PictureGameHooks {
 	 * Adds the new, required database tables when the user runs the core
 	 * MediaWiki update script, /maintenance/update.php.
 	 *
-	 * @param DatabaseUpdater $updater
+	 * @param MediaWiki\Installer\DatabaseUpdater $updater
 	 */
 	public static function onLoadExtensionSchemaUpdates( $updater ) {
 		$dbType = $updater->getDB()->getType();

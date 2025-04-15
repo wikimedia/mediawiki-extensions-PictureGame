@@ -20,7 +20,10 @@
  * @see http://bugzilla.shoutwiki.com/show_bug.cgi?id=22
  * @property PictureGameUpload $mUpload
  */
-class SpecialPictureGameAjaxUpload extends SpecialUpload {
+
+use MediaWiki\MediaWikiServices;
+
+class SpecialPictureGameAjaxUpload extends MediaWiki\Specials\SpecialUpload {
 	/**
 	 * Constructor: initialise object
 	 * Get data POSTed through the form and assign them to the object
@@ -95,14 +98,7 @@ class SpecialPictureGameAjaxUpload extends SpecialUpload {
 
 		// Allow framing so that after uploading an image, we can actually show
 		// it to the user :)
-		if ( method_exists( $out, 'allowClickjacking' ) ) {
-			// Up to MW 1.41
-			// @phan-suppress-next-line PhanUndeclaredMethod
-			$out->allowClickjacking();
-		} else {
-			// MW 1.41+
-			$out->setPreventClickjacking( false );
-		}
+		$out->setPreventClickjacking( false );
 
 		# Check that uploading is enabled
 		if ( !UploadBase::isEnabled() ) {
@@ -166,26 +162,19 @@ class SpecialPictureGameAjaxUpload extends SpecialUpload {
 			'destwarningack' => (bool)$this->mDestWarningAck,
 			'destfile' => $this->mDesiredDestName,
 		], $this->getContext() );
+
 		$form->setTitle( $this->getPageTitle() );
 
 		# Check the token, but only if necessary
-		if ( !$this->mTokenOk && !$this->mCancelUpload
-				&& ( $this->mUpload && $this->mUploadClicked ) ) {
-			if ( method_exists( $form, 'addPreHtml' ) ) {
-				// MW 1.38+
-				$form->addPreHtml( $this->msg( 'session_fail_preview' )->parse() );
-			} else {
-				$form->addPreText( $this->msg( 'session_fail_preview' )->parse() );
-			}
+		if (
+			!$this->mTokenOk && !$this->mCancelUpload &&
+			( $this->mUpload && $this->mUploadClicked )
+		) {
+			$form->addPreHtml( $this->msg( 'session_fail_preview' )->parse() );
 		}
 
 		# Add upload error message
-		if ( method_exists( $form, 'addPreHtml' ) ) {
-			// MW 1.38+
-			$form->addPreHtml( $message );
-		} else {
-			$form->addPreText( $message );
-		}
+		$form->addPreHtml( $message );
 
 		return $form;
 	}
@@ -276,7 +265,7 @@ class SpecialPictureGameAjaxUpload extends SpecialUpload {
 			}
 		}
 
-		$contLang = MediaWiki\MediaWikiServices::getInstance()->getContentLanguage();
+		$contLang = MediaWikiServices::getInstance()->getContentLanguage();
 		$categoryText = '[[' . $contLang->getNsText( NS_CATEGORY ) . ':' .
 			$this->msg( 'picturegame-images-category' )->inContentLanguage()->plain() . ']]';
 		// Get the page text if this is not a reupload

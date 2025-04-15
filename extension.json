@@ -1,6 +1,6 @@
 {
 	"name": "PictureGame",
-	"version": "4.4.0",
+	"version": "4.5.0",
 	"author": [
 		"Aaron Wright",
 		"Ashish Datta",
@@ -9,13 +9,16 @@
 	],
 	"license-name": "GPL-2.0-or-later",
 	"requires": {
-		"MediaWiki": ">= 1.35.3"
+		"MediaWiki": ">= 1.43.0"
 	},
 	"url": "https://www.mediawiki.org/wiki/Extension:PictureGame",
 	"descriptionmsg": "picturegame-desc",
 	"type": "other",
 	"config": {
-		"CreatePictureGameThresholds": []
+		"CreatePictureGameThresholds": {
+			"description": "Array of conditions that the user must meet before being allowed to create a new picture game. By default this is empty = no restrictions. Refer to the online documentation for further details.",
+			"value": []
+		}
 	},
 	"SpecialPages": {
 		"PictureGameHome": "SpecialPictureGameHome",
@@ -125,5 +128,5 @@
 			"picturegameadmin": true
 		}
 	},
-	"manifest_version": 1
+	"manifest_version": 2
 }

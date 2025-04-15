@@ -13,8 +13,9 @@
  */
 
 use MediaWiki\MediaWikiServices;
+use MediaWiki\Title\Title;
 
-class SpecialPictureGameHome extends UnlistedSpecialPage {
+class SpecialPictureGameHome extends MediaWiki\SpecialPage\UnlistedSpecialPage {
 	/**
 	 * picturegame_images.flag used to be an enum() and that sucked, big time
 	 *
@@ -189,13 +190,15 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 			//return;
 		}
 
-		$dbw = MediaWikiServices::getInstance()->getDBLoadBalancer()->getConnection( DB_PRIMARY );
+		$services = MediaWikiServices::getInstance();
+		$dbw = $services->getDBLoadBalancer()->getConnection( DB_PRIMARY );
 		$dbw->delete( 'picturegame_images', [ 'id' => $id ], __METHOD__ );
 
-		$services = MediaWikiServices::getInstance();
 		$cache = $services->getMainWANObjectCache();
 		$key = $cache->makeKey( 'user', 'profile', 'picgame', $user->getId() );
 		$cache->delete( $key );
+
+		$wikiPageFactory = $services->getWikiPageFactory();
 
 		/* Pop the images out of MediaWiki also */
 		// $img_one = $services->getRepoGroup()->findFile( $image1 );
@@ -203,13 +206,7 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 		if ( $image1 ) {
 			$img_one = Title::makeTitle( NS_FILE, $image1 );
 			$reason = 'Picture Game image 1 Delete';
-			if ( method_exists( MediaWikiServices::class, 'getWikiPageFactory' ) ) {
-				// MW 1.36+
-				$wikipage = $services->getWikiPageFactory()->newFromTitle( $img_one );
-			} else {
-				// @phan-suppress-next-line PhanUndeclaredStaticMethod
-				$wikipage = WikiPage::factory( $img_one );
-			}
+			$wikipage = $wikiPageFactory->newFromTitle( $img_one );
 			$status = $wikipage->doDeleteArticleReal( $reason, $user );
 			$oneResult = $status->isOK();
 		}
@@ -217,13 +214,7 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 		if ( $image2 ) {
 			$img_two = Title::makeTitle( NS_FILE, $image2 );
 			$reason = 'Picture Game image 2 Delete';
-			if ( method_exists( MediaWikiServices::class, 'getWikiPageFactory' ) ) {
-				// MW 1.36+
-				$wikipage = $services->getWikiPageFactory()->newFromTitle( $img_two );
-			} else {
-				// @phan-suppress-next-line PhanUndeclaredStaticMethod
-				$wikipage = WikiPage::factory( $img_two );
-			}
+			$wikipage = $wikiPageFactory->newFromTitle( $img_two );
 			$status = $wikipage->doDeleteArticleReal( $reason, $user );
 			$twoResult = $status->isOK();
 		}
@@ -335,7 +326,9 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 
 		$id = $request->getInt( 'id' );
 
-		$dbw = MediaWikiServices::getInstance()->getDBLoadBalancer()->getConnection( DB_PRIMARY );
+		$services = MediaWikiServices::getInstance();
+
+		$dbw = $services->getDBLoadBalancer()->getConnection( DB_PRIMARY );
 		$row = $dbw->selectRow(
 			'picturegame_images',
 			'*',
@@ -355,7 +348,7 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 		$title_text = $row->title;
 		$img1_caption_text = $row->img1_caption;
 		$img2_caption_text = $row->img2_caption;
-		$repoGroup = MediaWikiServices::getInstance()->getRepoGroup();
+		$repoGroup = $services->getRepoGroup();
 
 		// I assume MediaWiki does some caching with these functions?
 		$img_one = $repoGroup->findFile( $row->img1 );
@@ -369,8 +362,7 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 				$imgOneWidth = $img_one->getWidth();
 			}
 		}
-		$imgOne = '<img width="' . $imgOneWidth . '" alt="" src="' .
-			$thumb_one_url . '?' . time() . '"/>';
+		$imgOne = '<img width="' . $imgOneWidth . '" alt="" src="' . $thumb_one_url . '?' . time() . '"/>';
 		$imgOneNameSafe = htmlspecialchars( $row->img1, ENT_QUOTES );
 		$imgOneCaptionSafe = htmlspecialchars( $row->img1_caption, ENT_QUOTES );
 
@@ -384,8 +376,7 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 				$imgTwoWidth = $img_one->getWidth();
 			}
 		}
-		$imgTwo = '<img width="' . $imgTwoWidth . '" alt="" src="' .
-			$thumb_two_url . '?' . time() . '"/>';
+		$imgTwo = '<img width="' . $imgTwoWidth . '" alt="" src="' . $thumb_two_url . '?' . time() . '"/>';
 		$imgTwoNameSafe = htmlspecialchars( $row->img2, ENT_QUOTES );
 		$imgTwoCaptionSafe = htmlspecialchars( $row->img2_caption, ENT_QUOTES );
 
@@ -538,6 +529,7 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 		$out->addModuleStyles( 'ext.pictureGame.adminPanel' );
 
 		$out->setPageTitle( $this->msg( 'picturegame-adminpaneltitle' )->text() );
+
 		$output .= '
 		<div class="back-link">
 			<a href="' . htmlspecialchars( $this->getPageTitle()->getFullURL( 'picGameAction=startGame' ) ) . '"> ' .
@@ -547,7 +539,8 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 		<div id="admin-container" class="admin-container">
 			<p><strong>' . $this->msg( 'picturegame-adminpanelflagged' )->escaped() . '</strong></p>';
 
-		$dbw = MediaWikiServices::getInstance()->getDBLoadBalancer()->getConnection( DB_PRIMARY );
+		$services = MediaWikiServices::getInstance();
+		$dbw = $services->getDBLoadBalancer()->getConnection( DB_PRIMARY );
 		$res = $dbw->select(
 			'picturegame_images',
 			[ 'id', 'img1', 'img2', 'comment' ],
@@ -564,7 +557,7 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 		if ( $res->numRows() <= 0 ) {
 			$output .= $this->msg( 'picturegame-none' )->escaped();
 		}
-		$repoGroup = MediaWikiServices::getInstance()->getRepoGroup();
+		$repoGroup = $services->getRepoGroup();
 
 		foreach ( $res as $row ) {
 			$img_one_tag = $img_two_tag = '';
@@ -619,7 +612,6 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 		$output .= '</div>
 		<div id="admin-container" class="admin-container">
 			<p><strong>' . $this->msg( 'picturegame-adminpanelprotected' )->escaped() . '</strong></p>';
-		$dbw = MediaWikiServices::getInstance()->getDBLoadBalancer()->getConnection( DB_PRIMARY );
 		$res = $dbw->select(
 			'picturegame_images',
 			[ 'id', 'img1', 'img2' ],
@@ -1700,7 +1692,8 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 		$chain = $request->getVal( 'chain' );
 		$id = -1;
 
-		$dbr = MediaWikiServices::getInstance()->getDBLoadBalancer()->getConnection( DB_PRIMARY );
+		$services = MediaWikiServices::getInstance();
+		$dbr = $services->getDBLoadBalancer()->getConnection( DB_PRIMARY );
 
 		// make sure no one is trying to do bad things
 		if ( $key == md5( $chain . $this->SALT ) ) {
@@ -1754,7 +1747,7 @@ class SpecialPictureGameHome extends UnlistedSpecialPage {
 				$stats->incStatField( 'picturegame_created' );
 
 				// Purge object cache
-				$cache = MediaWikiServices::getInstance()->getMainWANObjectCache();
+				$cache = $services->getMainWANObjectCache();
 				// @note Keep this cache key in sync with whatever is used on
 				// /extensions/SocialProfile/UserProfile/includes/UserProfilePage.php
 				$key = $cache->makeKey( 'user', 'profile', 'picgame', $user->getId() );
