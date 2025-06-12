@@ -4,6 +4,7 @@
 			"Alshamiri1",
 			"Asma",
 			"Meno25",
+			"Mohammed Qays",
 			"محمد أحمد عبد الفتاح"
 		]
 	},
@@ -70,7 +71,7 @@
 	"picturegame-create-threshold-reason": "عذرًا ، لا يمكنك إنشاء لعبة صور حتى يكون لديك $1 على الأقل",
 	"picturegame-create-threshold-edits": "{{PLURAL:$1| تحرير واحد | تعديل $1 }}",
 	"picturegame-create-threshold-votes": "{{PLURAL:$1| صوت واحد | أصوات $1 }}",
-	"picturegame-create-threshold-comments": "{{PLURAL:$1| تعليق واحد | تعليقات $1 }}",
+	"picturegame-create-threshold-comments": "{{PLURAL:$1|تعليق واحد|$1 تعليقات}}",
 	"picturegame-create-threshold-comment-score-plus": "{{PLURAL:$1| واحد ممتاز | $1 رائع}}",
 	"picturegame-create-threshold-comment-score-minus": "{{PLURAL:$1| تعليق واحد تم تجاهله | $1 تعليق تم تجاهله}}",
 	"picturegame-create-threshold-recruits": "{{PLURAL:$1| مجند واحد | المجندون $1 }}",
