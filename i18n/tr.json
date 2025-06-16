@@ -5,7 +5,8 @@
 			"MuratTheTurkish",
 			"SaldırganSincap",
 			"Selcuksntrk",
-			"Rapsar"
+			"Rapsar",
+			"ToprakM"
 		]
 	},
 	"picturegame-desc": "[[Special:PictureGameHome|Resim oyunları]] yapmaya izin verir",
@@ -23,7 +24,7 @@
 	"picturegame-backbutton": "Geri Dön",
 	"picturegame-previousgame": "Önceki Oyun",
 	"picturegame-adminpaneltitle": "Resim Oyunu Yönetici Paneli",
-	"picturegame-adminpanelreason": "Sebep",
+	"picturegame-adminpanelreason": "Gerekçe",
 	"picturegame-adminpanelflagged": "İşaretli Resimler:",
 	"picturegame-adminpanelprotected": "Korunan Resimler:",
 	"picturegame-adminpanelunflag": "İşareti kaldır",
