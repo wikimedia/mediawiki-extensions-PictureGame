@@ -1826,7 +1826,7 @@ class SpecialPictureGameHome extends MediaWiki\SpecialPage\UnlistedSpecialPage {
 		// You need to be logged in to create a new picture game (because
 		// usually only registered users can upload files)
 		if ( !$user->isRegistered() ) {
-			$out->setPageTitle( $this->msg( 'picturegame-creategametitle' ) );
+			$out->setPageTitle( $this->msg( 'picturegame-creategametitle' )->escaped() );
 			$output = $this->msg( 'picturegame-creategamenotloggedin' )->escaped();
 			$output .= "<p>
 				<input type=\"button\" class=\"site-button\" onclick=\"window.location='" .
