@@ -19,7 +19,7 @@
 ( function ( $, mw, OO ) {
 	'use strict';
 
-	var getThumbnail, ImageProcessDialog, openImageBrowser, setupPage;
+	let getThumbnail, ImageProcessDialog, openImageBrowser, setupPage;
 
 	/**
 	 * Get an image thumbnail with the given width or 75px if not supplied
@@ -69,7 +69,7 @@
 	 * to initialize widgets, and to set up event handlers.
 	 */
 	ImageProcessDialog.prototype.initialize = function () {
-		var defaultSearchTerm;
+		let defaultSearchTerm;
 
 		ImageProcessDialog.super.prototype.initialize.apply( this, arguments );
 
@@ -96,14 +96,14 @@
 	 * @param action
 	 */
 	ImageProcessDialog.prototype.getActionProcess = function ( action ) {
-		var dialog, fileTitle;
+		let dialog, fileTitle;
 
 		dialog = this;
 		dialog.pushPending();
 
 		if ( action ) {
-			return new OO.ui.Process( function () {
-				var buttonElementSelector, fileHeight, fileObj, fileUrl, fileTitleObj, previewElement, targetFieldID, width;
+			return new OO.ui.Process( () => {
+				let buttonElementSelector, fileHeight, fileObj, fileUrl, fileTitleObj, previewElement, targetFieldID, width;
 
 				fileObj = dialog.content.getResults().findSelectedItem();
 				if ( fileObj === null ) {
@@ -115,7 +115,7 @@
 				width = 128;
 
 				getThumbnail( fileObj.getData().title, width )
-					.done( function ( data ) {
+					.done( ( data ) => {
 						fileUrl = data.query.pages[ 0 ].imageinfo[ 0 ].thumburl;
 						fileHeight = data.query.pages[ 0 ].imageinfo[ 0 ].thumbheight;
 						fileTitleObj = new mw.Title( fileObj.getData().title );
@@ -223,7 +223,7 @@
 	 *  #image-one-tag or #image-two-tag when editing an existing game
 	 */
 	openImageBrowser = function ( selector ) {
-		var windowManager, processDialog;
+		let windowManager, processDialog;
 
 		windowManager = new OO.ui.WindowManager();
 		$( 'body' ).append( windowManager.$element );
@@ -246,7 +246,7 @@
 	 * Initial setup function run when DOM loaded.
 	 */
 	setupPage = function () {
-		var imageBrowserButton, imageBrowserButtonTwo, imageBrowserButtonEditMode, $selectorWidget,
+		let imageBrowserButton, imageBrowserButtonTwo, imageBrowserButtonEditMode, $selectorWidget,
 			$selectorWidgetTwo, $selectorWidgetEditMode, which;
 
 		// Defining the button

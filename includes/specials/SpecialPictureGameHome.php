@@ -809,9 +809,7 @@ class SpecialPictureGameHome extends MediaWiki\SpecialPage\UnlistedSpecialPage {
 			$sortheader = $this->msg( 'picturegame-sorted-most-heat' )->text();
 		}
 
-		if ( isset( $sortheader ) ) {
-			$out->setPageTitle( $sortheader );
-		}
+		$out->setPageTitle( $sortheader );
 
 		// Add CSS
 		$out->addModuleStyles( 'ext.pictureGame.gallery' );
@@ -2040,13 +2038,13 @@ class SpecialPictureGameHome extends MediaWiki\SpecialPage\UnlistedSpecialPage {
 		$logEntry = new ManualLogEntry( 'picturegame', $action );
 		$logEntry->setPerformer( $this->getUser() );
 		$logEntry->setTarget( $this->getPageTitle() );
-		if ( isset( $reason ) && $reason ) {
+		if ( $reason ) {
 			$logEntry->setComment( $reason );
 		}
 		$params = [
 			'4::id' => $id
 		];
-		if ( isset( $title ) && $title !== '' ) {
+		if ( $title !== '' ) {
 			$params['5::title'] = $title;
 		}
 		$logEntry->setParameters( $params );

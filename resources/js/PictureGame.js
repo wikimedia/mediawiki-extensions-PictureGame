@@ -24,7 +24,7 @@ var PictureGame = window.PictureGame = {
 				key: __admin_panel_key__,
 				id: id
 			},
-			function ( data ) {
+			( data ) => {
 				OO.ui.alert( data );
 			}
 		);
@@ -50,7 +50,7 @@ var PictureGame = window.PictureGame = {
 				img1: imageName1,
 				img2: imageName2
 			},
-			function ( data ) {
+			( data ) => {
 				OO.ui.alert( data );
 			}
 		);
@@ -72,7 +72,7 @@ var PictureGame = window.PictureGame = {
 				key: __admin_panel_key__,
 				id: id
 			},
-			function ( data ) {
+			( data ) => {
 				alert( data );
 			}
 		);
@@ -109,7 +109,7 @@ var PictureGame = window.PictureGame = {
 	 * @param {string} prefix Either "imageOne_", "imageTwo_" or not set; affects what IDs this method uses
 	 */
 	uploadError: function ( message, prefix ) {
-		var editFrameId, frameId, loaderId;
+		let editFrameId, frameId, loaderId;
 
 		if ( !prefix ) {
 			loaderId = 'loadingImg';
@@ -149,7 +149,7 @@ var PictureGame = window.PictureGame = {
 	 * @param {string} prefix "imageOne_", "imageTwo_" or not set
 	 */
 	completeImageUpload: function ( prefix ) {
-		var frame, frameId, loadingId, loadingImg;
+		let frame, frameId, loadingId, loadingImg;
 
 		if ( !prefix ) {
 			frameId = 'edit-image-frame';
@@ -206,14 +206,14 @@ var PictureGame = window.PictureGame = {
 	 * @see https://phabricator.wikimedia.org/T155451
 	 */
 	flagImg: function () {
-		var options = {
+		const options = {
 			actions: [
 				{ label: mw.msg( 'cancel' ) },
 				{ label: mw.msg( 'picturegame-reportimages' ), action: 'accept', flags: [ 'destructive', 'primary' ] }
 			],
 			textInput: { placeholder: mw.msg( 'picturegame-adminpanelreason' ) }
 		};
-		OO.ui.prompt( mw.msg( 'picturegame-flagimgconfirm' ), options ).then( function ( reason ) {
+		OO.ui.prompt( mw.msg( 'picturegame-flagimgconfirm' ), options ).then( ( reason ) => {
 			if ( reason !== null ) {
 				jQuery.get(
 					mw.config.get( 'wgScript' ),
@@ -224,7 +224,7 @@ var PictureGame = window.PictureGame = {
 						id: document.getElementById( 'id' ).value,
 						comment: reason
 					},
-					function ( data ) {
+					( data ) => {
 						document.getElementById( 'serverMessages' ).innerHTML =
 						'<strong>' + data + '</strong>';
 					}
@@ -239,7 +239,7 @@ var PictureGame = window.PictureGame = {
 	},
 
 	protectImages: function ( msg ) {
-		var ask = confirm( msg );
+		const ask = confirm( msg );
 		if ( ask ) {
 			jQuery.get(
 				mw.config.get( 'wgScript' ),
@@ -249,7 +249,7 @@ var PictureGame = window.PictureGame = {
 					key: document.getElementById( 'key' ).value,
 					id: document.getElementById( 'id' ).value
 				},
-				function ( data ) {
+				( data ) => {
 					document.getElementById( 'serverMessages' ).innerHTML =
 						'<strong>' + data + '</strong>';
 				}
@@ -261,7 +261,7 @@ var PictureGame = window.PictureGame = {
 		LightBox.init(); // creates #lightboxText & friends
 		if ( document.getElementById( 'lightboxText' ) !== null ) {
 			// pop up the lightbox
-			var objLink = {};
+			const objLink = {};
 			objLink.href = '#';
 			objLink.title = '';
 
@@ -283,7 +283,7 @@ var PictureGame = window.PictureGame = {
 					img: picID,
 					nextid: document.getElementById( 'nextid' ).value
 				},
-				function ( data ) {
+				( data ) => {
 					window.location =
 						'?title=Special:PictureGameHome&picGameAction=startGame&lastid=' +
 						document.getElementById( 'id' ).value + '&id=' +
@@ -354,7 +354,7 @@ var PictureGame = window.PictureGame = {
 		jQuery( '#imageOne' ).append(
 			jQuery( '<a>' )
 				.attr( 'href', '#' )
-				.on( 'click', function () {
+				.on( 'click', () => {
 					PictureGame.reupload( 1 );
 				} )
 				.text( window.parent.mw.msg( 'picturegame-js-edit' ) )
@@ -369,7 +369,7 @@ var PictureGame = window.PictureGame = {
 		// document.picGamePlay.picOneDesc.value = imgDesc;
 
 		// as per https://www.mediawiki.org/wiki/Special:Code/MediaWiki/68271
-		var imgOne = jQuery( '#imageOne' );
+		const imgOne = jQuery( '#imageOne' );
 		imgOne.fadeIn( 2000 );
 
 		// Show the start button only when both images have been uploaded
@@ -378,7 +378,7 @@ var PictureGame = window.PictureGame = {
 			document.picGamePlay.picOneURL.value !== ''
 		) {
 			// as per https://www.mediawiki.org/wiki/Special:Code/MediaWiki/68271
-			var button = jQuery( '#startButton' );
+			const button = jQuery( '#startButton' );
 			button.fadeIn( 2000 );
 		}
 	},
@@ -393,7 +393,7 @@ var PictureGame = window.PictureGame = {
 		jQuery( '#imageTwo' ).append(
 			jQuery( '<a>' )
 				.attr( 'href', '#' )
-				.on( 'click', function () {
+				.on( 'click', () => {
 					PictureGame.reupload( 2 );
 				} )
 				.text( window.parent.mw.msg( 'picturegame-js-edit' ) )
@@ -408,18 +408,18 @@ var PictureGame = window.PictureGame = {
 		// document.picGamePlay.picTwoDesc.value = imgDesc;
 
 		// as per https://www.mediawiki.org/wiki/Special:Code/MediaWiki/68271
-		var imgTwo = jQuery( '#imageTwo' );
+		const imgTwo = jQuery( '#imageTwo' );
 		imgTwo.fadeIn( 2000 );
 
 		if ( document.picGamePlay.picOneURL.value !== '' ) {
 			// as per https://www.mediawiki.org/wiki/Special:Code/MediaWiki/68271
-			var button = jQuery( '#startButton' );
+			const button = jQuery( '#startButton' );
 			button.fadeIn( 2000 );
 		}
 	},
 
 	startGame: function () {
-		var isError = false,
+		let isError = false,
 			gameTitle = document.getElementById( 'picGameTitle' ).value,
 			imgOneURL = document.getElementById( 'picOneURL' ).value,
 			imgTwoURL = document.getElementById( 'picTwoURL' ).value,
@@ -461,17 +461,17 @@ var PictureGame = window.PictureGame = {
 	}
 };
 
-jQuery( function () {
+jQuery( () => {
 	// Handle clicks on "Un-flag" links on the admin panel
 	jQuery( 'div.admin-controls a.picgame-unflag-link' ).on( 'click', function ( event ) {
 		event.preventDefault();
-		var options = {
+		const options = {
 				actions: [
 					{ label: mw.msg( 'cancel' ) },
 					{ label: mw.msg( 'picturegame-adminpanelunflag' ), action: 'accept', flags: [ 'constructive' ] }
 				]
 			}, id = jQuery( this ).parent().parent().attr( 'id' );
-		OO.ui.confirm( mw.msg( 'picturegame-adminpanelunflag-confirm' ), options ).done( function ( confirmed ) {
+		OO.ui.confirm( mw.msg( 'picturegame-adminpanelunflag-confirm' ), options ).done( ( confirmed ) => {
 			if ( confirmed ) {
 				PictureGame.unflag( id );
 			}
@@ -481,7 +481,7 @@ jQuery( function () {
 	// Handle clicks on "Delete" links on the admin panel
 	jQuery( 'div.admin-controls a.picgame-delete-link' ).on( 'click', function ( event ) {
 		event.preventDefault();
-		var options = {
+		const options = {
 				actions: [
 					{ label: mw.msg( 'cancel' ) },
 					{ label: mw.msg( 'picturegame-adminpaneldelete' ), action: 'accept', flags: [ 'destructive' ] }
@@ -505,30 +505,30 @@ jQuery( function () {
 	} );
 
 	// Handle clicks on "Protect" links on the admin panel
-	jQuery( 'a.picgame-protect-link' ).on( 'click', function ( event ) {
+	jQuery( 'a.picgame-protect-link' ).on( 'click', ( event ) => {
 		event.preventDefault();
 		PictureGame.protectImages( mw.msg( 'picturegame-protectimgconfirm' ) );
 	} );
 
-	jQuery( 'div.edit-button-pic-game a.picgame-edit-link' ).on( 'click', function ( event ) {
+	jQuery( 'div.edit-button-pic-game a.picgame-edit-link' ).on( 'click', ( event ) => {
 		event.preventDefault();
 		PictureGame.editPanel();
 	} );
 
 	// Permalink
-	jQuery( 'div#utilityButtons a.picgame-permalink' ).on( 'click', function ( event ) {
+	jQuery( 'div#utilityButtons a.picgame-permalink' ).on( 'click', ( event ) => {
 		event.preventDefault();
 		window.parent.document.location = window.location.href.replace( 'startGame', 'renderPermalink' );
 	} );
 
 	// "Flag" link
-	jQuery( 'div#utilityButtons a.picgame-flag-link' ).on( 'click', function ( event ) {
+	jQuery( 'div#utilityButtons a.picgame-flag-link' ).on( 'click', ( event ) => {
 		event.preventDefault();
 		PictureGame.flagImg();
 	} );
 
 	// "Skip to game" button
-	jQuery( 'input#skip-button' ).on( 'click', function ( event ) {
+	jQuery( 'input#skip-button' ).on( 'click', ( event ) => {
 		event.preventDefault();
 		PictureGame.skipToGame();
 	} );
@@ -549,9 +549,9 @@ jQuery( function () {
 	// If they change, check the value of the other field as well, and if both fields
 	// have some content, then show the "Create & Play!" button.
 	jQuery( '#picOneURL, #picTwoURL' ).on( 'change', function () {
-		var ID = jQuery( this ).attr( 'id' );
+		const ID = jQuery( this ).attr( 'id' );
 		if ( jQuery( this ).val() !== '' ) {
-			var otherID = ( ID === 'picOneURL' ) ? 'picTwoURL' : 'picOneURL';
+			const otherID = ( ID === 'picOneURL' ) ? 'picTwoURL' : 'picOneURL';
 			if ( jQuery( '#' + otherID ).val() !== '' ) {
 				jQuery( '#startButton' ).fadeIn( 2000 );
 			}
@@ -559,7 +559,7 @@ jQuery( function () {
 	} );
 
 	// "Create and Play!" button on picture game creation form
-	jQuery( 'div#startButton input' ).on( 'click', function ( event ) {
+	jQuery( 'div#startButton input' ).on( 'click', ( event ) => {
 		event.preventDefault();
 		PictureGame.startGame();
 	} );
