@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"Jack Phoenix",
 			"Saederup92"
 		]
 	},
@@ -27,6 +28,7 @@
 	"picturegame-prev": "forrige",
 	"picturegame-gallery": "Galleri",
 	"picturegame-none": "ingen",
+	"picturegame-image-picker-select": "Vælg",
 	"picturegame-js-edit": "Rediger",
 	"picturegame-js-error-title": "Indtast venligst en titel!"
 }
