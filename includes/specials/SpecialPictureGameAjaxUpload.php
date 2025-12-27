@@ -21,6 +21,7 @@
  * @property PictureGameUpload $mUpload
  */
 
+use MediaWiki\Html\Html;
 use MediaWiki\MediaWikiServices;
 
 class SpecialPictureGameAjaxUpload extends MediaWiki\Specials\SpecialUpload {
@@ -207,7 +208,7 @@ class SpecialPictureGameAjaxUpload extends MediaWiki\Specials\SpecialUpload {
 	 */
 	protected function showUploadError( $message ) {
 		$prefix = self::getCallbackPrefix( $this->getRequest() );
-		$message = Xml::encodeJsVar( $message );
+		$message = Html::encodeJsVar( $message );
 		$output = "<script language=\"javascript\">
 			/*<![CDATA[*/
 				// If PictureGame class isn't loaded, then load it via ResourceLoader
@@ -329,7 +330,7 @@ class SpecialPictureGameAjaxUpload extends MediaWiki\Specials\SpecialUpload {
 		$thumb = $img->transform( [ 'width' => $thumbWidth ] );
 		$img_tag = $thumb->toHtml();
 		// @phan-suppress-next-line SecurityCheck-DoubleEscaped I'm quite (but not 100%) sure that this is a false positive
-		$slashedImgTag = Xml::encodeJSVar( $img_tag );
+		$slashedImgTag = Html::encodeJsVar( $img_tag );
 
 		$prefix = self::getCallbackPrefix( $this->getRequest() );
 
@@ -338,7 +339,7 @@ class SpecialPictureGameAjaxUpload extends MediaWiki\Specials\SpecialUpload {
 		// @see extensions/QuizGame/QuestionGameUpload.php,
 		// SpecialQuestionGameUpload::processUpload() for a detailed
 		// description of this fucked up logic
-		$imgName = Xml::encodeJSVar( $img->getTitle()->getDBkey() );
+		$imgName = Html::encodeJsVar( $img->getTitle()->getDBkey() );
 		echo "<script language=\"javascript\">
 			/*<![CDATA[*/
 			if ( typeof PictureGame !== 'object' ) {
