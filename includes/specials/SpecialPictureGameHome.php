@@ -12,6 +12,7 @@
  * @link https://www.mediawiki.org/wiki/Extension:PictureGame Documentation
  */
 
+use MediaWiki\Html\Html;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\Title\Title;
 
@@ -518,8 +519,8 @@ class SpecialPictureGameHome extends MediaWiki\SpecialPage\UnlistedSpecialPage {
 		$request = $this->getRequest();
 		$user = $this->getUser();
 
-		$now = Xml::encodeJsVar( time() );
-		$key = Xml::encodeJsVar( md5( $now . $this->SALT ) );
+		$now = Html::encodeJsVar( time() );
+		$key = Html::encodeJsVar( md5( $now . $this->SALT ) );
 
 		$output = '<script type="text/javascript">
 			var __admin_panel_now__ = ' . $now . ';
