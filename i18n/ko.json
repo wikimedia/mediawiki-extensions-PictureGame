@@ -1,7 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"Ykhwong"
+			"Ykhwong",
+			"Tensama0415"
 		]
 	},
 	"picturegame-signup": "가입하기",
@@ -29,6 +30,22 @@
 	"picturegame-sysmsg-unauthorized": "해당 작업을 수행할 권한이 없습니다.",
 	"picturegame-sysmsg-badkey": "치명적인 오류: 키가 잘못되었습니다.",
 	"picturegame-sysmsg-protect": "이미지가 보호되었습니다!",
+	"picturegame-create-threshold-edits": "{{PLURAL:$1|편집 1회|편집 $1회}}",
+	"picturegame-create-threshold-votes": "{{PLURAL:$1|한 표|$1표}}",
+	"picturegame-create-threshold-comments": "{{PLURAL:$1|의견 1개|의견 $1개}}",
+	"picturegame-create-threshold-comment-score-plus": "{{PLURAL:$1|좋아요 1개|좋아요 $1개}}",
+	"picturegame-create-threshold-comment-score-minus": "{{PLURAL:$1|무시된 댓글 1개|무시된 댓글 $1개}}",
+	"picturegame-create-threshold-recruits": "{{PLURAL:$1|영입 1명|영입 $1명}}",
+	"picturegame-create-threshold-friend-count": "{{PLURAL:$1|친구 1명|친구 $1명}}",
+	"picturegame-create-threshold-foe-count": "{{PLURAL:$1|적 1명|적 $1명}}",
+	"picturegame-create-threshold-weekly-wins": "{{PLURAL:$1|주간 우승 한 번|주간 우승 $1번}}",
+	"picturegame-create-threshold-monthly-wins": "{{PLURAL:$1|월간 우승 한 번|월간 우승 $1번}}",
+	"picturegame-create-threshold-poll-votes": "{{PLURAL:$1|설문 조사 한 표|설문 조사 $1표}}",
+	"picturegame-create-threshold-picture-game-votes": "{{PLURAL:$1|사진 게임 한 표|사진 게임 $1표}}",
+	"picturegame-create-threshold-quiz-created": "{{PLURAL:$1|만든 퀴즈 1개|만든 퀴즈 $1개}}",
+	"picturegame-create-threshold-quiz-answered": "{{PLURAL:$1|답한 퀴즈 1개|답한 퀴즈 $1개}}",
+	"picturegame-create-threshold-quiz-correct": "{{PLURAL:$1|정답을 맞춘 퀴즈 1개|정답을 맞춘 퀴즈 $1개}}",
+	"picturegame-create-threshold-quiz-points": "{{PLURAL:$1|퀴즈 점수 1점|퀴즈 점수 $1점}}",
 	"picturegame-next": "다음",
 	"picturegame-prev": "이전",
 	"picturegame-gallery": "갤러리",
