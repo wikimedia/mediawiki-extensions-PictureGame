@@ -105,7 +105,7 @@
 	"picturegame-js-error-upload-imgtwo": "두 번째 이미지를 업로드하세요!",
 	"picturegame-js-editing-imgone": "이미지 1 편집 중",
 	"picturegame-js-editing-imgtwo": "이미지 2 편집 중",
-	"action-picturegameadmin": "사진 게임을 관리할",
+	"action-picturegameadmin": "사진 게임을 관리",
 	"right-picturegameadmin": "사진 게임을 관리",
 	"log-name-picturegame": "사진 게임 로그",
 	"log-description-picturegame": "모든 [[Special:PictureGameHome|사진 게임]] 작업(생성, 편집, 플래그 관련, 삭제)의 로그입니다.",
