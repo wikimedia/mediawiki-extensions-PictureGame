@@ -4,7 +4,8 @@
 			"Mainframe98",
 			"Mark van Alphen",
 			"McDutchie",
-			"Mitchel Corstjens"
+			"Mitchel Corstjens",
+			"Siebrand"
 		]
 	},
 	"picturegame-desc": "Maakt het mogelijk om [[Special:PictureGameHome|plaatjesspellen]] te maken",
@@ -51,7 +52,7 @@
 	"picturegame-buttonplaygame": "Het plaatjesspel spelen",
 	"picturegame-permalinkflagged": "Deze foto’s zijn gemarkeerd vanwege ongepaste inhoud of auteursrechtelijk beschermd materiaal. Om het plaatjesspel te spelen klikt u op de onderstaande knop.",
 	"picturegame-sysmsg-unauthorized": "U bent daartoe niet bevoegd.",
-	"picturegame-sysmsg-badkey": "Fatale fout: uw sleutel is fout.",
+	"picturegame-sysmsg-badkey": "Onherstelbare fout: uw sleutel is fout.",
 	"picturegame-sysmsg-successfuldelete": "U hebt dit plaatjesspel verwijderd!",
 	"picturegame-sysmsg-unsuccessfuldelete": "Het verwijderen van $1 uit MediaWiki is mislukt!",
 	"picturegame-sysmsg-unflag": "U hebt deze afbeeldingen weer in omloop gebracht.",
