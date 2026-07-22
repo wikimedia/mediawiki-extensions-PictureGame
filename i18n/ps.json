@@ -110,8 +110,8 @@
 	"logentry-picturegame-create": "$1 يوه انځور لوبه [[Special:PictureGameHome/$4|#$4]] د [[Special:PictureGameHome/$4|\"$5\"]] سرليک سره {{GENDER:$2|جوړه کړه}}",
 	"logentry-picturegame-delete": "$1، #$4 انځور لوبه {{GENDER:$2|ړنگه کړه}}",
 	"logentry-picturegame-edit": "$1 [[Special:PictureGameHome/$4|#$4: \"$5\"]] انځوريزه لوبه {{GENDER:$2|سمه کړه}}",
-	"logentry-picturegame-flag": "$1 [[Special:PictureGameHome/$4|#$4: \"$5\"]] انځوريزه لوبه {{GENDER:$2|بيرغ کړه}}",
+	"logentry-picturegame-flag": "$1 [[Special:PictureGameHome/$4|#$4]] انځوريزه لوبه {{GENDER:$2|بيرغ کړه}}",
 	"logentry-picturegame-protect": "$1 د انځوريزې لوبې [[Special:PictureGameHome/$4|#$4]] لپاره  انځورونه {{GENDER:$2|وژغورل}}",
-	"logentry-picturegame-unflag": "$1 [[Special:PictureGameHome/$4|#$4: \"$5\"]] انځوريزه لوبه {{GENDER:$2|نابيرغ کړه}}",
+	"logentry-picturegame-unflag": "$1 [[Special:PictureGameHome/$4|#$4]] انځوريزه لوبه {{GENDER:$2|نابيرغ کړه}}",
 	"logentry-picturegame-unprotect": "$1 د انځوريزې لوبې [[Special:PictureGameHome/$4|#$4]] لپاره  انځورونه له {{GENDER:$2|ژغورنې وويستل}}"
 }
